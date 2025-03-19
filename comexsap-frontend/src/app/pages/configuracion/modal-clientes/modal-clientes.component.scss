@@ -1,0 +1,20 @@
+.filter {
+  margin-bottom: 5px;
+}
+.comex-table tbody > tr input[type=checkbox] {
+  vertical-align: middle;
+}
+.modal-footer {
+  text-align: right;
+}
+.modal-input {
+  .input {
+    i.clear {
+      margin-right: 5px;
+      font-size: 10px !important;
+    }
+    i.clear:hover {
+      color: #F44336;
+    }
+  }
+}

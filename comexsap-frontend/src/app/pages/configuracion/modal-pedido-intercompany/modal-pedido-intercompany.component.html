@@ -1,0 +1,91 @@
+<div class="comex-modal">
+  <div class="modal-input">
+    <button class="btn btn-outline-info" title="Agregar Ítem" (click)="open(modal);"><i class="fas fa-plus"></i> Agregar</button>
+  </div>
+  <ng-template #modal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Pedidos Intercompany Disponibles</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row mb-2">
+        <div class="col-caasa-filtro col-sm-6 col-lg-4">
+          <div class="form-group">
+            <label class="control-label">Pedido Venta Intercompany</label>
+            <app-input-chip
+              maxItems="5"
+              (selectedItems)="seleccionarCodigos($event)"
+              [style]="{'width': '100%'}">
+            </app-input-chip>
+          </div>
+        </div>
+        <div class="col-caasa-filtro col-sm-6 col-lg-4">
+          <div class="form-group">
+            <label class="control-label">Cliente</label>
+            <app-modal-clientes-multiple
+            placeholder="Buscar clientes"
+              (itemChange)="seleccionarClientes($event)"
+            ></app-modal-clientes-multiple>
+          </div>
+        </div>
+        <div class="col-sm-4 col-lg-1 text-center text-sm-left">
+          <div class="form-group">
+            <br/>
+            <button class="btn btn-primary ml-auto" (click)="buscarPedidos()">Buscar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-12">
+              <p-table [value]="listItems" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+                  [rows]="10" [showCurrentPageReport]="true" [loading]="loadingData"
+                  [paginator]="true" currentPageReportTemplate="Se encontraron {totalRecords} registros">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="min-width: 30px;width: 30px;"><input type="checkbox" name="selectAll" (change)="selectAll($event)"/></th>
+                    <th style="min-width: 100px; width: 100px;">N&uacute;mero Pedido</th>
+                    <th style="min-width: 80px">Pos.</th>
+                    <th style="min-width: 100px">Material</th>
+                    <th style="min-width: 240px">Descripci&oacute;n</th>
+                    <th style="min-width: 100px">Cantidad Disponible</th>
+                    <th style="min-width: 80px">UM</th>
+                    <th style="min-width: 15px">Peso Toneladas</th>
+                    <th style="min-width: 150px">Precio Unit.</th>
+                    <th style="min-width: 100px">Moneda</th>
+                    <th style="min-width: 150px">Total</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td><input type="checkbox" name="selectItem" [(ngModel)]="item.checked" (change)="onChangeItem(item)"/></td>
+                    <td>{{ item.codigoPedido }}</td>
+                    <td>{{ item.item }}</td>
+                    <td>{{ item.codigoSap }}</td>
+                    <td style="text-align: left !important;">{{ item.descripcionProducto }}</td>
+                    <td>{{ item.cantidadSaldo }}</td>
+                    <td>{{ item.codigoSapUnidadMedidaVenta }}</td>
+                    <td>{{ item.pesoTonelada | number: '1.2-2' }}</td>
+                    <td>{{ item.precioUnitario | number: '1.2-2' }}</td>
+                    <td>{{ item.codigoMoneda }}</td>
+                    <td>{{ item.importe | number: '1.2-2' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr><td colspan="12">No se encontraron registros.</td></tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div style="float: left;" class="text-sm-left">Inicialmente se mostrarán los 50 primeros registros</div>
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="onSelect(); modal.close();">Seleccionar</button>
+    </div>
+  </ng-template>
+</div>
+

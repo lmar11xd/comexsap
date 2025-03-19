@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="correoForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Maestro de Correos</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Correo
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                  </div>
+                </div>
+
+                <div class="comex-container-maestro">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Nombres y Apellidos<span class="required-asterisk">*</span></label>
+                        <input type="text" class="form-control" placeholder="Ingrese nombres y apellidos" formControlName="nombre">
+                        <div *ngIf="correoForm.controls['nombre'].invalid && correoForm.controls['nombre'].touched">
+                          <div *ngIf="correoForm.controls['nombre'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Correo Electr&oacute;nico<span class="required-asterisk">*</span></label>
+                        <input type="text" class="form-control" placeholder="Descripción" formControlName="correo">
+                        <div *ngIf="correoForm.controls['correo'].invalid && correoForm.controls['correo'].touched">
+                          <div *ngIf="correoForm.controls['correo'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Grupo<span class="required-asterisk">*</span></label>
+                        <ng-select
+                          formControlName="idGrupo"
+                          [items]="grupos"
+                          bindLabel="descripcion"
+                          bindValue="id"
+                          placeholder="Buscar código o nombre">
+                        </ng-select>
+                        <div *ngIf="correoForm.controls['idGrupo'].invalid && correoForm.controls['idGrupo'].touched">
+                          <div *ngIf="correoForm.controls['idGrupo'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalConfirmacionExitosa let-modalConfirmacionExitosa>
+  <div class="modal-header">
+    <h4 class="modal-title">Correo</h4>
+  </div>
+  <div class="modal-body">
+    <p>El correo se guardó de manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado(); modalConfirmacionExitosa.close();">Entendido</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>
+

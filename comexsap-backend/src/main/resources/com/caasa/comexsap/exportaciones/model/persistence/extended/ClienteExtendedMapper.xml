@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.ClienteExtendedMapper">
+
+  <resultMap id="ClienteMap" type="com.caasa.comexsap.exportaciones.model.to.ClienteTO">
+    <id column="CLIEN_ID" jdbcType="NUMERIC" property="idCliente" />
+    <result column="COD_CLIENTE_SAP" jdbcType="VARCHAR" property="codigoClienteSap" />
+    <result column="RAZON_SOCIAL" jdbcType="VARCHAR" property="descripcion" />
+    <result column="NUMERO_NIF" jdbcType="VARCHAR" property="ruc" />
+    <result column="COD_PAIS" jdbcType="VARCHAR" property="codigoPais" />
+  </resultMap>
+  
+  <resultMap id="InfoClienteMap" type="com.caasa.comexsap.exportaciones.model.to.InfoClienteTO">
+    <result column="COD_CLIENTE_SAP" jdbcType="VARCHAR" property="codigo" />
+    <result column="RAZON_SOCIAL" jdbcType="VARCHAR" property="razonSocial" />
+    <result column="NUMERO_NIF" jdbcType="VARCHAR" property="ruc" />
+    <result column="DIRECCION" jdbcType="VARCHAR" property="direccion" />
+  </resultMap>
+  
+  <resultMap id="ClienteDatosVentaMap" type="com.caasa.comexsap.exportaciones.model.to.ClienteDatosVentaTO">
+    <result column="COD_CLIENTE_SAP" jdbcType="VARCHAR" property="codigo" />
+    <result column="COD_SOCIEDAD" jdbcType="VARCHAR" property="sociedad" />
+    <result column="COD_ORG_VENTAS" jdbcType="VARCHAR" property="orgVentas" />
+    <result column="COD_CANAL_DISTRIBUCION" jdbcType="VARCHAR" property="canal" />
+    <result column="COD_SECTOR" jdbcType="VARCHAR" property="sector" />
+    <result column="COD_ZONA_VENTAS" jdbcType="VARCHAR" property="zonaVentas" />
+    <result column="COD_OFICINA_VENTAS" jdbcType="VARCHAR" property="oficinaVentas" />
+    <result column="COD_GRUPO_VENDEDOR" jdbcType="VARCHAR" property="grupoVendedor" />
+    <result column="COD_CONDICION_EXPEDICION" jdbcType="VARCHAR" property="condExpedicion" />
+    <result column="COD_INCOTERM" jdbcType="VARCHAR" property="incoterm" />
+  </resultMap>
+  
+  <select id="listarClientexNombre" resultMap="ClienteMap" parameterType="String">	  
+  	SELECT * FROM (
+	 SELECT COD_CLIENTE_SAP, RAZON_SOCIAL, NUMERO_NIF , COD_PAIS 
+	 FROM PORTALSD.PVENDED_CLIENTE
+     WHERE COD_CLIENTE_SAP IS NOT NULL
+     <if test="cliente != null and cliente != ''">
+     	AND (
+		    UPPER(CONCAT(COD_CLIENTE_SAP || ' - ', RAZON_SOCIAL)) LIKE '%' || UPPER(#{cliente}) || '%' OR 
+		    NUMERO_NIF LIKE '%' || #{cliente} || '%'
+		)
+     </if>
+	 ORDER BY RAZON_SOCIAL
+  	)
+    WHERE ROWNUM <![CDATA[ <= ]]> 50
+  </select>  
+  <select id="obtenerClientexCodigoSap" resultMap="ClienteMap" parameterType="String">	  
+	 SELECT CLIEN_ID,CLIEV_CODIGOSAP as COD_CLIENTE_SAP FROM COMEXST_CLIENTE
+	 WHERE CLIEV_CODIGOSAP=#{codigoSap}
+  </select> 
+  <select id="buscarClientexCodigoSap" parameterType="java.util.Map" resultType="int">	  
+	 SELECT COUNT(*) FROM COMEXST_CLIENTE
+	 WHERE CLIEV_CODIGOSAP=#{codigoClienteSap}
+  </select> 
+  <select id="obtenerClienteNuevoxDescripcion" resultMap="ClienteMap" parameterType="String">	  
+	 SELECT CLIEN_ID, CLIEV_CODIGOSAP AS COD_CLIENTE_SAP, CLIEV_NOMBRE AS RAZON_SOCIAL, CLIEV_DESCRIPCIONREGION AS COD_PAIS 
+	 FROM COMEXST_CLIENTE
+	 WHERE CLIEV_NOMBRE=#{descripcionCliente}
+  </select> 
+  <select id="buscarClienteNuevoxDescripcion" parameterType="java.util.Map" resultType="int">	  
+	 SELECT COUNT(*) FROM COMEXST_CLIENTE
+	 WHERE CLIEV_NOMBRE=#{descripcionCliente}
+  </select> 
+  <select id="obtenerClienteSapxCodigoSap" resultMap="ClienteMap" parameterType="String">	  
+	 SELECT COD_PAIS FROM PORTALSD.PVENDED_CLIENTE
+	 WHERE COD_CLIENTE_SAP=#{codigoSap}
+	 AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+  <select id="obtenerInfoClientexCodigo" resultMap="InfoClienteMap" parameterType="String">	  
+	 SELECT COD_CLIENTE_SAP, RAZON_SOCIAL, NUMERO_NIF, DIRECCION FROM 
+	 PORTALSD.PVENDED_CLIENTE
+	 WHERE COD_CLIENTE_SAP=#{codigoSap}
+	 AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+  <select id="obtenerClienteDatosVentaxCodigo" resultMap="ClienteDatosVentaMap" parameterType="String">	  
+	 SELECT
+	 	COD_CLIENTE_SAP,
+	 	COD_SOCIEDAD,
+	 	COD_ORG_VENTAS,
+	 	COD_CANAL_DISTRIBUCION,
+	 	COD_SECTOR,
+	 	COD_ZONA_VENTAS,
+	 	COD_OFICINA_VENTAS,
+	 	COD_GRUPO_VENDEDOR,
+	 	COD_CONDICION_EXPEDICION,
+	 	COD_INCOTERM
+	 FROM PORTALSD.PVENDED_CLIENTE_DATOS_VENTA
+	 WHERE COD_CLIENTE_SAP=#{codigoSap}
+	 AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+</mapper>

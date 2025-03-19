@@ -1,0 +1,572 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="cotizacionForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Datos de Cotización</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Cabecera
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-primary" (click)="mostrarModal(modalConfirmarCotizacion)">Confirmar</button>
+                    <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-info" (click)="guardar()">Guardar</button>
+                    <div ngbDropdown class="d-inline-block">
+                      <button class="btn btn-success" id="dropdownDatos" ngbDropdownToggle>Acciones</button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownDatos">
+                        <button class="dropdown-item" (click)="verPdf()">Ver PDF</button>
+                        <button class="dropdown-item" (click)="mostrarModal(modalEnviarCorreo)">Enviar Correo</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navDatos="ngbNav" [(activeId)]="activeDatos" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos del Cliente</a>
+                      <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Código<span class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control text-uppercase" placeholder="PER.XXX.XX" formControlName="codigo">
+                                <div *ngIf="cotizacionForm.controls['codigo'].invalid && cotizacionForm.controls['codigo'].touched">
+                                  <div *ngIf="cotizacionForm.controls['codigo'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6" style="display: flex; align-items: center;">
+                              <div class="form-group">
+                                <app-switch
+                                  title="¿Cliente existe en SAP?"
+                                  formControlName="existeClienteSap">
+                                </app-switch>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Cliente<span class="required-asterisk">*</span></label>
+                                <app-modal-clientes
+                                  *ngIf="cotizacionForm.controls['existeClienteSap'].value"
+                                  [(item)]="selectedCliente"
+                                  (itemChange)="seleccionarCliente($event)"
+                                  [disabled]="cotizacionForm.controls['estadoDocumento'].value == 6"
+                                  placeholder="Selecciona un cliente">
+                                </app-modal-clientes>
+                                <div *ngIf="cotizacionForm.controls['existeClienteSap'].value && cotizacionForm.controls['codigoCliente'].invalid && cotizacionForm.controls['codigoCliente'].touched">
+                                  <div *ngIf="cotizacionForm.controls['existeClienteSap'].value && cotizacionForm.controls['codigoCliente'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                                <input
+                                  *ngIf="!cotizacionForm.controls['existeClienteSap'].value"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Nombre del cliente"
+                                  formControlName="nombreCliente" />
+                                <div *ngIf="!cotizacionForm.controls['existeClienteSap'].value && cotizacionForm.controls['nombreCliente'].invalid && cotizacionForm.controls['nombreCliente'].touched">
+                                  <div *ngIf="!cotizacionForm.controls['existeClienteSap'].value && cotizacionForm.controls['nombreCliente'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Destinatario Mercanc&iacute;a</label>
+                                <ng-select *ngIf="cotizacionForm.controls['existeClienteSap'].value"
+                                  formControlName="codigoDestinatario"
+                                  [items]="destinatarios"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="codigo"
+                                  (change)="seleccionarDestinatario($event)"
+                                  [title]="selectedDestinatario?.descripcionLarga"
+                                  placeholder="Buscar código o descripción">
+                                </ng-select>
+                                <input
+                                  *ngIf="!cotizacionForm.controls['existeClienteSap'].value"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Nombre del destinatario"
+                                  formControlName="nombreDestinatario" />
+                              </div>
+                            </div>
+                          </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                      <a ngbNavLink>Datos del Envío</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Origen<span class="required-asterisk">*</span></label>
+                              <app-modal-puerto
+                                [(item)]="selectedPuertoOrigen"
+                                (itemChange)="seleccionarPuertoOrigen($event)"
+                                [disabled]="cotizacionForm.controls['estadoDocumento'].value == 6"
+                                placeholder="Seleccione un puerto de origen">
+                              </app-modal-puerto>
+                              <div *ngIf="cotizacionForm.controls['idPuertoOrigen'].invalid && cotizacionForm.controls['idPuertoOrigen'].touched">
+                                <div *ngIf="cotizacionForm.controls['idPuertoOrigen'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Destino</label>
+                              <app-modal-puerto
+                                [(item)]="selectedPuertoDestino"
+                                (itemChange)="seleccionarPuertoDestino($event)"
+                                [disabled]="cotizacionForm.controls['estadoDocumento'].value == 6"
+                                placeholder="Seleccione un puerto de destino"></app-modal-puerto>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm SAP<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncoterm"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="cotizacionForm.controls['idIncoterm'].invalid && cotizacionForm.controls['idIncoterm'].touched">
+                                <div *ngIf="cotizacionForm.controls['idIncoterm'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm Comercial<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncotermComercial"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="cotizacionForm.controls['idIncotermComercial'].invalid && cotizacionForm.controls['idIncotermComercial'].touched">
+                                <div *ngIf="cotizacionForm.controls['idIncotermComercial'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Importe Flete</label>
+                              <input type="number" class="form-control" min="0" formControlName="importeFlete" placeholder="Ingrese importe flete">
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Seguro Internacional</label>
+                              <input type="number" class="form-control" min="0" formControlName="seguroInternacional" placeholder="Ingrese seguro internacional">
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">N&uacute;mero Contenedor</label>
+                              <input type="number" class="form-control" formControlName="numeroContenedor" placeholder="Ingrese número de contenedor">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                      <a ngbNavLink>Datos del Pedido</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha de Cotizaci&oacute;n<span class="required-asterisk">*</span></label>
+                              <p-calendar formControlName="fechaCotizacion" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              <div *ngIf="cotizacionForm.controls['fechaCotizacion'].invalid && cotizacionForm.controls['fechaCotizacion'].touched">
+                                <div *ngIf="cotizacionForm.controls['fechaCotizacion'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Tipo de Despacho<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idTipoDespacho"
+                                [items]="despachos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="cotizacionForm.controls['idTipoDespacho'].invalid && cotizacionForm.controls['idTipoDespacho'].touched">
+                                <div *ngIf="cotizacionForm.controls['idTipoDespacho'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Condici&oacute;n Pago<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idCondicionPago"
+                                [items]="pagos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="cotizacionForm.controls['idCondicionPago'].invalid && cotizacionForm.controls['idCondicionPago'].touched">
+                                <div *ngIf="cotizacionForm.controls['idCondicionPago'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Moneda<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idMoneda"
+                                [items]="monedas"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="cotizacionForm.controls['idMoneda'].invalid && cotizacionForm.controls['idMoneda'].touched">
+                                <div *ngIf="cotizacionForm.controls['idMoneda'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha Lista Precio<span class="required-asterisk">*</span></label>
+                              <p-calendar formControlName="fechaListaPrecio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              <div *ngIf="cotizacionForm.controls['fechaListaPrecio'].invalid && cotizacionForm.controls['fechaListaPrecio'].touched">
+                                <div *ngIf="cotizacionForm.controls['fechaListaPrecio'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Lista de Precio</label>
+                              <ng-select
+                                formControlName="idListaPrecio"
+                                [items]="listaPrecios"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-4 col-lg-3" style="display: flex; align-items: center;">
+                            <div class="form-group">
+                              <app-switch
+                                title="Vigencia Oferta"
+                                formControlName="vigenciaOferta">
+                              </app-switch>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3" *ngIf="cotizacionForm.controls['vigenciaOferta'].value">
+                            <div class="form-group">
+                              <label class="form-control-label">D&iacute;as<span class="required-asterisk">*</span></label>
+                              <input
+                                type="number"
+                                class="form-control"
+                                formControlName="diasOferta"
+                                placeholder="Número de días de la Oferta">
+                              <div *ngIf="cotizacionForm.controls['vigenciaOferta'].value && cotizacionForm.controls['diasOferta'].invalid && cotizacionForm.controls['diasOferta'].touched">
+                                <div *ngIf="cotizacionForm.controls['vigenciaOferta'].value && cotizacionForm.controls['diasOferta'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Tiempo Entrega</label>
+                              <input type="text" class="form-control" formControlName="tiempoEntrega" placeholder="Ingrese tiempo de entrega">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                      <a ngbNavLink>Observaciones</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="form-group">
+                              <textarea rows="5" formControlName="observaciones"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navDatos" class="mt-2"></div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Posición <span class="required-asterisk">*</span>
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-success" (click)="actualizarPrecios(true)"><i class="fas fa-sync-alt"></i> Actualizar Precios</button>
+                    <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-info" (click)="agregarPosicion()"><i class="fas fa-plus"></i> Agregar</button>
+                    <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-danger" (click)="quitarPosiciones()"><i class="fas fa-trash"></i> Retirar</button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 40px;">
+                          <input *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" type="checkbox" name="selectAll" formControlName="selectAllPosiciones" (change)="seleccionarTodasLasPosiciones($event)"/>
+                        </th>
+                        <th style="min-width: 60px;">Posici&oacute;n</th>
+                        <th style="min-width: 120px;">Material<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 220px;">Descripci&oacute;n</th>
+                        <th style="min-width: 140px;">Cantidad Venta<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 120px;">UM Venta<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 100px;">Peso Toneladas</th>
+                        <th style="min-width: 100px;">Precio Unit. SAP</th>
+                        <th style="min-width: 140px;">Precio Unitario<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 120px;">Importe</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let posicionForm of posiciones.controls; let i = index" [formGroup]="posicionForm">
+                        <td><input type="checkbox" name="selectItem" formControlName="checked" /></td>
+
+                        <td>{{posicionForm.value.item}}</td>
+
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5">
+                          <app-modal-material
+                            placeholder="Seleccionar material"
+                            formControlName="selectedMaterial"
+                            (itemChange)="seleccionarMaterial($event, posicionForm)"
+                            (onClear)="limpiarPosicion(posicionForm)"
+                            (onPasted)="onPastedFromExcel($event, posicionForm)"></app-modal-material>
+                        </td>
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 6">{{posicionForm.controls['codigoMaterial'].value}}</td>
+
+                        <td>{{posicionForm.value.descripcionMaterial}}</td>
+
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5">
+                          <input type="number" class="form-control" min="0" formControlName="cantidadVenta" (change)="cambiarCantidadVenta(posicionForm)">
+                        </td>
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 6">{{posicionForm.controls['cantidadVenta'].value}}</td>
+
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5">
+                          <ng-select
+                            [items]="posicionForm.value.listaUnidadesMedida"
+                            bindLabel="codigo"
+                            bindValue="codigo"
+                            formControlName="unidadMedidaVenta"
+                            placeholder="Seleccione"
+                            (change)="seleccionarUnidadMedidaVenta($event, posicionForm)">
+                          </ng-select>
+                        </td>
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 6">{{posicionForm.controls['unidadMedidaVenta'].value}}</td>
+
+                        <td>{{posicionForm.value.pesoToneladas | number: '1.2-2'}}</td>
+                        <td>{{posicionForm.value.precioUnitarioSap | number: '1.2-2'}}</td>
+
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5">
+                          <input type="number" class="form-control" min="0" formControlName="precioUnitario" (change)="cambiarPrecioUnitario(posicionForm)">
+                        </td>
+                        <td *ngIf="cotizacionForm.controls['estadoDocumento'].value == 6">{{posicionForm.controls['precioUnitario'].value | number: '1.2-2'}}</td>
+
+                        <td>{{posicionForm.value.importe | number: '1.2-2'}}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="posiciones.length == 0" colspan="10">Sin posiciones</td>
+                        <td *ngIf="posiciones.length > 0" colspan="10">En total existen {{posiciones.length}} líneas de posiciones</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink><i class="pi pi-user-plus"></i> Contacto</a>
+                <ng-template ngbNavContent>
+                  <div class="row container-title">
+                    <div class="col-sm-6 title">
+                      <label class="title-line"></label>Contacto
+                    </div>
+                    <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                      <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-primary" (click)="mostrarModal(modalConfirmarCotizacion)">Confirmar</button>
+                      <button *ngIf="cotizacionForm.controls['estadoDocumento'].value == 5" class="btn btn-info" (click)="guardar()">Guardar</button>
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-success" id="dropdownDatos" ngbDropdownToggle>Acciones</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownDatos">
+                          <button class="dropdown-item" (click)="verPdf()">Ver PDF</button>
+                          <button class="dropdown-item" (click)="mostrarModal(modalEnviarCorreo)">Enviar Correo</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="comex-container-detail">
+                    <ul ngbNav #navContacto="ngbNav" [(activeId)]="activeContacto" class="comex-tabs-detail nav-tabs">
+                      <li [ngbNavItem]="1">
+                        <a ngbNavLink>Datos del Cliente</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Nombres<span class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control" formControlName="contactoNombre" placeholder="Nombres de contacto">
+                                <div *ngIf="cotizacionForm.controls['contactoNombre'].invalid && cotizacionForm.controls['contactoNombre'].touched">
+                                  <div *ngIf="cotizacionForm.controls['contactoNombre'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Cargo</label>
+                                <input type="text" class="form-control" formControlName="contactoCargo" placeholder="Cargo de contacto">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Correo<span class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control" formControlName="contactoCorreo" placeholder="Correo de contacto">
+                                <div *ngIf="cotizacionForm.controls['contactoCorreo'].invalid && cotizacionForm.controls['contactoCorreo'].touched">
+                                  <div *ngIf="cotizacionForm.controls['contactoCorreo'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="2">
+                          <a ngbNavLink>Adicional</a>
+                          <ng-template ngbNavContent>
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Nombres</label>
+                                  <input type="text" class="form-control" formControlName="contactoAdicionalNombre" placeholder="Nombres de contacto adicional">
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Cargo</label>
+                                  <input type="text" class="form-control" formControlName="contactoAdicionalCargo" placeholder="Cargo de contacto adicional">
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Correo</label>
+                                  <input type="text" class="form-control" formControlName="contactoAdicionalCorreo" placeholder="Correo de contacto adicional">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                      </li>
+                    </ul>
+                    <div [ngbNavOutlet]="navContacto" class="mt-2"></div>
+                  </div>
+                </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalCotizacionExitosa let-modalCotExitosa>
+  <div class="modal-header">
+    <h4 class="modal-title">Cotización</h4>
+  </div>
+  <div class="modal-body">
+    <p>La Cotización {{cotizacionForm.controls['codigo'].value}} se guardó de <br>manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado()">Ir al Listado</button>
+    <button type="button" class="btn btn-secondary" (click)="modalCotExitosa.close(); this.ngOnInit();">OK</button>
+  </div>
+</ng-template>
+
+<ng-template #modalConfirmarCotizacion let-modalConfCot>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmar Documento: {{cotizacionForm.controls['codigo'].value}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="marco-confirmar">
+      <label>Crear Pedido Firme</label>
+      <div></div>
+      <label>Al confirmar la Cotización se creará <br>un pedido firme</label>
+      <div></div>
+    </div>
+    <form>
+      <div class="row">
+        <div class="col-12">
+          <label class="form-control-label">Ingresar número de pedido firme<span class="required-asterisk">*</span></label>
+          <input type="text" class="form-control text-uppercase" placeholder="PER.XXX.XX" [(ngModel)]="codigoPedidoFirme" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="confirmarCotizacion();modalConfCot.close();">Aceptar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalConfCot.close()">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalConfirmacionExitosa let-modalConfExitosa>
+  <div class="modal-header">
+    <h4 class="modal-title">Cotización</h4>
+  </div>
+  <div class="modal-body">
+    <p>Documento confirmado.</p>
+    <p>Se creó el pedido firme {{codigoPedidoFirme}}.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado(); modalConfExitosa.close();">Entendido</button>
+  </div>
+</ng-template>
+
+<ng-template #modalEnviarCorreo let-modalEnviarCorreo>
+  <div class="modal-header">
+    <h4 class="modal-title">Cotización</h4>
+  </div>
+  <div class="modal-body">
+    <p>La Cotización {{cotizacionForm.controls['codigo'].value}} se enviará al </p>
+    <p>correo del cliente, de acuerdo a los datos </p>
+    <p>registrados.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="enviarCorreo();modalEnviarCorreo.close()">Aceptar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalEnviarCorreo.close()">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalVerPdf let-modalVerPdf>
+  <div class="modal-header">
+    <!--<h4 class="modal-title">{{cotizacionForm.controls['vigenciaOferta'].value ? 'Cotización' : 'Proforma'}} CAASA N° {{cotizacionForm.controls['codigo'].value}}</h4>-->
+    <h4 class="modal-title">Cotización CAASA N° {{cotizacionForm.controls['codigo'].value}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container-pdf">
+      <pdf-viewer
+        [src]="pdfSrc"
+        [render-text]="true"
+        [original-size]="false"
+        style="width: 100%; height: calc(100vh - 200px);">
+      </pdf-viewer>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="descargarPdf()">Descargar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalVerPdf.close()">Cerrar</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

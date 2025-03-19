@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.PackingListExtendedMapper">
+
+  <resultMap id="exportacionMaritimoMap" type="com.caasa.comexsap.exportaciones.model.to.ExportacionMaritimoTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="CODIGOPACKING" jdbcType="VARCHAR" property="codigoPacking" />
+    <result column="CONSIGNATARIO" jdbcType="VARCHAR" property="consignatario" />
+    <result column="DIRECCIONCONSIGNATARIO" jdbcType="VARCHAR" property="direccionConsignatario" />
+    <result column="NOTIFICANTE" jdbcType="VARCHAR" property="notificante" />
+    <result column="DIRECCIONNOTIFICANTE" jdbcType="VARCHAR" property="direccionNotificante" />
+    <result column="SHIPPER" jdbcType="VARCHAR" property="shipper" />
+    <result column="DIRECCIONSHIPPER" jdbcType="VARCHAR" property="direccionShipper" />
+    <result column="GLOSA" jdbcType="VARCHAR" property="glosa" />
+    <result column="BOOKING" jdbcType="VARCHAR" property="booking" />
+    <result column="BL" jdbcType="VARCHAR" property="bl" />
+    <result column="GUIADHL" jdbcType="VARCHAR" property="guiaDhl" />
+    <result column="NAVE" jdbcType="VARCHAR" property="nave" />
+    <result column="FLETE" jdbcType="NUMERIC" property="flete" />
+    <result column="SEGURO" jdbcType="NUMERIC" property="seguro" />
+    <result column="NUMEROCONTENEDOR" jdbcType="NUMERIC" property="numeroContenedor" />
+    <result column="ETAORIGEN" jdbcType="DATE" property="etaOrigen" />
+    <result column="FECHABLPROGRAMADO" jdbcType="DATE" property="fechaBlProgramado" />
+    <result column="FECHACARGUIO" jdbcType="DATE" property="fechaCarguio" />
+    <result column="FECHAREAL" jdbcType="DATE" property="fechaBlReal" />
+    <result column="ETADESTINO" jdbcType="DATE" property="etaDestino" />
+    <result column="FECHAENVIODOCUMENTO" jdbcType="DATE" property="fechaEnvioDocum" />
+    <result column="FECHAMANIFIESTOADUANA" jdbcType="DATE" property="fechaManifAduana" />
+    <result column="FECHALEVANTE" jdbcType="DATE" property="fechaLevante" />
+    <result column="FECHACRTFIRMADO" jdbcType="DATE" property="fechaCrtFirmado" />
+    <result column="FECHATRANSITO" jdbcType="DATE" property="fechaTransito" />
+    <result column="FECHAENTREGADUA" jdbcType="DATE" property="fechaEntregaAdua" />
+    <result column="INICIOEMBARQUE" jdbcType="DATE" property="inicioEmbarque" />
+    <result column="DAM" jdbcType="VARCHAR" property="dam" />
+    <result column="DAM41" jdbcType="VARCHAR" property="dam41" />
+    <result column="FECHAENTREGA" jdbcType="DATE" property="fechaEntrega" />
+    <result column="FECHADAM" jdbcType="DATE" property="fechaDam" />
+    <result column="FECHADAMREGULARIZACION" jdbcType="DATE" property="fechaDamRegularizacion" />
+    <result column="FECHADAM41" jdbcType="DATE" property="fechaDam41" />
+    <result column="AGENTEADUANA" jdbcType="VARCHAR" property="agenteAduana" />
+    <result column="MESDESPACHO" jdbcType="VARCHAR" property="mesDespacho" />
+    <result column="DATAANTERIOR" jdbcType="VARCHAR" property="dataAnterior" />
+    <result column="DATAANTERIOR2" jdbcType="VARCHAR" property="dataAnterior2" />
+    <result column="IDCLIENTE" jdbcType="NUMERIC" property="idCliente" />
+    <result column="CODIGOSAPCLIENTE" jdbcType="VARCHAR" property="codigoSapCliente" />
+    <result column="NOMBRECLIENTE" jdbcType="VARCHAR" property="nombreCliente" />
+    <result column="CALLECLIENTE" jdbcType="VARCHAR" property="calleCliente" />
+    <result column="RUCCLIENTE" jdbcType="VARCHAR" property="rucCliente" />
+    <result column="IDDESTINATARIO" jdbcType="NUMERIC" property="idDestinatario" />
+    <result column="CODIGOSAPDESTINATARIO" jdbcType="VARCHAR" property="codigoSapDestinatario" />
+    <result column="NOMBREDESTINATARIO" jdbcType="VARCHAR" property="nombreDestinatario" />
+    <result column="CALLEDESTINATARIO" jdbcType="VARCHAR" property="calleDestinatario" />  
+    <result column="RUCDESTINATARIO" jdbcType="VARCHAR" property="rucDestinatario" />
+    <result column="IDDESTINATARIOMERCANCIA" jdbcType="NUMERIC" property="idDestinatarioMercancia" />
+    <result column="CODIGOSAPDESTINATARIOMERCANCIA" jdbcType="VARCHAR" property="codigoSapDestinatMerc" />
+    <result column="NOMBREDESTINATARIOMERCANCIA" jdbcType="VARCHAR" property="nombreDestinatMerc" />
+    <result column="CALLEDESTINATARIOMERCANCIA" jdbcType="VARCHAR" property="calleDestinatMerc" />
+    <result column="RUCDESTINATARIOMERCANCIA" jdbcType="VARCHAR" property="rucDestinatMerc" />
+    <result column="IDCONDICIONPAGO" jdbcType="NUMERIC" property="idCondicionPago" />
+    <result column="CODIGOCONDICIONPAGO" jdbcType="VARCHAR" property="codigoCondicionPago" />
+    <result column="NOMBRECONDICIONPAGO" jdbcType="VARCHAR" property="nombreCondicionPago" />
+    <result column="IDPUERTOORIGEN" jdbcType="NUMERIC" property="idPuertoOrigen" />
+    <result column="CODIGOSAPPUERTOORIGEN" jdbcType="VARCHAR" property="codigoSapPuertoOrigen" />
+    <result column="PUERTOORIGEN" jdbcType="VARCHAR" property="puertoOrigen" />
+    <result column="IDPAISPUERTOORIGEN" jdbcType="NUMERIC" property="idPaisPuertoOrigen" />
+    <result column="PAISPUERTOORIGEN" jdbcType="VARCHAR" property="paisPuertoOrigen" />
+    <result column="CODIGOSAPPAISPUERTOORIGEN" jdbcType="VARCHAR" property="codigoPaisPuertoOrig" />
+    <result column="PAISDESCRIPCIONORIGEN" jdbcType="VARCHAR" property="paisDescripOrigen" />
+    <result column="IDPUERTODESTINO" jdbcType="NUMERIC" property="idPuertoDestino" />
+    <result column="CODIGOSAPPUERTODESTINO" jdbcType="VARCHAR" property="codigoPuertoDestino" />
+    <result column="PUERTODESTINO" jdbcType="VARCHAR" property="puertoDestino" />
+    <result column="IDPAISPUERTODESTINO" jdbcType="NUMERIC" property="idPaisPuertoDestino" />  
+    <result column="PAISPUERTODESTINO" jdbcType="VARCHAR" property="paisPuertoDestino" />  
+    <result column="PAISDESCRIPCIONDESTINO" jdbcType="VARCHAR" property="paisDescripDestino" />  
+    <result column="CODIGOPAISSAPPUERTODESTINO" jdbcType="VARCHAR" property="codigoPaisPuertoDestino" />  
+    <result column="IDCENTRO" jdbcType="NUMERIC" property="idCentro" />  
+    <result column="CODIGOSAPCENTRO" jdbcType="VARCHAR" property="codigoCentro" />  
+    <result column="DESCRIPCIONCENTRO" jdbcType="VARCHAR" property="descripCentro" />  
+    <result column="IDDESTINO" jdbcType="NUMERIC" property="idDestino" />  
+    <result column="CODIGOSAPDESTINO" jdbcType="VARCHAR" property="codigoDestino" />  
+    <result column="NOMBREDESTINO" jdbcType="VARCHAR" property="nombreDestino" />  
+    <result column="DESCRIPCIONDESTINO" jdbcType="VARCHAR" property="descripDestino" />  
+    <result column="ORIGEN" jdbcType="VARCHAR" property="origen" />  
+    <result column="CODIGOORIGEN" jdbcType="VARCHAR" property="codigoOrigen" />  
+    <result column="DESTINO" jdbcType="VARCHAR" property="destino" />  
+    <result column="CODIGODESTINO" jdbcType="VARCHAR" property="codigoDestino" />  
+    <result column="IDTIPOTRANSPORTE" jdbcType="NUMERIC" property="idTipoTransporte" />  
+    <result column="NOMBRETRANSPORTE" jdbcType="VARCHAR" property="nombreTransporte" />  
+    <result column="DESCRIPCIONTRANSPORTE" jdbcType="VARCHAR" property="descripTransporte" />  
+    <result column="IDINCOTERM" jdbcType="NUMERIC" property="idIncoterm" /> 
+    <result column="NOMBREINCOTERM" jdbcType="VARCHAR" property="nombreIncoterm" />  
+    <result column="CODIGOINCOTERM" jdbcType="VARCHAR" property="codigoIncoterm" />  
+    <result column="IDINCOTERMCOMERCIAL" jdbcType="NUMERIC" property="idIncotermComercial" />  
+    <result column="CODIGOINCOTERMCOMERCIAL" jdbcType="VARCHAR" property="codigoIncotermComercial" />  
+    <result column="NOMBREINCOTERMCOMERCIAL" jdbcType="VARCHAR" property="nombreIncotermComercial" />  
+    <result column="IDDESPACHO" jdbcType="NUMERIC" property="idDespacho" />  
+    <result column="NOMBREDESPACHO" jdbcType="VARCHAR" property="nombreDespacho" />  
+    <result column="DESCRIPCIONDESPACHO" jdbcType="VARCHAR" property="descripDespacho" />  
+    <result column="IDAGENTEADUANA" jdbcType="NUMERIC" property="idAgenteAduana" />  
+    <result column="IDAGENTECARGA" jdbcType="NUMERIC" property="idAgenteCarga" />  
+    <result column="CODIGOAGENTECARGA" jdbcType="VARCHAR" property="codigoAgenteCarga" />  
+    <result column="NOMBREAGENTECARGA" jdbcType="VARCHAR" property="nombreAgenteCarga" />
+    <result column="IDAGENTENAVIERA" jdbcType="NUMERIC" property="idAgenteNaviera" />  
+    <result column="CODIGOAGENTENAVIERA" jdbcType="VARCHAR" property="codigoAgenteNaviera" />  
+    <result column="NOMBREAGENTENAVIERA" jdbcType="VARCHAR" property="nombreAgenteNaviera" />
+    <result column="EMPRESATRANSPORTE" jdbcType="VARCHAR" property="empresaTransporte" />  
+    <result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />  
+    <result column="IDSERVICIOCABECERA" jdbcType="NUMERIC" property="idServicioCabecera" />  
+    <result column="CANTIDADTONELADA" jdbcType="NUMERIC" property="cantidadTonelada" />  
+    <result column="DIACARGA" jdbcType="NUMERIC" property="diaCarga" />  
+    <result column="NUMEROJORNADA" jdbcType="NUMERIC" property="numeroJornada" />  
+    <result column="NUMEROFACTURA" jdbcType="NUMERIC" property="numeroFactura" />  
+    <result column="NUMERODAM" jdbcType="NUMERIC" property="numeroDam" />  
+    <result column="CABECERANUMEROCONTENEDOR" jdbcType="NUMERIC" property="cabeceraNroContenedor" />  
+    <result column="NUMEROBL" jdbcType="NUMERIC" property="numeroBl" />  
+    <result column="TIPOCAMBIO" jdbcType="NUMERIC" property="tipoCambio" />  
+    <result column="ATENDIDO" jdbcType="VARCHAR" property="atendido" />  
+    <result column="CANALCONTROLEXPORTACION" jdbcType="VARCHAR" property="canalControlExport" />  
+    <result column="ORDENAGENTEADUANA" jdbcType="VARCHAR" property="ordenAgenteAduana" />  
+    <result column="ESTADOORDEN" jdbcType="VARCHAR" property="estadoOrden" />  
+    <result column="TIEMPOREGULARIZACIONDAM41" jdbcType="NUMERIC" property="tiempoRegulDam41" />  
+    <result column="COMENTARIO" jdbcType="VARCHAR" property="comentario" />  
+    <result column="PESOREAL" jdbcType="NUMERIC" property="pesoReal" />  
+    <result column="IDFACTURA" jdbcType="NUMERIC" property="idFactura" />  
+    <result column="CLASEEXPEDICION" jdbcType="VARCHAR" property="claseExpedicion" />  
+    <result column="ESTADOFACTURA" jdbcType="VARCHAR" property="estadoFactura" />  
+    <result column="FECHASALIDAFACTURA" jdbcType="DATE" property="fechaSalidaFactura" />  
+    <result column="CODIGOSAPFACTURA" jdbcType="VARCHAR" property="codigoFactura" />  
+    <result column="ORGANIZACIONVENTAFACTURA" jdbcType="VARCHAR" property="orgVentaFactura" />  
+    <result column="CANALFACTURA" jdbcType="VARCHAR" property="canalFactura" />  
+    <result column="SECTORFACTURA" jdbcType="VARCHAR" property="sectorFactura" />  
+    <result column="FOLIOFACTURA" jdbcType="VARCHAR" property="folioFactura" />  
+    <result column="SERIEFACTURA" jdbcType="VARCHAR" property="serieFactura" />  
+    <result column="SERIECODIGOFACTURA" jdbcType="VARCHAR" property="serieCodFactura" />  
+    <result column="FECHAFACTURA" jdbcType="DATE" property="fechaFactura" />  
+    <result column="HORASUNATFACTURA" jdbcType="VARCHAR" property="horaSunatFactura" />  
+    <result column="IMPORTEFACTURA" jdbcType="NUMERIC" property="importeFactura" />  
+    <result column="FOLIONOTACREDITO" jdbcType="VARCHAR" property="folioNotaCredito" />  
+    <result column="CODIGOSAPNOTACREDITO" jdbcType="VARCHAR" property="codigoNotaCredito" />  
+    <result column="IDREGIMEN" jdbcType="NUMERIC" property="idRegimen" />  
+    <result column="CODIGOREGIMEN" jdbcType="VARCHAR" property="codigoRegimen" />  
+    <result column="NOMBREREGIMEN" jdbcType="VARCHAR" property="nombreRegimen" />  
+    <result column="DESCRIPCIONREGIMEN" jdbcType="VARCHAR" property="descripRegimen" />  
+    <result column="FECHALISTAPRECIO" jdbcType="DATE" property="fechaListaPrecio" />  
+    <result column="IDLISTAPRECIO" jdbcType="NUMERIC" property="idListaPrecio" />  
+    <result column="CODIGOLISTAPRECIO" jdbcType="VARCHAR" property="codigoListaPrecio" />  
+    <result column="NOMBRELISTAPRECIO" jdbcType="VARCHAR" property="nombreListaPrecio" />  
+    <result column="IDRUTA" jdbcType="NUMERIC" property="idRuta" />  
+     <result column="CODIGORUTA" jdbcType="NUMERIC" property="codigoRuta" />   
+    <result column="NOMBRERUTA" jdbcType="VARCHAR" property="nombreRuta" />  
+    <result column="CODIGOMONEDA" jdbcType="VARCHAR" property="codigoMoneda" /> 
+    <result column="IDMONEDA" jdbcType="NUMERIC" property="idMoneda" />  
+    <result column="NOMBREMONEDA" jdbcType="VARCHAR" property="nombreMoneda" />  
+    <result column="IDCARPETA" jdbcType="NUMERIC" property="idCarpeta" />  
+    <result column="NODEID" jdbcType="VARCHAR" property="nodeId" />  
+    <result column="NODEIDCONTROLGASTO" jdbcType="VARCHAR" property="nodeIdControlGasto" />  
+    <result column="IDCARPETAPACKING" jdbcType="NUMERIC" property="idCarpetaPacking" />  
+    <result column="NODEIDPACKING" jdbcType="VARCHAR" property="nodeIdPacking" />  
+    <result column="IDESTADODOCUMENTO" jdbcType="NUMERIC" property="idEstadoDocumento" />  
+    <result column="ESTADODOCUMENTOEXPORTACION" jdbcType="VARCHAR" property="estadodocumentoExport" />  
+    <result column="IDESTADOCONTROLGASTO" jdbcType="NUMERIC" property="idEstadoContGast" />  
+    <result column="IDESTADOPACKING" jdbcType="NUMERIC" property="idEstadoPacking" />  
+    <result column="GUARDADOEXPORTACION" jdbcType="NUMERIC" property="guardadoExport" />  
+    <result column="GUARDADOCONTROLGASTO" jdbcType="NUMERIC" property="guardadoControlGasto" />  
+    <result column="GUARDADOPACKING" jdbcType="NUMERIC" property="guardadoPacking" />  
+    <result column="IDMONEDASEGURO" jdbcType="NUMERIC" property="idMonedaSeguro" />  
+    <result column="IDMONEDAFLETE" jdbcType="NUMERIC" property="idMonedaFlete" />  
+    <result column="CODIGOSAPALMACEN" jdbcType="VARCHAR" property="codigoalmacen" />  
+    <result column="DESCRIPCIONALMACEN" jdbcType="VARCHAR" property="descripcionAlmacen" />  
+    <result column="EMITIDOEN" jdbcType="VARCHAR" property="emitidoEn" />  
+    <result column="FECHAENTREGADOCUMENTARIA" jdbcType="DATE" property="fechaEntregaDocu" />  
+    <result column="FECHAFACTURAPACKING" jdbcType="DATE" property="fechaFacturaPacking" />  
+    <result column="ETIQUETAEMPAQUE" jdbcType="VARCHAR" property="etiquetaEmpaque" />  
+    <result column="EMPAQUE" jdbcType="VARCHAR" property="empaque" />  
+    <result column="ETIQUETAMARCA" jdbcType="VARCHAR" property="etiquetaMarca" />  
+    <result column="MARCA" jdbcType="VARCHAR" property="marca" />  
+    <result column="ETIQUETAUNIDADPRODUCTIVA" jdbcType="VARCHAR" property="etiquetaUnidProd" />  
+    <result column="UNIDADPRODUCTIVA" jdbcType="VARCHAR" property="unidadProductiva" />  
+    <result column="ETIQUETAPRECIOUNITARIO" jdbcType="VARCHAR" property="etiquetaPrecioUnitario" />  
+    <result column="PRECIOUNITARIO" jdbcType="VARCHAR" property="precioUnitario" />  
+    <result column="ETIQUETAFACTURACION" jdbcType="VARCHAR" property="etiquetaFacturacion" />  
+    <result column="FACTURACION" jdbcType="VARCHAR" property="facturacion" />  
+    <result column="ETIQUETAFORMAPAGO" jdbcType="VARCHAR" property="etiquetaFormaPago" />  
+    <result column="FORMAPAGO" jdbcType="VARCHAR" property="formaPago" />  
+    <result column="USUARIOCREACION" jdbcType="VARCHAR" property="usuarioCreacion" />  
+    <result column="FECHACREACION" jdbcType="DATE" property="fechaCreacion" />  
+    <result column="USUARIOMODIFICACION" jdbcType="VARCHAR" property="usuarioModificacion" />  
+    <result column="FECHAMODIFICACION" jdbcType="DATE" property="fechaModificacion" />
+    <result column="PEDIDOFIRME" jdbcType="VARCHAR" property="pedidoFirme" />
+    <result column="INTERCOMPANY" jdbcType="NUMERIC" property="intercompany" />  
+  </resultMap>  
+   <resultMap id="contenedorMap" type="com.caasa.comexsap.exportaciones.model.to.ContenedorTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="TACO" jdbcType="VARCHAR" property="taco" />
+    <result column="PRECINTO2" jdbcType="VARCHAR" property="precinto1" />
+    <result column="PRECINTO1" jdbcType="VARCHAR" property="precinto2" />
+    <result column="PLACACARRETE" jdbcType="VARCHAR" property="placaCarrete" />
+    <result column="PLACA" jdbcType="VARCHAR" property="placa" />
+    <result column="PESOCOMEX" jdbcType="NUMERIC" property="pesoComex" />
+    <result column="NUMERO" jdbcType="NUMERIC" property="numero" />
+    <result column="IDEXPORTACION" jdbcType="NUMERIC" property="idExportacion" />
+    <result column="HORAINICIO" jdbcType="VARCHAR" property="horaInicio" />
+    <result column="HORAFINAL" jdbcType="VARCHAR" property="horaFinal" />
+    <result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+    <result column="DTSAP" jdbcType="VARCHAR" property="dtSAP" />
+    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcion" />
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="CHOFER" jdbcType="VARCHAR" property="chofer" />
+    <result column="BULTO" jdbcType="VARCHAR" property="bulto" />
+    <result column="BREVETE" jdbcType="VARCHAR" property="brevete" />
+    <result column="BOOKING" jdbcType="VARCHAR" property="booking" />
+  </resultMap> 
+   <resultMap id="packingListMap" type="com.caasa.comexsap.exportaciones.model.to.PackingListTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="CODIGOAGRUPADOR" jdbcType="VARCHAR" property="codigoAgrupador" />
+    <result column="DENOMINACION" jdbcType="VARCHAR" property="denominacion" />
+    <result column="LOTE" jdbcType="VARCHAR" property="lote" />
+    <result column="COLADA" jdbcType="VARCHAR" property="colada" />
+    <result column="PESONETOTONELADA" jdbcType="NUMERIC" property="pesoNetoTonelada" />
+    <result column="HU" jdbcType="VARCHAR" property="hu" />
+    <result column="IDEXPORTACION" jdbcType="NUMERIC" property="idExportacion" />
+    <result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />
+    <result column="DIMENSION" jdbcType="VARCHAR" property="dimension" />
+    <result column="IDCONTENEDOR" jdbcType="NUMERIC" property="idContenedor" />
+    <result column="NUMERO" jdbcType="NUMERIC" property="numero" />
+    <result column="PESOCOMEX" jdbcType="NUMERIC" property="pesoComex" />
+    <result column="UNALMACEN" jdbcType="VARCHAR" property="unAlmacen" />
+    <result column="PESO" jdbcType="NUMERIC" property="peso" />
+    <result column="PESOREALTONELADA" jdbcType="NUMERIC" property="pesoRealTonelada" />
+    <result column="UNIDAD" jdbcType="VARCHAR" property="unidad" />
+    <result column="CENTRO" jdbcType="VARCHAR" property="centro" />
+    <result column="PIEZASSTOCK" jdbcType="NUMERIC" property="piezasStock" />
+    <result column="ALMACEN" jdbcType="VARCHAR" property="almacen" />
+    <result column="PESOTEORICO" jdbcType="NUMERIC" property="pesoTeorico" />
+    <result column="PESOTEORICOTONELADA" jdbcType="NUMERIC" property="pesoTeoricoTonelada" />
+    <result column="CLIENTE" jdbcType="VARCHAR" property="cliente" />
+    <result column="NAVE" jdbcType="VARCHAR" property="nave" />
+    <result column="PUERTODESTINO" jdbcType="VARCHAR" property="puertoDestino" />
+    <result column="LOTECLIENTE" jdbcType="NUMERIC" property="loteCliente" />
+    <result column="COLORSTICK" jdbcType="VARCHAR" property="colorStick" />
+    <result column="MEDIDA" jdbcType="VARCHAR" property="medida" />
+    <result column="LONGITUD" jdbcType="VARCHAR" property="longitud" />
+    <result column="GRADO" jdbcType="VARCHAR" property="grado" />
+    <result column="ESTADO" jdbcType="NUMERIC" property="estado" /> 
+    <result column="CODIGOPEDIDO" jdbcType="VARCHAR" property="codigoPedido" /> 
+  </resultMap>
+  <resultMap id="reporteContenedorMap" type="com.caasa.comexsap.exportaciones.model.to.ReporteContenedorTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="NUMERO" jdbcType="VARCHAR" property="numero" />
+    <result column="CODIGO_PACKING" jdbcType="VARCHAR" property="codigoPacking" />
+    <result column="DESCRIPCION" jdbcType="VARCHAR" property="contenedor" />
+    <result column="PESO" jdbcType="NUMERIC" property="pesoTotal" />
+    <result column="NUMERO_PIEZAS" jdbcType="VARCHAR" property="piezasTotales" />
+  </resultMap>
+  <resultMap id="reporteContenedorMaterialMap" type="com.caasa.comexsap.exportaciones.model.to.ReporteContenedorMaterialTO">
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcion" />
+    <result column="PAQUETES" jdbcType="VARCHAR" property="paquetes" />
+    <result column="PESO" jdbcType="NUMERIC" property="pesoTotal" />
+    <result column="NUMERO_PIEZAS" jdbcType="VARCHAR" property="piezasTotales" />
+  </resultMap>
+  <resultMap id="reportePackingListMap" type="com.caasa.comexsap.exportaciones.model.to.ReportePackingListTO">
+    <result column="ORDEN" jdbcType="VARCHAR" property="orden" />
+    <result column="PAQUETE" jdbcType="VARCHAR" property="paquete" />
+    <result column="COLADA" jdbcType="VARCHAR" property="colada" />
+    <result column="PESO" jdbcType="NUMERIC" property="peso" />
+    <result column="NUMERO_PIEZAS" jdbcType="VARCHAR" property="piezas" />
+    <result column="DIMENSION" jdbcType="VARCHAR" property="dimensiones" />
+  </resultMap>
+  
+	<resultMap id="packingListCargaSueltaMap" type="com.caasa.comexsap.exportaciones.model.to.PackingListCargaSueltaTO">
+		<id column="ID" jdbcType="NUMERIC" property="id" />
+		<result column="ID_EXPORTACION" jdbcType="NUMERIC" property="idExportacion" />
+		<result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+		<result column="MATERIAL" jdbcType="VARCHAR" property="material" />
+		<result column="PESO_TEORICO" jdbcType="NUMERIC" property="pesoTeorico" />
+		<result column="PESO_NETO" jdbcType="NUMERIC" property="pesoNeto" />
+		<result column="PESO_BRUTO" jdbcType="NUMERIC" property="pesoBruto" />
+		<result column="PAQUETES" jdbcType="NUMERIC" property="paquetes" />
+		<result column="PIEZAS" jdbcType="NUMERIC" property="piezas" />
+		<result column="COLOR" jdbcType="VARCHAR" property="color" />
+	</resultMap>
+	
+	<resultMap id="packingListAereoMap" type="com.caasa.comexsap.exportaciones.model.to.PackingListAereoTO">
+		<id column="ID" jdbcType="NUMERIC" property="id" />
+		<result column="ID_EXPORTACION" jdbcType="NUMERIC" property="idExportacion" />
+		<result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+		<result column="MATERIAL" jdbcType="VARCHAR" property="material" />
+		<result column="NUMERO" jdbcType="NUMERIC" property="numero" />
+		<result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />
+		<result column="PESO_BRUTO" jdbcType="NUMERIC" property="pesoBruto" />
+		<result column="DIMENSION" jdbcType="VARCHAR" property="dimension" />
+	</resultMap>
+   
+  <sql id="Base_Column_List">
+    AGENTEADUANA,
+    ATENDIDO,
+	BL,
+	BOOKING,
+	CABECERANUMEROCONTENEDOR,
+	CALLECLIENTE,
+	CALLEDESTINATARIO,
+	CALLEDESTINATARIOMERCANCIA,
+	CANALCONTROLEXPORTACION,
+	CANALFACTURA,
+	CANTIDAD,
+	CANTIDADTONELADA,
+	CLASEEXPEDICION,
+	CLASEFACTURA,
+	CODIGO,
+	CODIGOAGENTECARGA,
+	CODIGOAGENTENAVIERA,
+	CODIGOCONDICIONPAGO,
+	CODIGODESTINO,
+	CODIGOINCOTERM,
+	CODIGOINCOTERMCOMERCIAL,
+	CODIGOLISTAPRECIO,
+	CODIGOMONEDA,
+	CODIGOORIGEN,
+	CODIGOPACKING,
+	CODIGOPAISSAPPUERTODESTINO,
+	CODIGOPAISSAPPUERTOORIGEN,
+	CODIGOREGIMEN,
+	CODIGORUTA,
+	CODIGOSAPALMACEN,
+	CODIGOSAPCENTRO,
+	CODIGOSAPCLIENTE,
+	CODIGOSAPDESTINATARIO,
+	CODIGOSAPDESTINATARIOMERCANCIA,
+	CODIGOSAPDESTINO,
+	CODIGOSAPFACTURA,
+	CODIGOSAPNOTACREDITO,
+	CODIGOSAPPUERTODESTINO,
+	CODIGOSAPPUERTOORIGEN,
+	COMENTARIO,
+	CONSIGNATARIO,
+	DAM,
+	DAM41,
+	DATAANTERIOR,
+	DATAANTERIOR2,
+	DESCRIPCIONALMACEN,
+	DESCRIPCIONCENTRO,
+	DESCRIPCIONDESPACHO,
+	DESCRIPCIONDESTINO,
+	DESCRIPCIONREGIMEN,
+	DESCRIPCIONTRANSPORTE,
+	DESTINO,
+	DIACARGA,
+	DIRECCIONCONSIGNATARIO,
+	DIRECCIONNOTIFICANTE,
+	DIRECCIONSHIPPER,
+	EMITIDOEN,
+	EMPAQUE,
+	EMPRESATRANSPORTE,
+	ESTADO,
+	ESTADOCONTROLGASTO,
+	ESTADODOCUMENTOEXPORTACION,
+	ESTADOFACTURA,
+	ESTADOORDEN,
+	ESTADOPACKINGLIST,
+	ETADESTINO,
+	ETAORIGEN,
+	ETIQUETAEMPAQUE,
+	ETIQUETAFACTURACION,
+	ETIQUETAFORMAPAGO,
+	ETIQUETAMARCA,
+	ETIQUETAPRECIOUNITARIO,
+	ETIQUETAUNIDADPRODUCTIVA,
+	IDINCOTERM,
+	FACTURACION,
+	FECHABLPROGRAMADO,
+	FECHACARGUIO,
+	FECHACREACION,
+	FECHACRTFIRMADO,
+	FECHADAM,
+	FECHADAMREGULARIZACION,
+	FECHADAM41,
+	FECHAENTREGA,
+	FECHAENTREGADOCUMENTARIA,
+	FECHAENTREGADUA,
+	FECHAENVIODOCUMENTO,
+	FECHAFACTURA,
+	FECHAFACTURAPACKING,
+	FECHACRTFIRMADO,
+	FECHALEVANTE,
+	FECHALISTAPRECIO,
+	FECHAMANIFIESTOADUANA,
+	FECHAMODIFICACION,
+	FECHAREAL,
+	FECHASALIDAFACTURA,
+	FECHATRANSITO,
+	FLETE,
+	FOLIOFACTURA,
+	FOLIONOTACREDITO,
+	FORMAPAGO,
+	GLOSA,
+	GUARDADOCONTROLGASTO,
+	GUARDADOEXPORTACION,
+	GUARDADOPACKING,
+	GUIADHL,
+	HORASUNATFACTURA,
+	ID,
+	IDAGENTEADUANA,
+	IDAGENTECARGA,
+	IDAGENTENAVIERA,
+	IDALMACEN,
+	IDCARPETA,
+	IDCARPETAPACKING,
+	IDCENTRO,
+	IDCLIENTE,
+	IDCONDICIONPAGO,
+	IDDESPACHO,
+	IDDESTINATARIO,
+	IDDESTINATARIOMERCANCIA,
+	IDDESTINO,
+	IDESTADOCONTROLGASTO,
+	IDESTADODOCUMENTO,
+	IDESTADOPACKING,
+	IDFACTURA,
+	IDINCOTERMCOMERCIAL,
+	IDLISTAPRECIO,
+	IDMONEDA,
+	IDMONEDAFLETE,
+	IDMONEDASEGURO,
+	IDPAISPUERTODESTINO,
+	IDPAISPUERTOORIGEN,
+	IDPUERTODESTINO,
+	IDPUERTOORIGEN,
+	IDREGIMEN,
+	IDRUTA,
+	IDSERVICIOCABECERA,
+	IDTIPOTRANSPORTE,
+	IMPORTEFACTURA,
+	INICIOEMBARQUE,
+	INTERCOMPANY,
+	MARCA,
+	MESDESPACHO,
+	NAVE,
+	NODEID,
+	NODEIDCONTROLGASTO,
+	NODEIDPACKING,
+	NOMBREAGENTECARGA,
+	NOMBREAGENTENAVIERA,
+	NOMBRECLIENTE,
+	NOMBRECONDICIONPAGO,
+	NOMBREDESPACHO,
+	NOMBREDESTINATARIO,
+	NOMBREDESTINATARIOMERCANCIA,
+	NOMBREDESTINO,
+	NOMBREINCOTERM,
+	NOMBREINCOTERMCOMERCIAL,
+	NOMBRELISTAPRECIO,
+	NOMBREMONEDA,
+	NOMBREREGIMEN,
+	NOMBRERUTA,
+	NOMBRETRANSPORTE,
+	NOTIFICANTE,
+	NUMEROBL,
+	NUMEROCONTENEDOR,
+	NUMERODAM,
+	NUMEROFACTURA,
+	NUMEROJORNADA,
+	ORDENAGENTEADUANA,
+	ORGANIZACIONVENTAFACTURA,
+	ORIGEN,
+	PAISDESCRIPCIONDESTINO,
+	PAISDESCRIPCIONORIGEN,
+	PAISPUERTODESTINO,
+	PAISPUERTOORIGEN,
+	PEDIDOFIRME,
+	PESOREAL,
+	PRECIOUNITARIO,
+	PUERTODESTINO,
+	PUERTOORIGEN,
+	RUCCLIENTE,
+	RUCDESTINATARIO,
+	RUCDESTINATARIOMERCANCIA,
+	SECTORFACTURA,
+	SEGURO,
+	SERIECODIGOFACTURA,
+	SERIEFACTURA,
+	SHIPPER,
+	TIEMPOREGULARIZACIONDAM41,
+	TIPOCAMBIO,
+	UNIDADPRODUCTIVA,
+	USUARIOCREACION,
+	USUARIOMODIFICACION
+  </sql> 
+  <select id="listarPackingListxFiltro" resultMap="exportacionMaritimoMap" parameterType="String">	  
+	SELECT 
+	<include refid="Base_Column_List" />
+	FROM 
+	COMEXSVI_EXPORTACION_01
+	WHERE ID IS NOT NULL
+	AND IDTIPOTRANSPORTE = 1
+	AND NVL(IDDESPACHO, 4) = #{idDespacho}
+	<if test="codigoExportacion.length > 0">
+		AND CODIGO IN 
+		<foreach collection="codigoExportacion" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	</if>
+	<if test="codigoPacking.length > 0">
+		AND CODIGOPACKING IN 
+		<foreach collection="codigoPacking" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	</if>
+	<if test="fechaExpMaritimoInicio != '' and fechaExpMaritimoFin != ''">      
+	       AND ( FECHACREACION BETWEEN TO_DATE (#{fechaExpMaritimoInicio}, 'yyyy-mm-dd') AND 
+	        TO_DATE(#{fechaExpMaritimoFin}, 'yyyy-mm-dd') + INTERVAL '1' DAY)
+	   </if>
+	<if test="clientes.length > 0">
+		AND CODIGOSAPCLIENTE IN 
+		<foreach collection="clientes" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	</if>
+	<if test="pagos.length > 0">
+		AND IDCONDICIONPAGO IN 
+		<foreach collection="pagos" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	</if> 
+	ORDER BY FECHACREACION DESC
+  </select> 
+  <select id="obtenerExportacionxId" resultMap="exportacionMaritimoMap" parameterType="int">	  
+	SELECT 
+	<include refid="Base_Column_List" />
+	FROM 
+	COMEXSVI_EXPORTACION_01
+	WHERE 
+	IDTIPOTRANSPORTE = 1
+	AND	ID = #{id}
+	ORDER BY FECHACREACION DESC
+  </select> 
+  <select id="listarContenedorxId" resultMap="contenedorMap" parameterType="int">	  
+	SELECT 
+		ID,
+		TACO,
+		PRECINTO2,
+		PRECINTO1,
+		PLACACARRETE,
+		PLACA,
+		PESOCOMEX,
+		NUMERO,
+		IDEXPORTACION,
+		HORAINICIO,
+		HORAFINAL,
+		ESTADO,
+		DTSAP,
+		DESCRIPCION,
+		CODIGO,
+		CHOFER,
+		BULTO,
+		BREVETE,
+		BOOKING
+	FROM 
+		COMEXSVI_CONTENEDOR_01
+	WHERE IDEXPORTACION = #{idExportacion}
+	ORDER BY ID
+  </select> 
+  <select id="listarPackingListxId" resultMap="packingListMap" parameterType="int">	  
+	SELECT 
+	ID,
+	IDEXPORTACION,
+	CODIGOPEDIDO,
+	CODIGO,
+	CODIGOAGRUPADOR,
+	DENOMINACION,
+	LOTE,
+	COLADA,
+	PESONETOTONELADA,
+	HU,
+	CANTIDAD,
+	DIMENSION,
+	IDCONTENEDOR,
+	NUMERO,
+	PESOCOMEX,
+	UNALMACEN,
+	PESO,
+	PESOREALTONELADA,
+	UNIDAD,
+	CENTRO,
+	PIEZASSTOCK,
+	ALMACEN,
+	PESOTEORICO,
+	PESOTEORICOTONELADA,
+	CLIENTE,
+	NAVE,
+	PUERTODESTINO,
+	LOTECLIENTE,
+	COLORSTICK,
+	MEDIDA,
+	LONGITUD,
+	GRADO,
+	ESTADO
+	FROM 
+	COMEXSVI_PACKINGLIST_01
+	WHERE IDEXPORTACION = #{idExportacion}
+	ORDER BY ID
+  </select> 
+   <select id="obtenerContenedorxNumero" resultMap="contenedorMap" resultType="int">	  
+	 SELECT CONTN_ID as ID FROM COMEXST_CONTENEDOR
+	 WHERE CONTN_IDEXPORTACION=#{idExportacion} and CONTN_NUMERO=#{numero} AND CONTN_ESTADO=#{estado}
+	 AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+  <select id="reporteContenedor" resultMap="reporteContenedorMap" parameterType="int">	  
+	SELECT
+	    CON.CONTN_ID AS ID,
+	    CON.CONTN_NUMERO AS NUMERO,
+	    E.EXPOV_CODIGOPACKING || '-' || CON.CONTN_NUMERO AS CODIGO_PACKING,
+	    CON.CONTV_DESCRIPCION AS DESCRIPCION,
+	    NVL(CON.CONTN_PESOCOMEX, 0) AS PESO,
+	    (SELECT SUM(PLISN_CANTIDAD)
+	    FROM COMEXSAP.COMEXST_PACKINGLIST 
+	    WHERE PLISN_ESTADO = 1 
+	    AND PLISN_IDCONTENEDOR = CON.CONTN_ID) AS NUMERO_PIEZAS
+	FROM COMEXSAP.COMEXST_CONTENEDOR CON
+	INNER JOIN COMEXSAP.COMEXST_EXPORTACION E ON E.EXPON_ID = CON.CONTN_IDEXPORTACION
+	WHERE CON.CONTN_IDEXPORTACION = #{idExportacion} AND CON.CONTN_ESTADO = 1
+	ORDER BY CON.CONTN_NUMERO
+  </select>
+  <select id="reporteContenedorMaterial" resultMap="reporteContenedorMaterialMap" parameterType="int">	  
+	SELECT
+	    PL.PLISV_CODIGO AS CODIGO,
+	    COUNT(*) AS PAQUETES,
+	    MAX(D.MAKTX) AS DESCRIPCION,
+	    SUM(NVL(PL.PLISN_PESOCOMEX, 0)) AS PESO,
+	    SUM(PL.PLISN_CANTIDAD) AS NUMERO_PIEZAS
+	FROM COMEXSAP.COMEXST_PACKINGLIST PL
+	LEFT JOIN SAPIO.SD_SLS_ERP_102_DESCCORTAMATERI D ON D.MATNR = LPAD(PL.PLISV_CODIGO, 18, '0')
+	WHERE PLISN_ESTADO = 1 AND PLISN_IDCONTENEDOR = #{idContenedor}
+	GROUP BY PL.PLISV_CODIGO
+	ORDER BY PL.PLISV_CODIGO
+  </select>
+  <select id="reportePackingList" resultMap="reportePackingListMap">	  
+	SELECT
+	    ROW_NUMBER() OVER(ORDER BY PLISN_ID ASC) AS ORDEN,
+	    PLISV_HU AS PAQUETE,
+	    PLISV_COLADA AS COLADA,
+	    NVL(PLISN_PESOCOMEX, 0) AS PESO,
+	    PLISN_CANTIDAD AS NUMERO_PIEZAS,
+	    PLISV_DIMENSION AS DIMENSION
+	FROM COMEXSAP.COMEXST_PACKINGLIST
+	WHERE PLISN_ESTADO = 1 AND PLISN_IDCONTENEDOR = #{idContenedor} AND PLISV_CODIGO = #{codigoMaterial}
+  </select>
+  <select id="obtenerPackingListCargaSuelta" resultMap="packingListCargaSueltaMap" parameterType="int">
+  	SELECT
+	    PLCSN_ID AS ID,
+	    PLCSN_ID_EXPORTACION AS ID_EXPORTACION,
+	    PLCSV_CODIGO AS CODIGO,
+	    PLCSV_MATERIAL AS MATERIAL,
+	    PLCSN_PESO_TEORICO AS PESO_TEORICO,
+	    PLCSN_PESO_NETO AS PESO_NETO,
+	    PLCSN_PESO_BRUTO AS PESO_BRUTO,
+	    PLCSN_PAQUETES AS PAQUETES,
+	    PLCSN_PIEZAS AS PIEZAS,
+	    PLCSV_COLOR AS COLOR
+	FROM COMEXSAP.COMEXST_PACKINGLIST_CARGASUELTA
+  	WHERE PLCSN_ID_EXPORTACION = #{idExportacion} AND PLCSN_ESTADO = 1
+  </select>
+  <select id="obtenerPackingListAereo" resultMap="packingListAereoMap" parameterType="int">
+  	SELECT
+	    PLAEN_ID AS ID,
+	    PLAEN_ID_EXPORTACION AS ID_EXPORTACION,
+	    PLAEV_CODIGO AS CODIGO,
+	    PLAEV_MATERIAL AS MATERIAL,
+	    PLAEN_NUMERO AS NUMERO,
+	    PLAEN_CANTIDAD AS CANTIDAD,
+	    PLAEN_PESO_BRUTO AS PESO_BRUTO,
+	    PLAEV_DIMENSION AS DIMENSION
+	FROM COMEXSAP.COMEXST_PACKINGLIST_AEREO
+  	WHERE PLAEN_ID_EXPORTACION = #{idExportacion} AND PLAEN_ESTADO = 1
+  </select>
+</mapper>

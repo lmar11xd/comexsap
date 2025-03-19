@@ -1,0 +1,15 @@
+<div class="comex-container-chip form-control">
+  <div class="chips">
+    <span class="chip" *ngFor="let item of items">
+      <label class="text">{{item}}</label>
+      <i class='pi pi-times-circle' (click)="deleteChip(item)"></i>
+    </span>
+  </div>
+  <input
+    class="chip-input"
+    rows="1"
+    (keyup.enter)="addChip()"
+    (focusout)="addChip()"
+    [(ngModel)]="value"
+  />
+</div>

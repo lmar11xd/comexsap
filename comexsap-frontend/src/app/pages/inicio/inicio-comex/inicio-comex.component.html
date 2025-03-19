@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card">
+        <div class="card-header">
+          <p>Bienvenido al <strong>Módulo de Exportaciones COMEX</strong></p>
+        </div>
+        <app-tarjetas-exportacion></app-tarjetas-exportacion>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="row">
+
+        <div class="card">
+          <div class="card-header">
+            <h3 style="color: #208CDB;margin-left: 10px;"><strong>Toneladas de Exportación</strong></h3>
+            <p style="margin-left: 10px;">Toneladas enviadas desde el <strong>{{fechaActual.getFullYear()}}</strong></p>
+
+          </div>
+          <div class="card-body">
+            <app-barras-exportacion></app-barras-exportacion>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="card">
+          <div class="card-header">
+            <h3 style="color: #208CDB;;margin-left: 10px;"><strong>Envios por paises</strong></h3>
+            <p style="margin-left: 10px;">Toneladas enviadas desde el <strong>{{fechaActual.getFullYear()}}</strong></p>
+          </div>
+          <div class="card-body">
+            <app-circular-exportacion></app-circular-exportacion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

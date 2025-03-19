@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.DocumentoAgenteAduanaExtendedMapper">
+	<resultMap id="agenteAduanaMap" type="com.caasa.comexsap.exportaciones.model.to.DocumentoAgenteAduanaTO">
+		<id column="DAADN_ID" jdbcType="NUMERIC" property="id" />
+	    <result column="DAADV_FACTURA" jdbcType="VARCHAR" property="factura" />
+	</resultMap>
+	
+	<select id="obtenerDocumentoAgenteAduanaxFactura" resultMap="agenteAduanaMap" parameterType="String">	  
+		SELECT 
+			DAADN_ID
+		FROM 
+		COMEXST_DOCUMENTOAGENTEADUANA
+		WHERE DAADV_FACTURA = #{factura}
+		AND ROWNUM <![CDATA[ <= ]]> 1
+	</select>
+</mapper>

@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="controlGastosForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Registrar</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Documentos <span class="required-asterisk">*</span>
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                  </div>
+                </div>
+
+                <div class="comex-container-detail comex-form">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label class="form-control-label">Gastos asociados a los siguientes DOCEXP:</label>
+                        <label class="form-control">{{controlGastosForm.controls["documentos"].value}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <div class="form-group d-flex" style="align-items: center;">
+                        <label class="form-control-label" style="width: 120px;">Total TN:</label>
+                        <label class="form-control" style="text-align: right;">{{controlGastosForm.controls["peso"].value | number:'1.2-2'}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Gastos <span class="required-asterisk">*</span>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th>Concepto<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 180px;width: 180px;">Responsable</th>
+                        <th style="min-width: 150px;width: 150px;">Monto<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 80px;width: 80px;">Moneda<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 100px;width: 100px;">Total USD<span class="required-asterisk">*</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let gastoForm of gastos.controls; let i = index" [formGroup]="gastoForm">
+                        <td style="text-align: left !important;">{{gastoForm.value.concepto}}</td>
+                        <td>{{gastoForm.value.responsable}}</td>
+                        <td><input type="number" class="form-control" min="0" formControlName="monto" (change)="calcularMonto($event, gastoForm)"></td>
+                        <td>
+                          <ng-select
+                            [items]="monedas"
+                            bindLabel="codigo"
+                            bindValue="codigo"
+                            formControlName="codigoMoneda"
+                            placeholder="Seleccione"
+                            (change)="calcularMonto($event, gastoForm)">
+                          </ng-select>
+                        </td>
+                        <td>{{gastoForm.value.montoTotal | number: '1.2-2'}}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="gastos.length == 0" colspan="5">Sin gastos registrados</td>
+                      </tr>
+                      <tr *ngIf="gastos.length > 0">
+                        <td colspan="4" style="text-align: right;">Total USD</td>
+                        <td style="text-align: right;">{{controlGastosForm.value.importe | number: '1.2-2'}}</td>
+                      </tr>
+                      <tr *ngIf="gastos.length > 0">
+                        <td colspan="4" style="text-align: right;">Total USD/TN</td>
+                        <td style="text-align: right;">{{controlGastosForm.value.importeTonelada | number: '1.2-2'}}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalGuardadoExitoso let-modalGuardadoExitoso>
+  <div class="modal-header">
+    <h4 class="modal-title">Control de Gastos</h4>
+  </div>
+  <div class="modal-body">
+    <p>Gastos registrados correctamente.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado()">Entendido</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

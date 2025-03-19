@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="x-apple-disable-message-reformatting">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body>
+	<div>
+		<p style="margin:0px;">Señor(es)</p>
+		<p style="margin:0px;" th:text="${nombre_contacto}">Test</p>
+		<p style="margin:0px;" th:text="${cargo_contacto}">Analista</p><br>
+		<p style="margin:0px;">En respuesta a su solicitud, se adjunta la 
+			<label th:text="${tipo_documento}">cotización</label> CAASA N° 
+			<label th:text="${codigo_pedido}">PER.000.00</label>.</p><br>
+		<p style="margin:0px;">Sin otro particular quedo de usted.</p>
+	</div>
+</body>
+</html>

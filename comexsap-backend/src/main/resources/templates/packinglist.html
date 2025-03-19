@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PDF Generado</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/packinglist.css" />
+</head>
+<body>
+	<div th:class="${iStat.count < iStat.size ? 'content' : ''}" th:each="contenedor, iStat: ${contenedores}">
+		<!-- Cabecera -->
+	    <div class="header">
+	    	<table cellspacing="0">
+	    		<tbody>
+	    			<tr>
+			    		<td><img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="80" /></td>
+			    		<td style="text-align: center; font-weight: bold;font-size: 14px;">PACKINGLIST</td>
+			    		<td style="width:200px; text-align: right;font-size: 12px;"><p>N°: <label th:text="${contenedor.codigoPacking}"></label></p></td>
+		    		</tr>
+	    		</tbody>
+	    	</table>
+	    </div>
+
+	    <!-- Pie de pagina -->
+	    <div class="footer">
+	    	<table>
+	    		<tbody>
+	    			<tr>
+	    				<td style="width: 30%;"><a href="https://www.acerosarequipa.com/">www.acerosarequipa.com</a></td>
+	    				<td style="width: 40%;"><p><span id="pagenumber"></span> de <span id="pagecount"></span></p></td>
+	    				<td style="width: 30%;"><img src="../pdfresources/images/elige-seguridad.png" width="150" alt="logo-aceros" /></td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+	    </div>
+
+	    <!-- Contenido -->
+	    <div class="body">
+	    	<table cellspacing="0">
+	    		<tbody>
+	    			<tr>
+	    				<td style="width:100px;">Cliente:</td>
+	    				<td th:text="${nombreCliente}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td style="width:100px;">Lugar Despacho:</td>
+	    				<td>CORPORACION ACEROS AREQUIPA S.A.</td>
+	    			</tr>
+	    			<tr>
+	    				<td style="width:100px;">Lugar Embarque:</td>
+	    				<td th:text="${lugarEmbarque}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td style="width:100px;">Destino:</td>
+	    				<td th:text="${puertoDestino}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td style="width:100px;">Fecha:</td>
+	    				<td th:text="${fechaActual}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td style="width:100px;">Contenedor:</td>
+	    				<td th:text="${contenedor.contenedor}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td colspan="2">Relaci&oacute;n de mercanc&iacute;as</td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+
+	    	<!--POSICIONES-->
+	    	<div class="container-table" th:each="posicion: ${contenedor.posiciones}">
+	    		<table cellspacing="0">
+	    			<thead>
+	    				<tr>
+	    					<th colspan="6" class="text-left" th:text="${posicion.descripcion} + ' - ' + ${posicion.paquetes} + ' PQTES - ' + ${posicion.pesoTotal} + ' TM'"></th>
+	    				</tr>
+	    				<tr>
+	    					<th>N° Orden</th>
+	    					<th class="text-left">N° Paquete</th>
+	    					<th class="text-left">N° Colada</th>
+	    					<th>Peso Neto (TM)</th>
+	    					<th>N° de Piezas</th>
+	    					<th class="text-left">Dimensiones (LxAxA)</th>
+	    				</tr>
+	    			</thead>
+	    			<tbody>
+	    				<tr th:each="packing: ${posicion.packinglist}">
+	    					<td th:text="${packing.orden}"></td>
+	    					<td th:text="${packing.paquete}" class="text-left" style="width: 60px;min-width: 60px;"></td>
+	    					<td th:text="${packing.colada}" class="text-left" style="width: 60px;min-width: 60px"></td>
+	    					<td th:text="${#numbers.formatDecimal(packing.peso, 1, 'COMMA', 3, 'POINT')}" style="width: 65px;min-width: 65px"></td>
+	    					<td th:text="${#numbers.formatInteger(packing.piezas, 1, 'COMMA')}" style="width: 50px;min-width: 50px"></td>
+	    					<td th:text="${packing.dimensiones}" class="text-left"></td>
+	    				</tr>
+	    			</tbody>
+	    			<tfoot>
+	    				<tr>
+	    					<th>Total</th>
+	    					<th></td>
+	    					<th></td>
+	    					<th th:text="${#numbers.formatDecimal(posicion.pesoTotal, 1, 'COMMA', 3, 'POINT')}"></th>
+	    					<th th:text="${#numbers.formatInteger(posicion.piezasTotales, 1, 'COMMA')}"></th>
+	    					<th></th>
+	    				</tr>
+	    			</tfoot>
+	    		</table>
+	    	</div>
+
+	    	<!--TOTAL CONTENEDOR-->
+	    	<div class="container-table">
+	    		<table cellspacing="0">
+	    			<thead>
+	    				<tr>
+	    					<th>Total</th>
+	    					<th style="width: 60px;min-width: 60px"></td>
+	    					<th style="width: 60px;min-width: 60px"></td>
+	    					<th th:text="${#numbers.formatDecimal(contenedor.pesoTotal, 1, 'COMMA', 3, 'POINT')}" style="width: 65px;min-width: 65px"></th>
+	    					<th th:text="${#numbers.formatInteger(contenedor.piezasTotales, 1, 'COMMA')}" style="width: 50px;min-width: 50px"></th>
+	    					<th></th>
+	    				</tr>
+	    			</thead>
+	    		</table>
+	    	</div>
+	    </div>
+	</div>
+</body>
+</html>

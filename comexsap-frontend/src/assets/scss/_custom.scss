@@ -1,0 +1,647 @@
+// In this scss you can overwrite all our scss, we suggested you to add your scss into this, so whenever the update comes it will not affect your code.
+
+.login-background {
+  background-color: #f0f8ff;
+}
+
+.home-opcion {
+  cursor: pointer;
+}
+
+.custom-control-label {
+    font-weight: 400 !important;
+}
+
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.35rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range,
+  .custom-day:hover {
+    background-color: #0275d8;
+    color: white;
+  }
+  .faded {
+    opacity: 0.5;
+  }
+  .weekend {
+    background-color: #242a33;
+    border-radius: 1rem;
+    color: white;
+  }
+  .hidden {
+    display: none;
+  }
+
+  .p-fileupload .p-fileupload-row > div {
+    padding: 0.3rem 0.3rem !important;
+  }
+
+  // .p-accordion .p-accordion-content {
+  //   border: 0px !important;
+  // }
+
+  .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+    font-size: 0.8rem;
+  }
+
+  .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+    color: #ffffff;
+    background: #00408c;
+    min-width: 40px !important;
+    height: 40px !important;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  .p-dialog {
+    max-height: 98% !important;
+  }
+
+  .p-dialog .p-dialog-header {
+    padding: 15px 15px 0px 15px !important;
+  }
+
+  .p-dialog .p-dialog-header .p-dialog-title {
+    color: $info !important;
+  }
+
+:host ::ng-deep {
+    .p-datatable-responsive-demo .p-datatable-tbody > tr > td .p-column-title {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 40rem) {
+    :host ::ng-deep {
+        .p-datatable {
+            &.p-datatable-responsive-demo {
+                .p-datatable-thead > tr > th,
+                .p-datatable-tfoot > tr > td {
+                    display: none !important;
+                }
+
+                .p-datatable-tbody > tr > td {
+                    text-align: left;
+                    display: block;
+                    width: 100%;
+                    float: left;
+                    clear: left;
+                    border: 0 none;
+
+                    .p-column-title {
+                        padding: .4rem;
+                        min-width: 30%;
+                        display: inline-block;
+                        margin: -.4em 1em -.4em -.4rem;
+                        font-weight: bold;
+                    }
+
+                    &:last-child {
+                        border-bottom: 1px solid var(--surface-d);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.titulo {
+  color: #0a44a6;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+}
+
+label {
+  color: #0a44a6;
+  font-size: 0.8rem !important;
+  margin-bottom: 0.15rem !important;
+  font-weight: bold !important;
+}
+
+.form-control {
+  background: #ffffff !important;
+  font-size: 0.8rem !important;
+  color: #252731 !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 3px !important;
+}
+
+// #ngx .ng-invalid, .ng-touched.ng-invalid {
+//   border-color: #ef5350 !important;
+// }
+
+.p-component {
+  font-family: Lato !important;
+  font-size: 0.8rem !important;
+  line-height: 1.3752 !important;
+}
+
+.p-inputtext {
+  font-family: Lato !important;
+  font-size: 0.8rem !important;
+  color: #252731;
+  background: #ffffff;
+  padding: 0.435rem 0.435rem;
+  //border: 1px solid #cfd2d6;
+}
+
+.required-asterisk{
+  color: red;
+  font-weight: bold;
+  margin-left: 3px;
+  font-size: 1.2em;
+}
+
+.pi {
+  font-size: 0.8rem !important;
+}
+
+.col-caasa-filtro {
+  padding: 2px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5rem;
+}
+
+.layout-news-active :host ::ng-deep .p-datatable tr > th {
+  top: 7rem;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  padding: 0.35rem 0.35rem !important;
+  background: #0a44a6;
+  color: #ffffff;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  //border-color: #ced4da;
+  //border: 1px solid #ced4da;
+  padding: 0.35rem 0.35rem !important;
+}
+
+.caasa-campo-editable:hover {
+  background: rgb(244, 245, 247);
+  cursor: pointer;
+}
+
+.caasa-botones-footer-edicion {
+  padding-top: 5px;
+  text-align: right;
+}
+
+.ng-dropdown-panel {
+  z-index: 9999 !important;
+}
+
+.table th, .table td {
+  padding: 0.35rem !important;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+  background: #0a44a6;
+  border-color: #2196F3;
+  color: #ffffff;
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  color: #ffffff;
+  background: #0a44a6;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background: #2196F3;
+  border-color: #dee2e6;
+  color: #ffffff;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background: #2196F3;
+  border-color: #dee2e6;
+  color: #ffffff;
+}
+
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+  background: #2196F3;
+  border-color: #dee2e6;
+  color: #ffffff;
+}
+
+//Acordion de la cabecera
+.caasa-cabecera-accordion .p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  color: #ffffff;
+  background: #727375;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+
+.caasa-cabecera-accordion .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background: #2d2e2e;
+  border-color: #dee2e6;
+  color: #ffffff;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.caasa-cabecera-accordion .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background: #2d2e2e;
+  border-color: #dee2e6;
+  color: #ffffff;
+}
+
+.caasa-cabecera-accordion .p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+  background: #2d2e2e;
+  border-color: #dee2e6;
+  color: #ffffff;
+}
+
+//Acordion del home
+.caasa-home-accordion .p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  color: #0a44a6;
+  background: #fff;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+
+.caasa-home-accordion .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #0a44a6;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.caasa-home-accordion .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #0a44a6;
+}
+
+.caasa-home-accordion .p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #0a44a6;
+}
+
+//Acordion de links
+.caasa-links-accordion .p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1rem;
+  border: 0px solid #dee2e6;
+  color: #0a44a6;
+  background: #fff;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+
+.caasa-links-accordion .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #0a44a6;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.caasa-links-accordion .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #0a44a6;
+}
+
+.caasa-links-accordion .p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  color: #0a44a6;
+}
+
+.caasa-comment {
+  font-family: Lato !important;
+  font-size: 0.8rem !important;
+  margin-bottom: 0.15rem !important;
+}
+
+.welcome {
+  width: 100%;
+  border-radius: 20px;
+  background: linear-gradient(315deg, rgba(0, 0, 0, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+  background: #FEFEFF;
+  box-shadow: 13.3518409729px 13.3518409729px 26.7036819458px 0px #AEAEC066;
+  margin: 0 auto;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.welcome-title {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 19px;
+  line-height: 22px;
+  color: #4B9DD9;
+  margin-bottom: 10px;
+}
+
+.welcome-description {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #5E6770;
+  border-left: 2px solid #4B9DD9;
+  padding-left: 1rem;
+  align-self: flex-end;
+  gap: 0.3rem;
+  width: 90%;
+}
+
+.solution-content {
+  width: 100%;
+}
+
+.solutions {
+  width: 100%;
+  border-radius: 10px;
+  // box-shadow: 0px 2px 2px rgba(191, 191, 191, 0.25);
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.solutions-desc {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.solutions-desc__position {
+  font-family: Lato;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 900;
+  color: #05378C;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  border-right: 1px solid #05378C;
+  padding: 1rem;
+}
+
+.solutions-desc__title {
+  font-family: Lato;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  color: #5E6770;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.solutions-desc__number {
+  /* width: 38px; */
+  border-radius: 10px;
+  background: #F2B73F;
+  padding: 0.1rem 0.8rem;
+  font-family: Lato;
+  font-size: 14px;
+  font-style: normal;
+  color: #fff;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.display-label {
+  display: flex;
+  transition: all 300ms ease-in-out;
+}
+
+.display:checked ~ .display-label {
+  transform: rotate(180deg);
+}
+
+.container-icons {
+  background: linear-gradient(180deg, #0A44A7 0%, #002C75 100%);
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  background: #DEF1FF;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-btn:hover .menu-icon {
+  transform: scale(1.3);
+}
+
+.container-btn:hover .btn-text {
+  color: #0A44A7;
+}
+
+.container-btn:hover .icon-box {
+  background: none;
+  box-shadow: none;
+}
+
+.container-btn:hover {
+  background: #e7f5ff;
+}
+
+.container-btn {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-text {
+  font-family: Lato;
+  font-size: 14px;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.site-body {
+  background: #EDF4FF;
+}
+
+.secondary-color {
+  color: #0A44A7;
+}
+
+.tertiary-color {
+  color: #4B9DD9;
+}
+
+.upperCase {
+  text-transform: uppercase;
+}
+
+.container-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.display {
+  display: none;
+}
+
+.m-b-30 {
+  margin-bottom: 30px;
+}
+
+.m-b-50 {
+  margin-bottom: 50px;
+}
+// end spiner
+
+//wrapper aplicacion
+.item-aplicacion {
+  padding: 15px 15px 15px 15px;
+}
+
+.wrapper-aplicacion {
+  clear: both;
+  overflow: hidden;
+  width: 180px;
+}
+
+.text-aplicacion {
+    display: inline;
+    margin-bottom: 3px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.text-aplicacion:after { content: ' '; display: block; }
+
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: #00408c;
+  color: #ffffff;
+  border: 4px solid #fdea09;
+}
+
+.p-steps .p-steps-item:before {
+  content: " ";
+  border-top: 4px solid #00408c;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  display: block;
+  position: absolute;
+  margin-top: -1rem;
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  color: #ffffff;
+  background: #00408c;
+  min-width: 50px;
+  height: 50px;
+  cursor: pointer;
+  /*line-height: 2rem;
+  font-size: 1.143rem;
+  z-index: 1;*/
+  border-radius: 50%;
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+  margin-top: 0.5rem;
+  color: #0a44a6;
+}
+
+.step-titulo {
+  color: #0a44a6;
+  font-weight: bold;
+}
+
+.step-body-borde {
+  border: 2px solid #00408c;
+}
+
+.sin-borde {
+  border: 0px solid #dee2e6 !important;
+}
+
+.p-dialog .p-dialog-content {
+  background: aliceblue;
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
+}
+.bgPanelComentarios {
+  background: aliceblue;
+}
+
+.card-header {
+  padding: 0.75rem 0.75rem !important;
+  background-color: #ffffff !important;
+}
+
+.p-panel .p-panel-header {
+  border: 0px !important;
+  background-color: #F2F4F7 !important;
+}
+
+.p-panel .p-panel-content {
+  padding-top: 0px !important;
+  border: 0px !important;
+  background-color: #F2F4F7 !important;
+}
+
+.caasa-home-accordion .p-accordion .p-accordion-content {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  background: #F2F4F7;
+  color: #495057;
+  border-top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.caasa-home-accordion .p-accordion p-accordiontab .p-accordion-tab {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  //box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 19%) !important;
+}

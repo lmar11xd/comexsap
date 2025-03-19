@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Reporte Terrestre
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Mes</label>
+              <input type="month" class="form-control" [(ngModel)]="filtro.mes"/>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Sede</label>
+              <app-modal-sedes
+                placeholder="Buscar sedes"
+                [(ngModel)]="filtroSedes"
+                (itemChange)="seleccionarSedes($event)"
+              ></app-modal-sedes>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Cliente</label>
+              <app-modal-clientes-multiple
+                placeholder="Buscar clientes"
+                [(ngModel)]="filtroClientes"
+                (itemChange)="seleccionarClientes($event)"
+              ></app-modal-clientes-multiple>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Fecha Salida</label>
+              <div class="comex-group-date">
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaSalidaInicio"/>
+                <label>-</label>
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaSalidaFin"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Factura</label>
+              <input type="text" class="form-control" [(ngModel)]="filtro.factura"/>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultar()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Listado
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} registros">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width:70px">Año</th>
+                <th style="min-width:70px">Mes</th>
+                <th style="min-width:150px">Folio</th>
+                <th style="min-width:150px">Sede</th>
+                <th style="min-width:240px">Cliente</th>
+                <th style="min-width:240px">Destinatario</th>
+                <th style="min-width:240px">Empresa Transporte</th>
+                <th style="min-width:100px">Peso Real</th>
+                <th style="min-width:180px">Producto</th>
+                <th style="min-width:100px">Incoterm</th>
+                <th style="min-width:150px">Destino</th>
+                <th style="min-width:100px">Serie</th>
+                <th style="min-width:100px">Factura</th>
+                <th style="min-width:150px">Fecha Contb.</th>
+                <th style="min-width:100px">Fecha Factura</th>
+                <th style="min-width:100px">Mes Factura</th>
+                <th style="min-width:100px">Turno</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.anio }}</td>
+                <td>{{ item.mes }}</td>
+                <td>{{ item.folio }}</td>
+                <td>{{ item.sede }}</td>
+                <td>{{ item.codigoSapCliente + " - " + item.cliente }}</td>
+                <td>{{ item.codigoSapDestinatario + " - " + item.destinatario }}</td>
+                <td>{{ item.empresaTransporte }}</td>
+                <td>{{ item.pesoReal | number: '1.2-2' }}</td>
+                <td>{{ item.producto }}</td>
+                <td>{{ item.codigoSapIncoterm }}</td>
+                <td>{{ item.destino }}</td>
+                <td>{{ item.serie }}</td>
+                <td>{{ item.factura }}</td>
+                <td>{{ item.fechaContabilizacion | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.fechaFactura | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.mesFactura }}</td>
+                <td>{{ item.turno }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="16">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>
+

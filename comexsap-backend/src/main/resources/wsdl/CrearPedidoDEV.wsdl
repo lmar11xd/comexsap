@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="OS_crea_pedidos" targetNamespace="http://aasa.com.pe/WEB/CrePediWeb" xmlns:p1="http://aasa.com.pe/WEB/CrePediWeb" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation/>
+	<wsp:UsingPolicy wsdl:required="true"/>
+	<wsp:Policy wsu:Id="OP_OS_crea_pedidos"/>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://aasa.com.pe/WEB/CrePediWeb" xmlns="http://aasa.com.pe/WEB/CrePediWeb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:element name="MT_crea_pedidos_req" type="DT_crea_pedidos_req"/>
+			<xsd:element name="MT_crea_pedidos_res" type="DT_crea_pedidos_res"/>
+			<xsd:complexType name="DT_crea_pedidos_req">
+				<xsd:sequence>
+					<xsd:element name="testrun" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="cabecera" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="org_ventas" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="canal_dist" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="sector" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tipo_doc" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="moneda" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="fecha_precio" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="grupo_vend" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="oficina" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="lista_precio" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cond_pago" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cond_exp" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="grupo" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="fecha_pref" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="fecha_fact" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="fecha_doc" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="ord_compra" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="mot_pedido" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cotizacion" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="grupo1" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="bloque_entr" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="zona_ventas" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="grupo_cli" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tipo_pago" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="centro_sum" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="incoterm1" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="incoterm2" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="fecha_occli" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num_descObr" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num_despa" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num_cont" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="factura_financiera" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="Detalle" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="posicion" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="pos_sup" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="material" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cantidad" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="centro" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="almacen" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="unidad" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="ruta" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tdes_exs" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tdes_fsu" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tdes_lim" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tipo_nc" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num_lote" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num_dmo" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num_pmo" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="mot_rech" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tipo_posicion" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="interlocutor" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="cod_inte" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tipo_int" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="condiciones" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="cond_pos" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cond_pr" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cond_bp" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cond_val" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="koein" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="kpein" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="kmein" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="textos" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="id_texto" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="texto" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="repartos" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="posnr" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="fecha_prefe" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="cantidad" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="DT_crea_pedidos_res">
+				<xsd:sequence>
+					<xsd:element name="salida" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="num_pedido" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="tipo_msj" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="id" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="desc_msj" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="num" type="xsd:string" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="MT_crea_pedidos_req">
+		<wsdl:documentation/>
+		<wsdl:part name="MT_crea_pedidos_req" element="p1:MT_crea_pedidos_req"/>
+	</wsdl:message>
+	<wsdl:message name="MT_crea_pedidos_res">
+		<wsdl:documentation/>
+		<wsdl:part name="MT_crea_pedidos_res" element="p1:MT_crea_pedidos_res"/>
+	</wsdl:message>
+	<wsdl:portType name="OS_crea_pedidos">
+		<wsdl:documentation/>
+		<wsdl:operation name="OS_crea_pedidos">
+			<wsdl:documentation/>
+			<wsp:Policy>
+				<wsp:PolicyReference URI="#OP_OS_crea_pedidos"/>
+			</wsp:Policy>
+			<wsdl:input message="p1:MT_crea_pedidos_req"/>
+			<wsdl:output message="p1:MT_crea_pedidos_res"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OS_crea_pedidosBinding" type="p1:OS_crea_pedidos">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		<wsdl:operation name="OS_crea_pedidos">
+			<soap:operation soapAction="http://sap.com/xi/WebService/soap1.1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			<wsdl:input>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+</wsdl:definitions>

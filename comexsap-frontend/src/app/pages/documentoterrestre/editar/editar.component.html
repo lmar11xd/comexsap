@@ -1,0 +1,417 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="documentoForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Datos Doc. Terrestre</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Cabecera
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button class="btn btn-info" *ngIf="documentoForm.controls['estadoDocumento'].value == 5" (click)="guardar()">Guardar</button>
+                    <div ngbDropdown class="d-inline-block">
+                      <button class="btn btn-success" id="dropdownDatos" ngbDropdownToggle>Acciones</button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownDatos">
+                        <button class="dropdown-item" (click)="verCertificado()">Ver Certificación</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navDatos="ngbNav" [(activeId)]="activeDatos" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos del Cliente</a>
+                      <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Código</label>
+                                <input type="text" class="form-control text-uppercase" placeholder="Autogenerado" formControlName="codigo">
+                              </div>
+                            </div>
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Cliente</label>
+                                <input type="text" class="form-control" formControlName="cliente">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Destinatario Factura</label>
+                                <input type="text" class="form-control" formControlName="destinatario">
+                              </div>
+                            </div>
+                          </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                      <a ngbNavLink>Datos del Envío</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Sede</label>
+                              <input type="text" class="form-control" formControlName="origen">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Destino</label>
+                              <input type="text" class="form-control" formControlName="destino">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Almac&eacute;n</label>
+                              <input type="text" class="form-control" formControlName="almacen">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Condici&oacute;n Pago</label>
+                              <ng-select
+                                formControlName="idCondicionPago"
+                                [items]="pagos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Despacho</label>
+                              <ng-select
+                                formControlName="idTipoDespacho"
+                                [items]="despachos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm</label>
+                              <ng-select
+                                formControlName="idIncoterm"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Moneda</label>
+                              <ng-select
+                                formControlName="idMoneda"
+                                [items]="monedas"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                      <a ngbNavLink>Datos de Factura</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Factura SAP</label>
+                              <input type="text" class="form-control" formControlName="facturaSap">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha Factura</label>
+                              <p-calendar formControlName="fechaFactura" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Hora (SUNAT)</label>
+                              <input type="time" class="form-control" formControlName="horaSunat">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Folio Factura</label>
+                              <input type="text" class="form-control" formControlName="folioFactura" placeholder="Folio Factura">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha Salida</label>
+                              <p-calendar formControlName="fechaSalida" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Importe</label>
+                              <input type="number" class="form-control" min="0" formControlName="importe" placeholder="Importe">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navDatos" class="mt-2"></div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Posición <span class="required-asterisk">*</span>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 100px;">Item</th>
+                        <th style="min-width: 80px;">Cod. Producto</th>
+                        <th style="min-width: 320px;">Descripción</th>
+                        <th style="min-width: 100px;">Cantidad Venta</th>
+                        <th style="min-width: 60px;">UM Venta</th>
+                        <th style="min-width: 320px;">Centro Suministro</th>
+                        <th style="min-width: 240px;">Almacén</th>
+                        <th style="min-width: 100px;">Peso Toneladas</th>
+                        <th style="min-width: 100px;">Precio Unitario</th>
+                        <th style="min-width: 120px;">Importe</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let posicionForm of posiciones.controls; let i = index" [formGroup]="posicionForm">
+                        <td>{{posicionForm.value.item}}</td>
+                        <td>{{posicionForm.value.codigoMaterial}}</td>
+                        <td>{{posicionForm.value.descripcionMaterial}}</td>
+                        <td>{{posicionForm.value.cantidadVenta | number: '1.2-2' }}</td>
+                        <td>{{posicionForm.value.unidadMedidaVenta}}</td>
+                        <td>{{ posicionForm.value.centro }}</td>
+                        <td>{{ posicionForm.value.almacen }}</td>
+                        <td>{{ posicionForm.value.pesoToneladas | number: '1.2-2' }}</td>
+                        <td>{{ posicionForm.value.precioUnitario | number: '1.2-2' }}</td>
+                        <td>{{ posicionForm.value.importe | number: '1.2-2' }}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="posiciones.length == 0" colspan="20">Sin posiciones</td>
+                        <td *ngIf="posiciones.length > 0" colspan="20">En total existen {{posiciones.length}} líneas de posiciones</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink><i class="fa fa-ship"></i> Información Agente Aduana</a>
+                <ng-template ngbNavContent>
+                  <div class="row container-title">
+                    <div class="col-sm-6 title">
+                      <label class="title-line"></label>Datos de Aduana
+                    </div>
+                    <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                      <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-success" id="dropdownDatos" ngbDropdownToggle>Acciones</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownDatos">
+                          <button class="dropdown-item" (click)="verCertificado()">Ver Certificación</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="comex-container-detail">
+                    <ul ngbNav #navContacto="ngbNav" [(activeId)]="activeContacto" class="comex-tabs-detail nav-tabs">
+                      <li [ngbNavItem]="1">
+                        <a ngbNavLink>Datos de Agente</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Agente Aduana</label>
+                                <input type="text" class="form-control" formControlName="agenteAduana" placeholder="Agente Aduana">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Orden Agente Aduana</label>
+                                <input type="text" class="form-control" formControlName="ordenAgenteAduana" placeholder="Orden Agente Aduana">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Estado Orden</label>
+                                <input type="text" class="form-control" formControlName="estadoOrden" placeholder="Estado Orden">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Peso Real</label>
+                                <input type="number" class="form-control" min="0" formControlName="pesoReal" placeholder="Peso Real">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Tiempo Regularizaci&oacute;n</label>
+                                <input type="text" class="form-control" formControlName="tiempoRegularizacion" placeholder="Tiempo Regularizaci&oacute;n">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Entrega Doc.</label>
+                                <p-calendar formControlName="fechaEntregaDocumento" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Mes Despacho</label>
+                                <input type="text" class="form-control" formControlName="mesDespacho" placeholder="Mes Despacho">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Empresa Transporte</label>
+                                <input type="text" class="form-control" formControlName="empresaTransporte" placeholder="Empresa Transporte">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Canal</label>
+                                <input type="text" class="form-control" formControlName="canal" placeholder="Canal">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Comentario</label>
+                                <textarea rows="4" formControlName="comentario"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="2">
+                        <a ngbNavLink>Datos de Exportación</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">DAM</label>
+                                <input type="text" class="form-control" formControlName="dam" placeholder="DAM">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha DAM</label>
+                                <p-calendar formControlName="fechaDam" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha DAM Regularización</label>
+                                <p-calendar formControlName="fechaDamRegularizacion" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha DAM41</label>
+                                <p-calendar formControlName="fechaDam41" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Inicio Embarque</label>
+                                <p-calendar formControlName="inicioEmbarque" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Entrega DAM a COMEX</label>
+                                <p-calendar formControlName="fechaDamComex" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Entrega DAM a DRAWBACK</label>
+                                <p-calendar formControlName="fechaDamDrawback" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Levante</label>
+                                <input type="datetime-local" class="form-control" formControlName="fechaLevante">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Tr&aacute;nsito</label>
+                                <input type="datetime-local" class="form-control" formControlName="fechaTransito">
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                    </ul>
+                    <div [ngbNavOutlet]="navContacto" class="mt-2"></div>
+                  </div>
+                </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalGuardadoExitoso let-modalGuardadoExitoso>
+  <div class="modal-header">
+    <h4 class="modal-title">Documento Exportación Terrestre</h4>
+  </div>
+  <div class="modal-body">
+    <p>El Documento se guardó de <br>manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado(); modalGuardadoExitoso.close();">Ir al Listado</button>
+    <button type="button" class="btn btn-secondary" (click)="modalGuardadoExitoso.close(); this.ngOnInit();">OK</button>
+  </div>
+</ng-template>
+
+<ng-template #modalVerPdf let-modalVerPdf>
+  <div class="modal-header">
+    <h4 class="modal-title">Documento de Exportación Terrestre {{documentoForm.controls['codigo'].value}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container-pdf">
+      <pdf-viewer
+        [src]="pdfSrc"
+        [render-text]="true"
+        [original-size]="false"
+        style="width: 100%; height: calc(100vh - 200px);">
+      </pdf-viewer>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="descargarPdf()">Descargar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalVerPdf.close()">Cerrar</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

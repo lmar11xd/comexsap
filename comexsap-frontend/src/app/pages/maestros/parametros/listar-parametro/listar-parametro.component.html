@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Parámetros
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+            <button class="btn btn-primary" (click)="irACrear()">Nuevo Parámetro</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Maestro</label>
+              <p-multiSelect
+                [options]="dominios"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.dominios"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Parámetro</label>
+              <input class="form-control" type="text" [(ngModel)]="filtro.buscar" placeholder="Buscar por código o nombre del parámetro"/>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultar()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Lista de Parámetros
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} servicios">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width:80px">C&oacute;digo Maestro</th>
+                <th style="min-width:180px">Maestro</th>
+                <th style="min-width:80px">C&oacute;digo Par&aacute;metro</th>
+                <th style="min-width:240px">Par&aacute;metro</th>
+                <th style="width:90px">Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.codigoDominio }}</td>
+                <td style="text-align: left !important;">{{ item.nombreDominio }}</td>
+                <td>{{ item.codigo }}</td>
+                <td style="text-align: left !important;">{{ item.descripcion }}</td>
+                <td>
+                  <div class="tc-actions">
+                    <button class="btn btn-outline-warning"(click)="irAEditar(item)" title="Editar Parámetro"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-outline-danger" (click)="mostrarModal(modalEliminar, item)" title="Eliminar Parámetro"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="9">No se encontraron parámetros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalEliminar let-modalEliminar>
+  <div class="modal-header">
+    <h4 class="modal-title">Eliminar Parámetro</h4>
+  </div>
+  <div class="modal-body">
+    <p>¿Desea eliminar el parámetro "{{selectedParametro.descripcion}}"?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="eliminar(); modalEliminar.close();">Sí</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalEliminar.close()">No</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

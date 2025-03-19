@@ -1,0 +1,114 @@
+<div class="comex-modal">
+  <div class="modal-input">
+    <button class="btn btn-success" title="Componentes" (click)="open(modal);"><i class="fas fa-chevron-right"></i></button>
+  </div>
+  <ng-template #modal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Componentes</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <p style="font-weight: normal !important; font-size: 14px !important; text-align: left; margin-top: 10px;">
+            <strong>Datos de Posici&oacute;n: </strong>
+            {{posicionForm.controls['selectedMaterial']?.value.descripcionLarga}}
+          </p>
+        </div>
+        <div class="col-sm-6 d-sm-flex text-center justify-content-sm-end" style="align-items: center;">
+          <button *ngIf="!esMaritimo && estadoDocumento == 5" class="btn btn-outline-info" (click)="agregarPosicion()"><i class="fas fa-plus"></i> Agregar</button>
+          <button *ngIf="!esMaritimo && estadoDocumento == 5" class="btn btn-outline-danger" (click)="quitarPosiciones()"><i class="fas fa-trash"></i> Retirar</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table table-bordered comex-table">
+              <thead>
+                <tr>
+                  <th style="min-width: 40px;">
+                    <input *ngIf="!esMaritimo && estadoDocumento == 5" type="checkbox" name="selectAll" (change)="seleccionarTodo($event)"/>
+                  </th>
+                  <th style="min-width: 60px;">Posici&oacute;n</th>
+                  <th style="min-width: 120px;">Material<span class="required-asterisk">*</span></th>
+                  <th style="min-width: 240px;">Descripci&oacute;n</th>
+                  <th style="min-width: 100px;">Cantidad Venta<span class="required-asterisk">*</span></th>
+                  <th style="min-width: 120px;">UM Venta<span class="required-asterisk">*</span></th>
+                  <th style="min-width: 100px;">Peso Toneladas</th>
+                  <th style="min-width: 100px;">Fecha Disponibilidad</th>
+                  <th style="min-width: 100px;">Precio Unit. SAP</th>
+                  <th style="min-width: 100px;">Precio Unitario<span class="required-asterisk">*</span></th>
+                  <th style="min-width: 120px;">Importe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let componenteForm of componentes.controls; let i = index" [formGroup]="componenteForm">
+                  <td><input *ngIf="!esMaritimo && estadoDocumento == 5" type="checkbox" name="selectItem" formControlName="checked" /></td>
+                  <td>{{componenteForm.value.item}}</td>
+
+                  <td *ngIf="!esMaritimo && estadoDocumento == 5">
+                    <app-modal-material
+                      placeholder="Seleccionar material"
+                      formControlName="selectedMaterial"
+                      (itemChange)="seleccionarMaterial($event, componenteForm)"
+                      (onClear)="limpiarPosicion(componenteForm)"></app-modal-material>
+                  </td>
+                  <td *ngIf="esMaritimo || estadoDocumento == 6">{{ componenteForm.value.codigoMaterial }}</td>
+
+                  <td>{{ componenteForm.value.descripcionMaterial }}</td>
+
+                  <td *ngIf="!esMaritimo && estadoDocumento == 5">
+                    <input type="number" class="form-control" min="0" formControlName="cantidadVenta" (change)="cambiarCantidadVenta(componenteForm)">
+                  </td>
+                  <td *ngIf="esMaritimo || estadoDocumento == 6">{{ componenteForm.value.cantidadVenta | number: '1.2-2' }}</td>
+
+                  <td *ngIf="!esMaritimo && estadoDocumento == 5">
+                    <ng-select
+                      [items]="componenteForm.value.listaUnidadesMedida"
+                      bindLabel="codigo"
+                      bindValue="codigo"
+                      formControlName="unidadMedidaVenta"
+                      placeholder="Seleccione"
+                      (change)="seleccionarUnidadMedidaVenta($event, componenteForm)">
+                    </ng-select>
+                  </td>
+                  <td *ngIf="esMaritimo || estadoDocumento == 6">{{ componenteForm.value.unidadMedidaVenta }}</td>
+
+                  <td>{{ componenteForm.value.pesoToneladas | number: '1.2-2' }}</td>
+
+                  <td *ngIf="!esMaritimo && estadoDocumento == 5"><input type="date" class="form-control" formControlName="fechaDisponibilidad"></td>
+                  <td *ngIf="esMaritimo || estadoDocumento == 6">{{ componenteForm.value.fechaDisponibilidad | date: 'dd/MM/yyyy' }}</td>
+
+                  <td>{{ componenteForm.value.precioUnitarioSap }}</td>
+
+                  <td *ngIf="!esMaritimo && estadoDocumento == 5">
+                    <input type="number" class="form-control" min="0" formControlName="precioUnitario" (change)="cambiarPrecioUnitario(componenteForm)">
+                  </td>
+                  <td *ngIf="esMaritimo || estadoDocumento == 6">{{ componenteForm.value.precioUnitario | number: '1.2-2' }}</td>
+
+                  <td>{{ componenteForm.value.importe | number: '1.2-2' }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td *ngIf="componentes.length == 0" colspan="12">Sin componentes</td>
+                  <td *ngIf="componentes.length > 0" colspan="12">Se encontraron {{componentes.length}} componentes</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="col-12">
+          <form *ngIf="esMaritimo" [formGroup]="posicionForm" novalidate>
+            <div class="comex-component">
+              <textarea rows="4" formControlName="componenteTexto"></textarea>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <!--<button type="button" class="btn btn-danger" (click)="modal.close();">Cancelar</button>-->
+      <button type="button" class="btn btn-primary" (click)="aceptar();">Aceptar</button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Factura Comercial</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/exportacion_maritima.css" />
+</head>
+<body>
+	<div>
+		<div class="header">
+			<table cellspacing="0">
+				<tbody>
+					<tr>
+			    		<td width="180">
+			    			<div><img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="85" height="50px" /></div></td>
+			    		<td class="text-center" style="font-size: 14px; font-weight: bold;">EXPORTACI&Oacute;N</td>
+			    		<td width="180" class="text-right">BK: <p th:text="${booking}"></p></td>
+		    		</tr>
+				</tbody>
+			</table>
+		</div>
+    	<div class="footer">
+    	</div>
+		<div class="body">
+			<table cellspacing="0" class="detalle">
+				<tbody>
+					<tr>
+						<td>Agente Aduana:</td>
+						<td th:text="${agenteAduana}"></td>
+					</tr>
+					<tr>
+						<td>Shipper:</td>
+						<td th:text="${shipper}"></td>
+					</tr>
+					<tr>
+						<td style="vertical-align: top;">Direcci&oacute;n:</td>
+						<td th:utext="${direccionShipper}"></td>
+					</tr>
+					<tr>
+						<td>Consignatario:</td>
+						<td th:text="${consignatario}"></td>
+					</tr>
+					<tr>
+						<td>Direcci&oacute;n:</td>
+						<td th:text="${direccionConsignatario}"></td>
+					</tr>
+					<tr>
+						<td>Notificante:</td>
+						<td th:text="${notificante}"></td>
+					</tr>
+					<tr>
+						<td>Direcci&oacute;n:</td>
+						<td th:text="${direccionNotificante}"></td>
+					</tr>
+					<tr>
+						<td>Puerto Origen:</td>
+						<td th:text="${puertoOrigen}"></td>
+					</tr>
+					<tr>
+						<td>Puerto Destino:</td>
+						<td th:text="${puertoDestino}"></td>
+					</tr>
+					<tr>
+						<td>Fecha Cargu&iacute;o:</td>
+						<td th:text="${fechaCarguio}"></td>
+					</tr>
+					<tr>
+						<td>Transporte:</td>
+						<td th:text="${tipoTransporte}"></td>
+					</tr>
+					<tr>
+						<td>Motonave:</td>
+						<td th:text="${motonave}"></td>
+					</tr>
+					<tr>
+						<td>R&eacute;gimen:</td>
+						<td th:text="${regimen}"></td>
+					</tr>
+					<tr>
+						<td>Valor FOB Total:</td>
+						<td th:text="${#numbers.formatDecimal(valorFobTotal, 1, 'COMMA', 2, 'POINT')}"></td>
+					</tr>
+					<tr>
+						<td>Flete Total:</td>
+						<td th:text="${#numbers.formatDecimal(flete, 1, 'COMMA', 2, 'POINT')}"></td>
+					</tr>
+					<tr>
+						<td>Seguro Total:</td>
+						<td th:text="${#numbers.formatDecimal(seguro, 1, 'COMMA', 2, 'POINT')}"></td>
+					</tr>
+					<tr>
+						<td>Valor CFR Total:</td>
+						<td th:text="${#numbers.formatDecimal(valorCfrTotal, 1, 'COMMA', 2, 'POINT')}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<br/><br/>
+			<p>Detalle de artículos consignados</p>
+			<table cellspacing="0" class="posiciones">
+	    		<thead>
+	    			<tr>
+	    				<th class="text-center" width="30">POS.</th>
+	    				<th class="text-left">DESCRIPCI&Oacute;N</th>
+	    				<th class="text-center" width="100">R&Eacute;GIMEN</th>
+	    				<th class="text-center" width="70">CANTIDAD</th>
+	    				<th class="text-center" width="70">VALOR FOB</th>
+	    				<th class="text-left" width="130">PARTIDA</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr th:each="posicion: ${posiciones}">
+	    				<td class="text-center" th:text="${posicion.item}"></td>
+	    				<td class="text-left" th:text="${posicion.descripcion}"></td>
+	    				<td class="text-center" th:text="${posicion.regimen}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.cantidad, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.valorFOB, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td th:utext="${posicion.partida}"></td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+		</div>
+	</div>
+</body>
+</html>

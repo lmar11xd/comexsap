@@ -1,0 +1,32 @@
+export class DocumentoTerrestrePosicion {
+  id: number;
+	idExportacion: number;
+	idPedido: number;
+	item: number;
+	idProducto: number;
+	codigoSap: string;
+	descripcionProducto: string;
+	descripcionComercialProducto: string;
+	cantidad: number;
+	cantidadVenta: number;
+	factor: number;
+	idUnidadMedida: number;
+	codigoSapUnidadMedida: string;
+	descripcionUnidadMedida: string;
+	idUnidadMedidaVenta: number;
+	codigoSapUnidadMedidaVenta: string;
+	descripcionUnidadMedidaVenta: string;
+	idCentro: number;
+	codigoSapCentro: string;
+	descripcionCentro: string;
+	idAlmacen: number;
+	codigoSapAlmacen: string;
+	descripcionAlmacen: string;
+	pesoTonelada: number;
+	fechaDisponibilidad: string;
+	precioUnitario: number;
+	precioUnitarioSap: number;
+	importe: number;
+	idPadre: number;
+	estado: number;
+}

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.ReporteExtendedMapper">
+	<resultMap id="reporteMaritimoMap" type="com.caasa.comexsap.exportaciones.model.to.ReporteMaritimoTO">
+		<result column="IDEXPORTACION" jdbcType="NUMERIC" property="idExportacion" />
+		<result column="ANIOEXPORTACION" jdbcType="VARCHAR" property="anio" />
+		<result column="MESEXPORTACION" jdbcType="VARCHAR" property="mes" />
+		<result column="CODIGOSAPCLIENTE" jdbcType="VARCHAR" property="codigoSapCliente" />
+		<result column="NOMBRECLIENTE" jdbcType="VARCHAR" property="nombreCliente" />
+		<result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+		<result column="CODIGOPEDIDO" jdbcType="VARCHAR" property="pedidoFirme" />
+		<result column="PESOREAL" jdbcType="NUMERIC" property="pesoReal" />
+		<result column="PUERTODESTINO" jdbcType="VARCHAR" property="puertoDestino" />
+		<result column="CODIGOPUERTODESTINO" jdbcType="TIMESTAMP" property="codigoPuertoDestino" />
+		<result column="PAISDESTINO" jdbcType="VARCHAR" property="paisDestino" />
+		<result column="CODIGOPAISDESTINO" jdbcType="TIMESTAMP" property="codigoPaisDestino" />
+		<result column="USUARIOCREACION" jdbcType="VARCHAR" property="usuarioCreacion" />
+		<result column="DESCRIPCIONJERARQUIA" jdbcType="VARCHAR" property="tipoPedido" />
+		<result column="FECHADISPONIBILIDAD" jdbcType="VARCHAR" property="fechaDisponibilidad" />
+		<result column="CODIGOINCOTERMCOMERCIAL" jdbcType="VARCHAR" property="codigoIncotermComercial" />
+		<result column="CODIGOAGENTENAVIERA" jdbcType="VARCHAR" property="codigoAgenteNaviera" />
+		<result column="NOMBREAGENTENAVIERA" jdbcType="VARCHAR" property="nombreAgenteNaviera" />		
+		<result column="CODIGOAGENTECARGA" jdbcType="VARCHAR" property="codigoAgenteCarga" />
+		<result column="NOMBREAGENTECARGA" jdbcType="VARCHAR" property="nombreAgenteCarga" />
+		<result column="BOOKING" jdbcType="VARCHAR" property="booking" />
+		<result column="BL" jdbcType="VARCHAR" property="bl" />
+		<result column="ETAORIGEN" jdbcType="VARCHAR" property="etaOrigen" />
+		<result column="ETADESTINO" jdbcType="VARCHAR" property="etaDestino" />
+		<result column="FACTURAELECTRONICA" jdbcType="VARCHAR" property="facturaElectronica" />
+		<result column="FACTURASAP" jdbcType="VARCHAR" property="facturaSap" />
+		<result column="FECHAFACTURA" jdbcType="VARCHAR" property="fechaFactura" />		
+		<result column="FECHAENVIODOCUMENTO" jdbcType="VARCHAR" property="fechaEnvioDocumento" />
+		<result column="CODIGOMONEDA" jdbcType="VARCHAR" property="codigoMoneda" />
+		<result column="NOMBREMONEDA" jdbcType="VARCHAR" property="nombreMoneda" />
+		<result column="IMPORTETOTAL" jdbcType="NUMERIC" property="importeTotal" />
+		<result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+		<result column="FLETE" jdbcType="NUMERIC" property="flete" />		
+		<result column="GUIADHL" jdbcType="VARCHAR" property="guiaDhl" />
+		<result column="FECHABLPROGRAMADO" jdbcType="VARCHAR" property="fechaBlProgramado" />
+		<result column="FECHABLREAL" jdbcType="VARCHAR" property="fechaBlReal" />
+		<result column="FECHADAM41" jdbcType="VARCHAR" property="fechaDam41" />
+		<result column="FECHADAM" jdbcType="VARCHAR" property="fechaDam" />
+		<result column="DAM" jdbcType="VARCHAR" property="dam" />
+		<result column="PUERTOORIGEN" jdbcType="VARCHAR" property="puertoOrigen" />
+		<result column="FECHACARGUIO" jdbcType="VARCHAR" property="fechaCarguio" />
+		<result column="FECHAMAXIMAINGRESO" jdbcType="VARCHAR" property="fechaMaximaIngreso" />
+		<result column="NAVE" jdbcType="VARCHAR" property="nave" />
+		<result column="ARMADOR" jdbcType="VARCHAR" property="armador" />
+		<result column="FLETETM" jdbcType="NUMERIC" property="fleteTm" />
+		<result column="SEGURO" jdbcType="NUMERIC" property="seguro" />
+		<result column="ORDEN_INTERNA" jdbcType="VARCHAR" property="ordenInterna" />
+		<result column="NUMERO_CONTENEDOR" jdbcType="NUMERIC" property="numeroContenedor" />
+	</resultMap> 
+	<resultMap id="reporteTerrestreMap" type="com.caasa.comexsap.exportaciones.model.to.ReporteTerrestreTO">
+		<id column="ID" jdbcType="NUMERIC" property="id" />
+		<result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+		<result column="ANIOEXPORTACION" jdbcType="VARCHAR" property="anio" />
+		<result column="MESEXPORTACION" jdbcType="VARCHAR" property="mes" />
+		<result column="CODIGOSAPCLIENTE" jdbcType="VARCHAR" property="codigoSapCliente" />
+		<result column="NOMBRECLIENTE" jdbcType="VARCHAR" property="cliente" />
+		<result column="CODIGOSAPDESTINATARIO" jdbcType="VARCHAR" property="codigoSapDestinatario" />
+		<result column="NOMBREDESTINATARIO" jdbcType="VARCHAR" property="destinatario" />
+		<result column="CODIGOSAPCENTRO" jdbcType="VARCHAR" property="codigoSapSede" />
+		<result column="SEDE" jdbcType="VARCHAR" property="sede" />
+		<result column="EMPRESATRANSPORTE" jdbcType="VARCHAR" property="empresaTransporte" />
+		<result column="COMENTARIO" jdbcType="VARCHAR" property="comentario" />
+		<result column="PESOREAL" jdbcType="VARCHAR" property="pesoReal" />
+		<result column="PRODUCTO" jdbcType="VARCHAR" property="producto" />
+		<result column="CODIGOINCOTERM" jdbcType="VARCHAR" property="codigoSapIncoterm" />
+		<result column="DESTINO" jdbcType="VARCHAR" property="destino" />
+		<result column="MESFACTURA" jdbcType="VARCHAR" property="mesFactura" />
+		<result column="SERIE" jdbcType="VARCHAR" property="serie" />
+		<result column="FOLIO" jdbcType="VARCHAR" property="folio" />
+		<result column="FACTURA" jdbcType="VARCHAR" property="factura" />
+		<result column="FECHACONTABILIZACION" jdbcType="VARCHAR" property="fechaContabilizacion" />
+		<result column="FECHAFACTURA" jdbcType="VARCHAR" property="fechaFactura" />
+		<result column="TURNO" jdbcType="VARCHAR" property="turno" />
+		<result column="FECHAENTREGADUA" jdbcType="VARCHAR" property="fechaEntregaDua" />
+		<result column="FECHAENTREGADRAWBACK" jdbcType="VARCHAR" property="fechaEntregaDrawback" />
+		<result column="FECHADAMREGULARIZACION" jdbcType="VARCHAR" property="fechaDamReg" />
+		<result column="FECHALEVANTE" jdbcType="VARCHAR" property="fechaLevante" />
+		<result column="FECHATRANSITO" jdbcType="VARCHAR" property="fechaTransito" />
+		<result column="FECHAFACTURAACTUAL" jdbcType="VARCHAR" property="fechaFacturaActual" />
+		<result column="TIEMPOATENCION" jdbcType="VARCHAR" property="tiempoAtencion" />		
+		<result column="KPI1" jdbcType="VARCHAR" property="kpiIntegral" />
+		<result column="INTEGRAL" jdbcType="VARCHAR" property="cumpleIntegral" />
+		<result column="KPI_LEVANTE" jdbcType="VARCHAR" property="kpiLevante" />
+		<result column="KPI_TRANSITO" jdbcType="VARCHAR" property="kpiTransito" />		
+		<result column="AGENTEADUANA" jdbcType="VARCHAR" property="agenteAduana" />
+		<result column="DAM" jdbcType="VARCHAR" property="dam" />
+		<result column="ORDENAGENTEADUANA" jdbcType="VARCHAR" property="ordenAgente" />
+		<result column="FECHADAM40" jdbcType="VARCHAR" property="fechaDam40" />
+		<result column="CANALCONTROL" jdbcType="VARCHAR" property="canalControl" />
+		<result column="INICIOEMBARQUE" jdbcType="VARCHAR" property="inicioEmbarque" />
+		<result column="DAM41" jdbcType="VARCHAR" property="dam41" />
+		<result column="DIASESPERADAM" jdbcType="VARCHAR" property="diasEsperaDam" />
+		<result column="TIEMPOENTREGACOMEX" jdbcType="VARCHAR" property="tiempoEntregaComex" />
+		<result column="TIEMPOREGDAM41" jdbcType="VARCHAR" property="tiempoRegDam41" />
+		<result column="TIEMPOREGCALCDAM41" jdbcType="VARCHAR" property="tiempoRegCalcDam41" />
+		<result column="TIEMPOENTREGACAASA" jdbcType="VARCHAR" property="tiempoEntregaCaasa" />
+		<result column="TIEMPOENTREGADRAWBACK" jdbcType="VARCHAR" property="tiempoEntregaDrawback" />
+	</resultMap>
+	
+	<select id="reporteMaritimoContenedores" resultMap="reporteMaritimoMap" parameterType="java.util.Map">	  
+		SELECT * FROM COMEXSVI_REPORTEMARITIMO_01_CONTENEDORES
+		WHERE IDEXPORTACION IS NOT NULL
+	 	<if test="fechaInicio != '' and fechaFin != ''">      
+			AND ( NVL(FECHABLREAL, FECHACREACION) BETWEEN TO_DATE (#{fechaInicio}, 'yyyy-mm-dd') AND 
+			TO_DATE(#{fechaFin}, 'yyyy-mm-dd') + INTERVAL '1' DAY)
+     	</if>
+		<if test="codigos != null and codigos.length > 0">
+			AND CODIGO IN 
+			<foreach collection="codigos" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>
+	 	</if>
+	 	<if test="codigosPedidoFirme != null and codigosPedidoFirme.length > 0">
+			AND CODIGOPEDIDO IN 
+			<foreach collection="codigosPedidoFirme" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="clientes != null and clientes.length > 0">
+			AND CODIGOSAPCLIENTE IN 
+			<foreach collection="clientes" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="responsables != null and responsables.length > 0">
+			AND UPPER(USUARIOCREACION) IN 
+			<foreach collection="responsables" item="item" open="(" close=")" separator=",">
+			 UPPER(#{item})
+			</foreach>	
+	 	</if>
+	 	<if test="bookings != null and bookings.length > 0">
+			AND UPPER(BOOKING) IN 
+			<foreach collection="bookings" item="item" open="(" close=")" separator=",">
+			 UPPER(#{item})
+			</foreach>	
+	 	</if>
+	 	ORDER BY ANIOEXPORTACION DESC, MESEXPORTACION ASC
+	</select>
+	
+	<select id="reporteMaritimoCargaSuelta" resultMap="reporteMaritimoMap" parameterType="java.util.Map">	  
+		SELECT * FROM COMEXSVI_REPORTEMARITIMO_02_CARGASUELTA
+		WHERE IDEXPORTACION IS NOT NULL
+		<if test="fechaInicio != '' and fechaFin != ''">      
+			AND ( NVL(FECHABLREAL, FECHACREACION) BETWEEN TO_DATE (#{fechaInicio}, 'yyyy-mm-dd') AND 
+			TO_DATE(#{fechaFin}, 'yyyy-mm-dd') + INTERVAL '1' DAY)
+     	</if>
+		<if test="codigos != null and codigos.length > 0">
+			AND CODIGO IN 
+			<foreach collection="codigos" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="codigosPedidoFirme != null and codigosPedidoFirme.length > 0">
+			AND CODIGOPEDIDO IN 
+			<foreach collection="codigosPedidoFirme" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="clientes != null and clientes.length > 0">
+			AND CODIGOSAPCLIENTE IN 
+			<foreach collection="clientes" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="responsables != null and responsables.length > 0">
+			AND UPPER(USUARIOCREACION) IN 
+			<foreach collection="responsables" item="item" open="(" close=")" separator=",">
+			 UPPER(#{item})
+			</foreach>	
+	 	</if>
+	 	<if test="naves != null and naves.length > 0">
+			AND UPPER(NAVE) IN 
+			<foreach collection="naves" item="item" open="(" close=")" separator=",">
+			 UPPER(#{nave})
+			</foreach>	
+	 	</if>
+	 	ORDER BY ANIOEXPORTACION DESC, MESEXPORTACION ASC
+	</select>
+	
+	<select id="reporteTerrestre" resultMap="reporteTerrestreMap" parameterType="java.util.Map">
+		SELECT *
+		FROM COMEXSVI_EXPORTACION_05_REPORTESEGUIMIENTOTERRESTRE
+		WHERE ID IS NOT NULL
+		<if test="mes != null and mes != ''">
+			AND ( NVL(FECHAMODIFICACION, FECHACREACION) BETWEEN TO_DATE (#{mes} || '-01', 'yyyy-mm-dd') AND 
+          	TO_DATE(#{mes} || '-01', 'yyyy-mm-dd') + INTERVAL '1' MONTH)
+	 	</if>
+		<if test="sedes != null and sedes.length > 0">
+			AND CODIGOSAPCENTRO IN 
+			<foreach collection="sedes" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="clientes != null and clientes.length > 0">
+			AND CODIGOSAPCLIENTE IN 
+			<foreach collection="clientes" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+	 	</if>
+	 	<if test="fechaSalidaInicio != null and fechaSalidaInicio != ''">
+	 		AND FECHACONTABILIZACION <![CDATA[ >= ]]> TO_DATE (#{fechaSalidaInicio}, 'yyyy-mm-dd')
+	 	</if>
+	 	<if test="fechaSalidaFin != null and fechaSalidaFin != ''">
+	 		AND FECHACONTABILIZACION <![CDATA[ < ]]> TO_DATE(#{fechaSalidaFin}, 'yyyy-mm-dd') + INTERVAL '1' DAY
+	 	</if>
+	 	<if test="facturas != null and facturas.length > 0">
+	 		AND
+	 		<foreach collection="facturas" item="item" open="(" separator="OR" close=")">
+            	FOLIO LIKE UPPER(#{item})
+        	</foreach>
+	 	</if>
+	</select>
+	
+	<select id="obtenerPesoPackingList" parameterType="java.util.Map" resultType="float">
+		SELECT NVL(COMEXSAP.COMEXSSF_OBTENERPESOPACKINGLIST(#{idExportacionPedido}), 0) AS PESOCOMEX FROM DUAL
+	</select>
+	
+	<select id="obtenerCargoUsuario" parameterType="java.util.Map" resultType="String">
+		SELECT STEXT_S 
+		FROM SAPIO.HCM_PA_001B_MAESTRO_PERSONAL
+		WHERE PERNR = #{codigoPersonal}
+		AND ROWNUM <![CDATA[ <= ]]> 1
+	</select>
+</mapper>

@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Carga de Datos: Agente Aduana</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Listado
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <input
+                      #fileUpload
+                      type="file"
+                      (click)="fileUpload.value = null"
+                      (change)="importar($event)"
+                      style="display:none"
+                      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <button class="btn btn-outline-success" (click)="fileUpload.click()"><i class="pi pi-file-excel"></i> Importar Excel</button>
+                    <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+                    [rows]="10" [showCurrentPageReport]="true" [paginator]="true"
+                    currentPageReportTemplate="Se encontraron {totalRecords} registros">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th style="min-width: 120px;">Factura</th>
+                        <th style="min-width: 100px;">Agente Aduana</th>
+                        <th style="min-width: 100px;">Mes Despacho</th>
+                        <th style="min-width: 120px;">Sede</th>
+                        <th style="min-width: 260px;">Cliente</th>
+                        <th style="min-width: 100px;">Peso Real</th>
+                        <th style="min-width: 260px;">Empresa Transporte</th>
+                        <th style="min-width: 120px;">Destino</th>
+                        <th style="min-width: 120px;">Factura</th>
+                        <th style="min-width: 80px;">Serie</th>
+                        <th style="min-width: 100px;">Mes Factura</th>
+                        <th style="min-width: 100px;">Incoterm</th>
+                        <th style="min-width: 120px;">Fecha Levante</th>
+                        <th style="min-width: 120px;">Fecha Tr&aacute;nsito</th>
+                        <th style="min-width: 360px;">Comentario</th>
+                        <th style="min-width: 180px;">DAM</th>
+                        <th style="min-width: 100px;">Fecha DAM 40</th>
+                        <th style="min-width: 80px;">Canal</th>
+                        <th style="min-width: 100px;">Inicio Embarque Frontera</th>
+                        <th style="min-width: 100px;">Fecha Reg. DAM 41</th>
+                        <th style="min-width: 120px;">Tiempo Reg.</th>
+                        <th style="min-width: 100px;">Fecha Entrega DUA</th>
+                        <th style="min-width: 140px;">Estado Orden</th>
+                        <th style="min-width: 140px;">Orden Agente Aduana</th>
+                        <th style="min-width: 100px;">Fecha Entrega Drawback</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                      <tr>
+                        <td>{{ item.factura }}</td>
+                        <td>{{ item.agenteAduana }}</td>
+                        <td>{{ item.mesDespacho }}</td>
+                        <td>{{ item.sede }}</td>
+                        <td>{{ item.cliente }}</td>
+                        <td>{{ item.pesoReal | number: '1.2-2' }}</td>
+                        <td>{{ item.empresaTransporte }}</td>
+                        <td>{{ item.destino }}</td>
+                        <td>{{ item.factura }}</td>
+                        <td>{{ item.serie }}</td>
+                        <td>{{ item.mesFactura }}</td>
+                        <td>{{ item.incoterm }}</td>
+                        <td>{{ item.fechaLevante | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        <td>{{ item.fechaTransito | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        <td>{{ item.comentario }}</td>
+                        <td>{{ item.dam }}</td>
+                        <td>{{ item.fechaDAM40 | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item.canalControl }}</td>
+                        <td>{{ item.inicioEmbarqueFrontera | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item.fechaRegularizacionDAM41 | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item.tiempoRegularizacion }}</td>
+                        <td>{{ item.fechaEntregaDUA | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item.estadoOrden }}</td>
+                        <td>{{ item.ordenAgenteAduana }}</td>
+                        <td>{{ item.fechaEntregaDrawback | date: 'dd/MM/yyyy' }}</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr><td colspan="25">No se cargaron datos.</td></tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalGuardadoExitoso let-modalGuardadoExitoso>
+  <div class="modal-header">
+    <h4 class="modal-title">Agente Aduana</h4>
+  </div>
+  <div class="modal-body">
+    <p>Agente Aduana se guardó de <br>manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado(); modalGuardadoExitoso.close();">Entendido</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

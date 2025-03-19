@@ -1,0 +1,40 @@
+#Powershell
+ Ejecutar este comando como administrador en consola de powershell
+ Set-ExecutionPolicy Unrestricted
+
+###############################
+### Para Generar WAR ####
+###############################
+
+Carpeta environments:
+//En este archivo se coloca las url de backend que seran usadas por el war desplegado en servidor linux
+src/environments/environment.prd.ts
+src/environments/environment.dev.ts
+src/environments/environment.qas.ts
+
+//En este archivo se coloca las url de backend que seran usadas en servidor local windows
+src/environments/environment.ts
+
+VERSION NODE: 16.14.2
+
+1) Compilar el front
+Abrir terminal en la carpeta "COMEXSAP"
+ejecutar segun el ambiente a desplegar:
+npm run build-web-dev
+npm run build-web-qas
+npm run build-web-prd
+
+**La carpeta \COMEXSAP\src\main\resources\static no se versiona, colocar como svn ignore
+
+2) Compilar web app
+Abrir terminal en la subcarpeta "COMEXSAP"
+ejecutar:
+cd COMEXSAP
+mvn clean package -Pdev -DskipTests
+mvn clean package -Pqas -DskipTests
+mvn clean package -Pprd -DskipTests
+
+El compilado a desplegar es el archivo:
+\COMEXSAP\target\COMEXSAP.war.original
+Antes de desplegar se debe renombrar por "COMEXSAP.war"
+

@@ -1,0 +1,11 @@
+.observacion-sap {
+  button {
+    margin-right: 0px;
+  }
+}
+.container-obs {
+  text-align: left;
+  li::marker {
+    font-weight: bold;
+  }
+}

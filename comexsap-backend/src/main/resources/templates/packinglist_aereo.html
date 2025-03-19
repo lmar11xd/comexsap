@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PDF Generado</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/packinglist_aereo.css" />
+</head>
+<body>
+	<!-- Cabecera -->
+    <div class="header">
+    	<table cellspacing="0">
+    		<tbody>
+    			<tr>
+		    		<td><img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="100" /></td>
+		    		<td></td>
+		    		<td></td>
+	    		</tr>
+    		</tbody>
+    	</table>
+    </div>
+
+    <!-- Pie de pagina -->
+    <!--<div class="footer">
+    	<table>
+    		<tbody>
+    			<tr>
+    				<td style="width: 30%;"><a href="https://www.acerosarequipa.com/">www.acerosarequipa.com</a></td>
+    				<td style="width: 40%;"><p><span id="pagenumber"></span> de <span id="pagecount"></span></p></td>
+    				<td style="width: 30%;"><img src="../pdfresources/images/elige-seguridad.png" width="150" alt="logo-aceros" /></td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>-->
+
+    <!-- Contenido -->
+    <div class="body">
+    	<table cellspacing="0">
+    		<tbody>
+    			<tr>
+    				<td>Callao, <span th:text="${fecha}">21 de Marzo del 2024</span></td>
+    			</tr>
+    			<tr>
+    				<td>
+	    				<p><strong>Importer:</strong></p>
+	    				<p><strong th:text="${consignatario}">GRUPO STRALTI SA DE CV</strong></p>
+	    				<p th:utext="${direccionConsignatario}">AVENIDA MARINA NACIONAL,</br>GOLFO DE GABES 15°</p>
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>
+	    				<p>Atte. Francisco Abad Ruiz</p>
+	    				<p>+52 1 442 239 4016</p>
+	    				<p>compras@acerosverqro.com</p>
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>
+	    				</br></br>
+	    				<p class="text-center" style="font-size: 12px;"><strong>PACKING LIST</strong></p>
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>
+	    				<p class="text-center" style="font-size: 10px;">GENERAL DESCRIPTION: <strong th:text="${descripcionMaterial}">ACOPLE SAE 1045 PARA BARRA HELICOIDAL 25MM</strong></p>
+    				</td>
+    			</tr>
+    		</tbody>
+    	</table>
+
+    	<!--POSICIONES-->
+    	<div class="container-table">
+    		<table cellspacing="0">
+    			<thead>
+    				<tr>
+    					<th>N° Box</th>
+    					<th>Material</th>
+    					<th>Description</th>
+    					<th>Quantity (Units)</th>
+    					<th>Gross Weight</th>
+    					<th>Dimensions (cm)</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<tr th:each="posicion: ${posiciones}">
+    					<td th:text="${posicion.numero}"></td>
+    					<td th:text="${posicion.codigo}" style="width: 45px;min-width: 45px;"></td>
+    					<td th:text="${posicion.material}" class="text-left"></td>
+    					<td th:text="${#numbers.formatInteger(posicion.cantidad, 1, 'COMMA')}" style="width: 50px;min-width: 50px"></td>
+    					<td style="width: 50px;min-width: 50px">
+    						<span th:text="${#numbers.formatInteger(posicion.pesoBruto, 1, 'COMMA')}"></span> Kg
+    					</td>
+    					<td th:text="${posicion.dimension}" style="width: 100px;min-width: 100px"></td>
+    				</tr>
+    			</tbody>
+    		</table>
+    	</div>
+    </div>
+</body>
+</html>

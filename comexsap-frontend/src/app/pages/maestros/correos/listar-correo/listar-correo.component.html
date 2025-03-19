@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Correos Electr&oacute;nicos
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+            <button class="btn btn-primary" (click)="irACrear()">Nuevo Correo</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Grupo</label>
+              <p-multiSelect
+                [options]="grupos"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.grupos"
+                optionLabel="descripcion"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Nombre</label>
+              <input class="form-control" type="text" [(ngModel)]="filtro.buscar" placeholder="Buscar por nombres o correo"/>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultar()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Lista de Correos
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} servicios">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width:60px">Id</th>
+                <th style="min-width:220px">C&oacute;digo Grupo</th>
+                <th style="min-width:240px">Grupo</th>
+                <th style="min-width:160px">Nombres y Apellidos</th>
+                <th style="min-width:160px">Correo Electr&oacute;nico</th>
+                <th style="width:90px">Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.id }}</td>
+                <td style="text-align: left !important;">{{ item.codigo }}</td>
+                <td style="text-align: left !important;">{{ item.descripcion }}</td>
+                <td style="text-align: left !important;">{{ item.nombre }}</td>
+                <td style="text-align: left !important;">{{ item.correo }}</td>
+                <td>
+                  <div class="tc-actions">
+                    <button class="btn btn-outline-warning"(click)="irAEditar(item)"><i class="fas fa-edit" title="Editar Correo"></i></button>
+                    <button class="btn btn-outline-danger" (click)="mostrarModal(modalEliminar, item)" title="Eliminar Correo"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="9">No se encontraron correos.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalEliminar let-modalEliminar>
+  <div class="modal-header">
+    <h4 class="modal-title">Eliminar Correo</h4>
+  </div>
+  <div class="modal-body">
+    <p>¿Desea eliminar el correo "{{selectedGrupoCorreo.correo}}"?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="eliminar(); modalEliminar.close();">Sí</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalEliminar.close()">No</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.TablaSecuenciaExtendedMapper">
+  <select id="obtenerSecuencia" parameterType="String" resultType="Integer">
+	SELECT 
+	  CONFIGSF_OBTENER_SECUENCIA(#{appcode,jdbcType=NVARCHAR}, #{tabla,jdbcType=NVARCHAR})
+	FROM dual
+  </select>
+</mapper>

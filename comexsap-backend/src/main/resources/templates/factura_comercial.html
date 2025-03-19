@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Factura Comercial</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/factura_comercial.css" />
+</head>
+<body>
+	<div>
+		<div class="header">
+			<table cellspacing="0" style="border-bottom: 0;">
+				<tbody>
+					<tr>
+			    		<td width="162">
+			    			<div class="text-center" style="margin: auto;"><img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="85" height="50px" /></div></td>
+			    		<td th:utext="${direccionShipper}"></td>
+			    		<td width="180" class="text-center"><p style="margin: auto;">FACTURA COMERCIAL</p></td>
+		    		</tr>
+				</tbody>
+			</table>
+		</div>
+    	<div class="footer">
+    		<table cellspacing="0">
+	    		<tbody>
+	    			<tr class="row-noborder">
+	    				<td width="31" class="bl">TOTAL</td>
+	    				<td width="47" class="text-center" th:text="${#numbers.formatDecimal(pesoTotal, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td width="60" class="text-center" th:text="${#numbers.formatDecimal(cantidadTotal, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td></td>
+	    				<td width="180" class="br"></td>
+	    			</tr>
+	    			<tr th:each="total: ${totales}">
+	    				<td colspan="4" class="text-right" th:text="${total.etiqueta}"></td>
+	    				<td width="180" class="text-right" th:text="${#numbers.formatDecimal(total.importe, 1, 'COMMA', 2, 'POINT')}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td colspan="4" >
+	    					<div>
+	    						<p th:text="'Son: ' + ${nombreMonto}"></p>
+	    					</div>
+	    				</td>
+	    				<td width="180">
+	    					<div class="firma">
+	    						<div class="line"><label>.</label></div>
+	    						<p th:text="${nombreUsuario}"></p>
+	    					</div>
+	    				</td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+    	</div>
+		<div class="body">
+			<table cellspacing="0">
+	    		<thead>
+		    		<tr>
+		    			<td colspan="3" rowspan="2" width="160" style="vertical-align: top;">IMPORTADOR:</td>
+		    			<td rowspan="2" style="vertical-align: top;">
+							<span th:utext="${consignatario}"></span><br/>
+							<span th:utext="${direccionConsignatario}"></span>
+						</td>
+		    			<td width="79">
+		    				<div style="height: auto;">
+		    					<p>FACTURA N°</p>
+		    					<p th:text="${factura}"></p>
+		    				</div>
+		    			</td>
+		    			<td width="79">
+		    				<div style="width: 90px;height: auto;">
+		    					<p>FECHA N°</p>
+		    					<p th:text="${textoFecha}"></p>
+		    				</div>
+	    				</td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="2" th:text="'EMITIDO EN: ' + ${emitidoEn}"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="3">CLIENTE:</td>
+		    			<td th:text="${cliente}"></td>
+		    			<td colspan="2" th:text="'COND. FLETE: ' + ${condicionFlete}"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="3">PUERTO EMBARQUE:</td>
+		    			<td th:text="${puertoEmbarque}"></td>
+		    			<td colspan="2" th:text="'FORMA DE PAGO: ' + ${formaPago}"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="3">NAVIO/VIAJE:</td>
+		    			<td th:text="${navio}"></td>
+		    			<td colspan="2">PA&Iacute;S ORIGEN: PER&Uacute;</td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="3">PUERTO DESCARGA:</td>
+		    			<td th:text="${puertoDescarga}"></td>
+		    			<td colspan="2" rowspan="2" style="vertical-align: top;">
+		    				<p th:utext="'REFERENCIA: ' + ${referencia}"></p>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="3">BOOKING:</td>
+		    			<td th:text="${booking}"></td>
+		    		</tr>
+	    			<tr>
+	    				<th class="text-center" width="30">POS.</th>
+	    				<th class="text-center" width="47">PESO<br/>NETO<br/>(TM)</th>
+	    				<th class="text-center" width="60">CANTIDAD<br/>(<span th:text="${unidadMedida}"></span>)</th>
+	    				<th class="text-center">DESCRIPCI&Oacute;N</th>
+	    				<th class="text-center">PRECIO (USD/<span th:text="${unidadMedida}"></span>)</th>
+	    				<th class="text-center">TOTAL (USD)</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr class="row-noborder" th:each="posicion: ${posiciones}">
+	    				<td class="text-center">
+	    					<div>
+	    						<p th:if="${!#strings.isEmpty(posicion.descripcionPartida)}" style="color: #fff">.<br/>.</p>
+								<p th:utext="${posicion.item}"></p>
+	    					</div>
+	    				</td>
+	    				<td class="text-center">
+	    					<div>
+	    						<p th:if="${!#strings.isEmpty(posicion.descripcionPartida)}" style="color: #fff">.<br/>.</p>
+								<p th:text="${#numbers.formatDecimal(posicion.pesoNeto, 1, 'COMMA', 2, 'POINT')}"></p>
+	    					</div>
+	    				</td>
+	    				<td class="text-center">
+	    					<div>
+	    						<p th:if="${!#strings.isEmpty(posicion.descripcionPartida)}" style="color: #fff">.<br/>.</p>
+								<p th:text="${#numbers.formatDecimal(posicion.cantidad, 1, 'COMMA', 2, 'POINT')}"></p>
+	    					</div>
+	    				</td>
+	    				<td>
+	    					<div>
+								<p th:utext="${posicion.descripcionPartida}"></p>
+		    					<p th:text="${posicion.descripcionMaterial}"></p>
+		    					<p th:if="${posicion.padre == true}" th:utext="${posicion.componenteTexto}"></p>
+	    					</div>
+	    				</td>
+	    				<td class="text-center">
+	    					<div>
+	    						<p th:if="${!#strings.isEmpty(posicion.descripcionPartida)}" style="color: #fff">.<br/>.</p>
+								<p th:text="${#numbers.formatDecimal(posicion.precio, 1, 'COMMA', 2, 'POINT')}"></p>
+	    					</div>
+	    				</td>
+	    				<td class="text-right">
+	    					<div>
+	    						<p th:if="${!#strings.isEmpty(posicion.descripcionPartida)}" style="color: #fff">.<br/>.</p>
+								<p th:text="${#numbers.formatDecimal(posicion.importe, 1, 'COMMA', 2, 'POINT')}"></p>
+	    					</div>
+	    				</td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+		</div>
+	</div>
+</body>
+</html>

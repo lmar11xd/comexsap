@@ -1,0 +1,185 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Reporte Marítimo - Contenedores
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-primary" (click)="irARegistrar()">Registrar Gastos</button>
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Fecha</label>
+              <div class="comex-group-date">
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaInicio"/>
+                <label>-</label>
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaFin"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Código</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.codigos"
+                (selectedItems)="seleccionarCodigos($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Pedido Firme</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.codigosPedidoFirme"
+                (selectedItems)="seleccionarCodigosPedidoFirme($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Cliente</label>
+              <app-modal-clientes-multiple
+                placeholder="Buscar clientes"
+                [(ngModel)]="filtroClientes"
+                (itemChange)="seleccionarClientes($event)"
+              ></app-modal-clientes-multiple>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Responsable</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.responsables"
+                (selectedItems)="seleccionarResponsable($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Booking</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.bookings"
+                (selectedItems)="seleccionarBooking($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultar()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Lista de Documentos Marítimos
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} registros">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width: 40px;">
+                  <input type="checkbox" name="selectAll" (change)="seleccionarDocumentos($event)"/>
+                </th>
+                <th style="min-width:70px">Año</th>
+                <th style="min-width:70px">Mes</th>
+                <th style="min-width:100px">C&oacute;digo</th>
+                <th style="min-width:100px">Pedido Firme</th>
+                <th style="min-width:100px">C&oacute;digo Cliente</th>
+                <th style="min-width:260px">Cliente</th>
+                <th style="min-width:100px">Puerto Destino</th>
+                <th style="min-width:100px">N° Contenedor</th>
+                <th style="min-width:100px">Peso Real</th>
+                <th style="min-width:100px">Responsable</th>
+                <th style="min-width:150px">Tipo Pedido</th>
+                <th style="min-width:100px">Disponibilidad Pedido Firme</th>
+                <th style="min-width:100px">Incoterm</th>
+                <th style="min-width:150px">Booking</th>
+                <th style="min-width:100px">BL</th>
+                <th style="min-width:100px">ETA Callao</th>
+                <th style="min-width:100px">ETA Destino</th>
+                <th style="min-width:150px">Factura Electrónica</th>
+                <th style="min-width:100px">Factura SAP</th>
+                <th style="min-width:100px">Fecha Factura</th>
+                <th style="min-width:100px">Fecha Env&iacute;o Documento</th>
+                <th style="min-width:100px">Moneda</th>
+                <th style="min-width:100px">Importe Facturado</th>
+                <th style="min-width:100px">Importe FOB</th>
+                <th style="min-width:100px">Flete</th>
+                <th style="min-width:120px">Seguro</th>
+                <th style="min-width:90px">Orden Interna</th>
+                <th style="min-width:100px">Guía DHL</th>
+                <th style="min-width:100px">Fecha BL</th>
+                <th style="min-width:100px">Fecha Ingreso Cont.</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td><input *ngIf="item.idControlGasto == 0" type="checkbox" name="selectItem" (change)="seleccionarDocumento($event, item)" [(ngModel)]="item.checked" /></td>
+                <td>{{ item.anio }}</td>
+                <td>{{ item.mes }}</td>
+                <td>{{ item.codigo }}</td>
+                <td>{{ item.pedidoFirme }}</td>
+                <td>{{ item.codigoSapCliente }}</td>
+                <td>{{ item.nombreCliente }}</td>
+                <td>{{ item.puertoDestino }}</td>
+                <!--<td>{{ item.pesoReal / 28 | number: '1.1-1' }}</td>-->
+                <td>{{ item.numeroContenedor }}</td>
+                <td>{{ item.pesoReal | number: '1.2-2' }}</td>
+                <td>{{ item.usuarioCreacion }}</td>
+                <td>{{ item.tipoPedido }}</td>
+                <td>{{ item.fechaDisponibilidad | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.codigoIncotermComercial }}</td>
+                <td>{{ item.booking }}</td>
+                <td>{{ item.bl }}</td>
+                <td>{{ item.etaOrigen | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.etaDestino | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.facturaElectronica }}</td>
+                <td>{{ item.facturaSap }}</td>
+                <td>{{ item.fechaFactura | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.fechaEnvioDocumento | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.codigoMoneda }}</td>
+                <td>{{ item.importeTotal | number: '1.2-2' }}</td>
+                <td>{{ item.importe | number: '1.2-2' }}</td>
+                <td>{{ item.flete | number: '1.2-2' }}</td>
+                <td>{{ item.seguro  | number: '1.2-2' }}</td>
+                <td>{{ item.ordenInterna }}</td>
+                <td>{{ item.guiaDhl }}</td>
+                <td>{{ item.fechaCarguio | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.fechaMaximaIngreso | date: 'dd/MM/yyyy' }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="28">No se encontraron registros.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>
+

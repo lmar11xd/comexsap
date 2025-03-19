@@ -1,0 +1,129 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Servicios
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+            <button class="btn btn-primary" (click)="irACrear()">Nuevo Servicio</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label class="control-label">Servicio/Concepto</label>
+              <input class="form-control" type="text" [(ngModel)]="filtro.buscar" placeholder="Buscar por servicio/concepto"/>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label class="control-label">Tipo Transporte</label>
+              <p-multiSelect
+                [options]="tiposTransporte"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.transportes"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label class="control-label">Tipo Despacho</label>
+              <p-multiSelect
+                [options]="despachos"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.despachos"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultar()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Lista de Servicios
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} servicios">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width:60px">Id</th>
+                <th style="min-width:240px">Servicio/Concepto</th>
+                <th style="min-width:240px">Descripci&oacute;n</th>
+                <th style="min-width:120px">Tipo Transporte</th>
+                <th style="min-width:120px">Despacho</th>
+                <th style="min-width:120px">Precio</th>
+                <th style="min-width:120px">Moneda</th>
+                <th style="min-width:120px">Unidad</th>
+                <th style="width:90px">Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.concepto }}</td>
+                <td>{{ item.descripcion }}</td>
+                <td>{{ item.tipoTransporte }}</td>
+                <td>{{ item.despacho }}</td>
+                <td>{{ item.precio }}</td>
+                <td>{{ item.moneda }}</td>
+                <td>{{ item.unidad }}</td>
+                <td>
+                  <div class="tc-actions">
+                    <button class="btn btn-outline-warning"(click)="irAEditar(item)" title="Editar Servicio"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-outline-danger" (click)="mostrarModal(modalEliminar, item)" title="Eliminar Servicio"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="9">No se encontraron servicios.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalEliminar let-modalEliminar>
+  <div class="modal-header">
+    <h4 class="modal-title">Eliminar Servicio</h4>
+  </div>
+  <div class="modal-body">
+    <p>¿Desea eliminar el servicio "{{selectedServicio.descripcion}}"?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="eliminar(); modalEliminar.close();">Sí</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalEliminar.close()">No</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

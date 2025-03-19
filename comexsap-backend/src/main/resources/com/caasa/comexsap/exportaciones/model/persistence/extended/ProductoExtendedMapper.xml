@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.ProductoExtendedMapper">
+
+  <resultMap id="productoMap" type="com.caasa.comexsap.exportaciones.model.to.ProductoTO">
+    <id column="PRODN_ID" jdbcType="NUMERIC" property="idProducto" />
+    <result column="CODIGO_MATERIAL" jdbcType="VARCHAR" property="codigoMaterial" />
+    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcionMaterial" />
+    <result column="UNIDAD_BASE" jdbcType="VARCHAR" property="unidadBase" />
+    <result column="UNIDAD_VENTA" jdbcType="VARCHAR" property="unidadVenta" />
+    <result column="PESO_NETO" jdbcType="NUMERIC" property="pesoNeto" />
+    <result column="PESO_BRUTO" jdbcType="NUMERIC" property="pesoBruto" />
+    <result column="UNIDADES_PAQUETE" jdbcType="NUMERIC" property="unidadesPaquete" />
+    <result column="PRODV_DESCRIPCIONJERARQUIA2" jdbcType="VARCHAR" property="descripcionJerarquia2" />
+  </resultMap>
+  
+  <resultMap id="productoSapMap" type="com.caasa.comexsap.exportaciones.model.to.ProductoSapTO">
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcion" />
+    <result column="UNIDAD_BASE" jdbcType="VARCHAR" property="unidadBase" />
+    <result column="PESO_NETO" jdbcType="NUMERIC" property="pesoNeto" />
+    <result column="PESO_BRUTO" jdbcType="NUMERIC" property="pesoBruto" />
+    <result column="CODIGO_FAMILIA" jdbcType="VARCHAR" property="codigoFamilia" />
+    <result column="DESCRIPCION_FAMILIA" jdbcType="VARCHAR" property="descripcionFamilia" />
+    <result column="CODIGO_LINEA" jdbcType="VARCHAR" property="codigoLinea" />
+    <result column="DESCRIPCION_LINEA" jdbcType="VARCHAR" property="descripcionLinea" />
+  </resultMap>    
+  
+  <select id="listarProductoxNombre" resultMap="productoMap" parameterType="String">	  
+	SELECT DISTINCT
+		M.MATNR CODIGO_MATERIAL,
+		D.MAKTX DESCRIPCION,
+		M.MEINS UNIDAD_BASE,
+		V.VRKME UNIDAD_VENTA,
+		M.MATEN_PESONETOKG PESO_NETO,
+		M.MATEN_PESOBRUTOKG PESO_BRUTO,
+		NVL(C.ATWRT, 1) AS UNIDADES_PAQUETE
+	FROM SAPIO.SD_SLS_ERP_102_MATERIAL M
+	INNER JOIN SAPIO.SD_SLS_ERP_102_DESCCORTAMATERI D ON D.MATNR = M.MATNR
+	INNER JOIN SAPIO.SD_SLS_ERP_102_VENTASMATERIAL V ON V.MATNR = M.MATNR AND V.VKORG = 2000
+	LEFT JOIN SAPIO.SD_SLS_ERP_102_MATERIAL_CLASIF C ON C.MATNR = M.MATNR AND UPPER(C.ATBEZ) = 'UNIDADES POR PAQUETE'
+	WHERE M.MATNR IS NOT NULL
+	<if test="buscar != null and buscar != ''">
+		AND UPPER(CONCAT(M.MATNR || ' - ', D.MAKTX)) LIKE '%' || UPPER(#{buscar}) || '%'
+	</if>
+	AND ROWNUM <![CDATA[ <= ]]> 50
+  </select>
+  <select id="obtenerProductoxCodigo" resultMap="productoMap" parameterType="String">	  
+	SELECT DISTINCT
+		M.MATNR CODIGO_MATERIAL,
+		D.MAKTX DESCRIPCION,
+		M.MEINS UNIDAD_BASE,
+		V.VRKME UNIDAD_VENTA,
+		M.MATEN_PESONETOKG PESO_NETO,
+		M.MATEN_PESOBRUTOKG PESO_BRUTO,
+		NVL(C.ATWRT, 1) AS UNIDADES_PAQUETE
+	FROM SAPIO.SD_SLS_ERP_102_MATERIAL M
+	INNER JOIN SAPIO.SD_SLS_ERP_102_DESCCORTAMATERI D ON D.MATNR = M.MATNR
+	INNER JOIN SAPIO.SD_SLS_ERP_102_VENTASMATERIAL V ON V.MATNR = M.MATNR AND V.VKORG = 2000
+	LEFT JOIN SAPIO.SD_SLS_ERP_102_MATERIAL_CLASIF C ON C.MATNR = M.MATNR AND UPPER(C.ATBEZ) = 'UNIDADES POR PAQUETE'
+	WHERE M.MATNR IS NOT NULL
+	AND M.MATNR = #{codigoSap}
+	AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+  <select id="buscarProductoxCodigoSap" parameterType="java.util.Map" resultType="int">	  
+	 SELECT COUNT(*) FROM COMEXST_PRODUCTO
+	 WHERE PRODV_CODIGOSAP=#{codigoSap}
+  </select>  
+  <select id="obtenerProductoxCodigoSap" resultMap="productoMap" parameterType="String">	  
+	 SELECT PRODN_ID, PRODV_CODIGOSAP AS CODIGO, PRODV_DESCRIPCION as DESCRIPCION, PRODV_DESCRIPCIONJERARQUIA2
+	 FROM COMEXST_PRODUCTO
+	 WHERE PRODV_CODIGOSAP=#{codigoSap} AND PRODN_ESTADO=1
+	 ORDER BY PRODV_DESCRIPCION
+  </select>
+  <select id="obtenerProductoSap" resultMap="productoSapMap" parameterType="String">	  
+	SELECT 
+	    M.MATNR AS CODIGO,
+	    D.MAKTX AS DESCRIPCION,
+	    M.MEINS AS UNIDAD_BASE,
+	    M.MATEN_PESONETOKG PESO_NETO,
+	    M.MATEN_PESOBRUTOKG PESO_BRUTO,
+	    F.FAMIV_CODFAMILIA AS CODIGO_FAMILIA,
+	    F.VTEXT DESCRIPCION_FAMILIA,
+	    L.PRODH AS CODIGO_LINEA,
+	    L.VTEXT AS DESCRIPCION_LINEA
+	FROM SAPIO.SD_SLS_ERP_102_MATERIAL M
+	INNER JOIN SAPIO.SD_SLS_ERP_102_DESCCORTAMATERI D ON D.MATNR = M.MATNR
+	LEFT JOIN SAPIO.SD_SLS_ERP_101_E_FAMILIAPRODUC F ON F.FAMIV_CODFAMILIA = M.MATEV_CODFAMILIA
+	LEFT JOIN SAPIO.SD_SLS_ERP_100_E_LINEAPRODUCTO L ON L.PRODH = F.FAMIV_CODLINEA
+	AND M.MATNR = #{codigoSap}
+	AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+  <select id="obtenerUnidadesPaquetexCodigo" resultMap="productoSapMap" parameterType="String">	  
+	SELECT
+		MATNR AS CODIGO_MATERIAL,
+		NVL(ATWRT, '1') AS UNIDADES_PAQUETE 
+	FROM SAPIO.SD_SLS_ERP_102_MATERIAL_CLASIF
+	WHERE MATNR = LPAD(#{codigoSap}, 18, '0') AND UPPER(ATBEZ) = 'UNIDADES POR PAQUETE'
+	AND ROWNUM <![CDATA[ <= ]]> 1
+  </select>
+</mapper>

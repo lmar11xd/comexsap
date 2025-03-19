@@ -1,0 +1,7 @@
+<div class="comex-switch-container">
+  <label class="form-control-label">{{title}}<span *ngIf="isRequired" class="required-asterisk">*</span></label>
+  <label class="comex-switch">
+    <input type="checkbox" [disabled]="disabled" [(ngModel)]="value" (change)="change($event)">
+    <span class="slider rounded"></span>
+  </label>
+</div>

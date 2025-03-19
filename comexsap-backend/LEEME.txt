@@ -1,0 +1,26 @@
+================================================
+=== Mapear automaticamente la bd con mybatis ===
+================================================
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
+=== importar automaticamente wsdl soap ===
+================================================
+mvn generate-sources -P soap -DskipTests 
+
+=======================
+===== Generar WAR =====
+=======================
+Abrir terminal en la carpeta "comexsap-exportaciones-backend"
+ejecutar segun en el ambiente a desplegar(QA,PRD):
+mvn clean package -DskipTests 
+
+El compilado a desplegar es el archivo:
+comexsap-exportaciones-backend\target\comexsap-exportaciones-backend.original
+Antes de desplegar se debe renombrar por "comexsap-exportaciones-backend.war"
+
+=========================================
+===== Realizar pruebas con swaggger =====
+=========================================
+http://localhost:9095/comexsap-exportaciones-backend/swagger-ui.html
+
+

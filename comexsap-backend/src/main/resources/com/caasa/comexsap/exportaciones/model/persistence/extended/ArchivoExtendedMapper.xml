@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.ArchivoExtendedMapper">
+
+  <resultMap id="archivoMap" type="com.caasa.comexsap.exportaciones.model.to.ArchivoTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="IDCARPETA" jdbcType="VARCHAR" property="idCarpeta" />
+    <result column="NODEID" jdbcType="VARCHAR" property="nodeId" />
+    <result column="NOMBRE" jdbcType="VARCHAR" property="nombre" />
+    <result column="INFORMACION" jdbcType="VARCHAR" property="informacion" />
+    <result column="CARPETA" jdbcType="VARCHAR" property="carpeta" />
+    <result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+  </resultMap>      
+  <select id="obtenerArchivoxNombre" resultMap="archivoMap" parameterType="java.util.Map">	  
+	SELECT 
+	    D.CDOCN_ID AS ID,
+	    D.CDOCN_IDCARPETA AS IDCARPETA,
+	    C.CARPV_NOMBRE AS CARPETA,
+	    D.CDOCV_NOMBRE AS NOMBRE,
+	    D.CDOCN_ESTADO AS ESTADO
+	FROM COMEXSAP.COMEXST_CARPETADOCUMENTO D
+	INNER JOIN COMEXSAP.COMEXST_CARPETA C ON C.CARPN_ID = D.CDOCN_IDCARPETA
+	WHERE D.CDOCV_NOMBRE = #{nombreArchivo} AND D.CDOCN_IDCARPETA=#{idCarpeta} 
+  </select>
+  <select id="obtenerArchivoxId" resultMap="archivoMap" parameterType="java.util.Map">	  
+	SELECT 
+	    D.CDOCN_ID AS ID,
+	    D.CDOCN_IDCARPETA AS IDCARPETA,
+	    C.CARPV_NOMBRE AS CARPETA,
+	    D.CDOCV_NOMBRE AS NOMBRE,
+	    D.CDOCN_ESTADO AS ESTADO
+	FROM COMEXSAP.COMEXST_CARPETADOCUMENTO D
+	INNER JOIN COMEXSAP.COMEXST_CARPETA C ON C.CARPN_ID = D.CDOCN_IDCARPETA
+	WHERE D.CDOCN_ID = #{id}
+  </select>
+  <update id="eliminarArchivo" parameterType="java.util.Map">
+    UPDATE COMEXST_CARPETADOCUMENTO
+    SET 
+    	CDOCN_ESTADO = 0, 
+    	CDOCD_FECHAMODIFICACION = sysdate, 
+    	CDOCV_USUARIOMODIFICACION = #{usuario}
+    WHERE CDOCN_ID = #{id}
+  </update> 
+</mapper>

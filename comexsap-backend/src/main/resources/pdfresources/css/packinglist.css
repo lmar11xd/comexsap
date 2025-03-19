@@ -1,0 +1,114 @@
+body {
+	font-family: Arial, sans-serif;
+	color: #202020;
+}
+table {
+	width: 100%;
+	font-size: 9px;
+}
+div.header {
+	display: block;
+	position: running(header);
+}
+.header table tr td {
+	border: none;
+	padding: 10px;
+}
+.header img {
+	width: 80px !important;
+}
+.content {
+	page-break-after: always;
+}
+.body {
+	margin: 20px 10px;
+	/*page-break-after: always;*/
+	width: 15.4cm;
+}
+.body table tr td {
+	padding: 10px;
+}
+.container-table {
+	margin-bottom: 40px;
+}
+.container-table table {
+	text-align: center;
+}
+.container-table table tr th {
+	padding: 10px;
+	border-top: 1px solid #202020;
+	border-bottom: 1px solid #202020;
+}
+.container-table table tr td:first-child, .container-table table tr th:first-child {
+	width: 60px;
+	min-width: 60px;
+}
+.text-left {
+	text-align: left !important;
+}
+div.footer {
+	margin-top: 0cm;
+	display: block;
+	position: running(footer);
+}
+.footer table tr td {
+	border: none;
+}
+.footer a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #1867ab;
+	font-size: 9px;
+}
+.footer p {
+	text-align: center;
+}
+.footer img {
+	float: right;
+	margin-bottom: 4px;
+}
+
+@page{
+
+    @bottom-right {                 
+        content: element(footer);  
+        vertical-align: top;
+        padding-top: 10px;
+		/*border: solid red;*/
+    }
+
+    @top-right {
+        content: element(header); 
+        vertical-align: bottom;
+        padding-bottom: 10px;
+		/*border: solid green;*/
+    }
+
+    size: A4 portrait;
+    margin-top:2cm; 
+    margin-left:2cm; 
+    margin-right:2cm; 
+    margin-bottom:2cm; 
+}
+
+@media print {
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+}
+
+#pagenumber:before {
+    content: counter(page);
+}
+
+#pagecount:before {
+    content: counter(pages);
+}

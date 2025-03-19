@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- Ubicación del JAR JDBC del gestor de Base de datos a usar, en este caso Oracle  -->
+	<classPathEntry location="ojdbc8.jar" />	
+	<context id="MyBatis3_TablasConfig" targetRuntime="MyBatis3">
+	
+		<!-- Agrega método toString a objetos clase generados -->
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+	
+		<!-- No generamos los comentarios -->
+	    <commentGenerator>
+	        <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+<!--             <property name="addRemarkComments" value="false"/>	       -->
+	    </commentGenerator>
+	    <!--  Parámetros de conexión a la bd -->
+		<jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="jdbc:oracle:thin:@hanatest.aasa.com.pe:1521:caasadev"
+			userId="COMEXSAP" password="c0m3X$4P" />
+		
+		<javaModelGenerator targetPackage="com.caasa.comexsap.exportaciones.model.domain" targetProject="src/main/java">
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.caasa.comexsap.exportaciones.model.persistence" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.caasa.comexsap.exportaciones.model.persistence" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true"/>
+		</javaClientGenerator>
+
+		<!-- Generamos el codigo fuente de todas las tablas evitando la generación varios métodos -->
+		<!-- Los métodos enable*ByPrimaryKey se generan unicamente si existe llave primaria -->
+	    <table tableName="CONFIGT_%" modelType="flat"
+	    	   enableCountByExample="true"
+	    	   enableSelectByExample="true"
+	    	   enableUpdateByExample="true" 
+	    	   enableDeleteByExample="false"
+	    	   enableSelectByPrimaryKey="true"
+	    	   enableUpdateByPrimaryKey="true">
+	      <property name="useActualColumnNames" value="false"/>
+	      <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+	    </table>
+	</context>
+	
+	<context id="MyBatis3_TablasPropias" targetRuntime="MyBatis3">
+	
+		<!-- Agrega método toString a objetos clase generados -->
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+	
+		<!-- No generamos los comentarios -->
+	    <commentGenerator>
+	        <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+<!--             <property name="addRemarkComments" value="false"/>	       -->
+	    </commentGenerator>
+	    <!--  Parámetros de conexión a la bd -->
+		<jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="jdbc:oracle:thin:@hanatest.aasa.com.pe:1521:caasaqs4"
+			userId="COMEXSAP" password="c0m3X$4P" />
+		
+		<javaModelGenerator targetPackage="com.caasa.comexsap.exportaciones.model.domain" targetProject="src/main/java">
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.caasa.comexsap.exportaciones.model.persistence" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.caasa.comexsap.exportaciones.model.persistence" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true"/>
+		</javaClientGenerator>
+
+		<!-- Generamos el codigo fuente de todas las tablas evitando la generación varios métodos -->
+		<!-- Los métodos enable*ByPrimaryKey se generan unicamente si existe llave primaria -->
+	    <table tableName="COMEXST_%" modelType="flat"
+	    	   enableCountByExample="true"
+	    	   enableSelectByExample="true"
+	    	   enableUpdateByExample="true" 
+	    	   enableDeleteByExample="false"
+	    	   enableSelectByPrimaryKey="true"
+	    	   enableUpdateByPrimaryKey="true">
+	      <property name="useActualColumnNames" value="false"/>
+	      <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+	    </table>
+	</context>
+</generatorConfiguration>

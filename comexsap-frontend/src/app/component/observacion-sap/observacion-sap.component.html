@@ -1,0 +1,21 @@
+<div class="observacion-sap">
+  <button class="btn btn-warning" (click)="mostrarModal(modalObservacion)" [title]="mensaje">Ver Mensaje</button>
+</div>
+
+<ng-template #modalObservacion let-modalObservacion>
+  <div class="modal-header">
+    <h4 class="modal-title" style="color: #ffb22b;">Mensaje SAP</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container-obs">
+      <ol>
+        <div *ngFor="let mensaje of mensajes;">
+          <li>{{mensaje}}</li>
+        </div>
+      </ol>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning" (click)="modalObservacion.close()">OK</button>
+  </div>
+</ng-template>

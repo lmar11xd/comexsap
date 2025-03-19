@@ -1,0 +1,584 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="packinglistForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Datos de Packing List</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Cabecera
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navDatos="ngbNav" [(activeId)]="activeDatos" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos del Cliente</a>
+                      <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Código<span class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control text-uppercase" placeholder="PER.XXX.XX" formControlName="codigo">
+                                <div *ngIf="packinglistForm.controls['codigo'].invalid && packinglistForm.controls['codigo'].touched">
+                                  <div *ngIf="packinglistForm.controls['codigo'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6" style="display: flex; align-items: center;">
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Cliente<span class="required-asterisk">*</span></label>
+                                <input
+                                  *ngIf="!packinglistForm.controls['existeClienteSap'].value"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Nombre del cliente"
+                                  formControlName="nombreCliente" />
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Destinatario Mercanc&iacute;a</label>
+                                <ng-select *ngIf="packinglistForm.controls['existeClienteSap'].value"
+                                  formControlName="codigoDestinatario"
+                                  [items]="destinatarios"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="codigo"
+                                  (change)="seleccionarDestinatario($event)"
+                                  placeholder="Buscar código o descripción">
+                                </ng-select>
+                                <input
+                                  *ngIf="!packinglistForm.controls['existeClienteSap'].value"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Nombre del destinatario"
+                                  formControlName="nombreDestinatario" />
+                              </div>
+                            </div>
+                          </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                      <a ngbNavLink>Datos del Envío</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncoterm"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="packinglistForm.controls['idIncoterm'].invalid && packinglistForm.controls['idIncoterm'].touched">
+                                <div *ngIf="packinglistForm.controls['idIncoterm'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Origen<span class="required-asterisk">*</span></label>
+                              <input type="text" class="form-control" formControlName="puertoOrigen">
+                              <div *ngIf="packinglistForm.controls['idPuertoOrigen'].invalid && packinglistForm.controls['idPuertoOrigen'].touched">
+                                <div *ngIf="packinglistForm.controls['idPuertoOrigen'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Destino<span class="required-asterisk">*</span></label>
+                              <input type="text" class="form-control" formControlName="puertoDestino">
+                              <div *ngIf="packinglistForm.controls['idPuertoDestino'].invalid && packinglistForm.controls['idPuertoDestino'].touched">
+                                <div *ngIf="packinglistForm.controls['idPuertoDestino'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Lista de Precio<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idListaPrecio"
+                                [items]="listaPrecios"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="packinglistForm.controls['idListaPrecio'].invalid && packinglistForm.controls['idListaPrecio'].touched">
+                                <div *ngIf="packinglistForm.controls['idListaPrecio'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Tipo de Despacho<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idTipoDespacho"
+                                [items]="despachos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="packinglistForm.controls['idTipoDespacho'].invalid && packinglistForm.controls['idTipoDespacho'].touched">
+                                <div *ngIf="packinglistForm.controls['idTipoDespacho'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Moneda<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idMoneda"
+                                [items]="monedas"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="packinglistForm.controls['idMoneda'].invalid && packinglistForm.controls['idMoneda'].touched">
+                                <div *ngIf="packinglistForm.controls['idMoneda'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Condici&oacute;n Pago<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idCondicionPago"
+                                [items]="pagos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="packinglistForm.controls['idCondicionPago'].invalid && packinglistForm.controls['idCondicionPago'].touched">
+                                <div *ngIf="packinglistForm.controls['idCondicionPago'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Ruta<span class="required-asterisk">*</span></label>
+                              <input type="text" class="form-control" formControlName="ruta">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                      <a ngbNavLink>Datos del Aduana</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Agente Aduana</label>
+                                  <input type="text" class="form-control" formControlName="agenteAduana" placeholder="Agente Aduana">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Shipper</label>
+                                  <input type="text" class="form-control" formControlName="shipper" placeholder="Shipper">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Dirección Shipper</label>
+                                  <textarea rows="4" formControlName="direccionShipper"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Consignatario</label>
+                                  <input type="text" class="form-control" formControlName="consignatario" placeholder="Consignatario">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Dirección Consignatario</label>
+                                  <textarea rows="4" formControlName="direccionConsignatario"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Notificante</label>
+                                  <input type="text" class="form-control" formControlName="notificante" placeholder="Notificante">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Dirección Notificante</label>
+                                  <textarea rows="4" formControlName="direccionNotificante"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Glosa</label>
+                              <textarea rows="4" formControlName="glosa"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navDatos" class="mt-2"></div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Posición
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 60px;">Posici&oacute;n</th>
+                        <th style="min-width: 280px;">Material</th>
+                        <th style="min-width: 140px;">Cantidad Venta</th>
+                        <th style="min-width: 120px;">UM Venta</th>
+                        <th style="min-width: 100px;">Peso Toneladas</th>
+                        <th style="min-width: 100px;">Precio Unit. SAP</th>
+                        <th style="min-width: 120px;">Importe</th>
+                        <th style="min-width: 120px;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let posicionForm of posiciones.controls; let i = index" [formGroup]="posicionForm">
+                        <td>{{posicionForm.value.item}}</td>
+                        <td style="text-align: left !important;">{{posicionForm.value.codigoMaterial + ' - ' + posicionForm.value.descripcionMaterial}}</td>
+                        <td>{{posicionForm.value.cantidadVenta | number: '1.2-2'}}</td>
+                        <td>{{posicionForm.value.unidadMedidaVenta}}</td>
+                        <td>{{posicionForm.value.pesoToneladas | number: '1.2-2'}}</td>
+                        <td>{{posicionForm.value.precioUnitario | number: '1.2-2'}}</td>
+                        <td>{{posicionForm.value.importe | number: '1.2-2'}}</td>
+                        <td>
+                          <app-modal-componentes
+                            *ngIf="posicionForm.controls['esPadre'].value"
+                            [form]="posicionForm"
+                            [fechaListaPrecio]="packinglistForm.controls['fechaListaPrecio'].value"
+                            [idListaPrecio]="packinglistForm.controls['idListaPrecio'].value"
+                            [listaPrecios]="listaPrecios"
+                            [estadoDocumento]="packinglistForm.controls['estadoDocumento'].value"
+                            [esMaritimo]="true"
+                            >
+                          </app-modal-componentes>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="posiciones.length == 0" colspan="10">Sin posiciones</td>
+                        <td *ngIf="posiciones.length > 0" colspan="10">En total existen {{posiciones.length}} líneas de posiciones</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink><i class="fa fa-ship"></i> Información Marítima</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos Marítimos
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navContacto="ngbNav" [(activeId)]="activeContacto" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos de Carga</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-control-label">Agente Naviera</label>
+                              <input type="text" class="form-control" formControlName="agenteNaviera" placeholder="Agente Naviera">
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-control-label">Agente Carga</label>
+                              <input type="text" class="form-control" formControlName="agenteCarga" placeholder="Agente Carga">
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-control-label">Nave</label>
+                              <input type="text" class="form-control" formControlName="nave" placeholder="Nave">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink>Datos del Envío</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">ETA Origen</label>
+                                <p-calendar formControlName="etaOrigen" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">ETA Destino</label>
+                                <p-calendar formControlName="etaDestino" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha BL Programado</label>
+                                <p-calendar formControlName="fechaBlProgramado" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha BL Real</label>
+                                <p-calendar formControlName="fechaBlReal" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Carguío</label>
+                                <p-calendar formControlName="fechaCarguio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Envío Documento</label>
+                                <p-calendar formControlName="fechaEnvioDocumento" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Importe Flete</label>
+                                <input type="number" class="form-control" min="0" formControlName="importeFlete" placeholder="Importe Flete">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Importe Seguro</label>
+                                <input type="number" class="form-control" min="0" formControlName="importeSeguro" placeholder="Importe Seguro">
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                      <a ngbNavLink>Datos del Contenedor</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">N&uacute;mero Contenedor</label>
+                              <input type="number" class="form-control" formControlName="numeroContenedor" placeholder="Número Contenedor">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Booking</label>
+                              <input type="text" class="form-control" formControlName="booking" placeholder="Booking">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Bill of Landing</label>
+                              <input type="text" class="form-control" formControlName="billOfLanding" placeholder="Bill of Landing">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Guía DHL</label>
+                              <input type="text" class="form-control" formControlName="guiaDHL" placeholder="Guía DHL">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                      <a ngbNavLink>Datos de Exportación</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">DAM</label>
+                              <input type="text" class="form-control" formControlName="dam" placeholder="DAM">
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha DAM</label>
+                              <p-calendar formControlName="fechaDam" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Régimen</label>
+                              <ng-select
+                                formControlName="idRegimen"
+                                [items]="regimenes"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha DAM Regularización</label>
+                              <p-calendar formControlName="fechaDamRegularizacion" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha Entrega DAM a DRAWBACK</label>
+                              <p-calendar formControlName="fechaDamDrawback" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha DAM41</label>
+                              <p-calendar formControlName="fechaDam41" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navContacto" class="mt-2"></div>
+                </div>
+              </ng-template>
+          </li>
+          <li [ngbNavItem]="3">
+            <a ngbNavLink><i class="fa fa-ship"></i>Carga de Datos</a>
+            <ng-template ngbNavContent>
+            <div class="row container-title">
+              <div class="col-sm-6 title">
+                <label class="title-line" ></label>Codigo : {{codigoPacking}}
+              </div>
+
+              <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                <button class="btn btn-outline-info" (click)="generarPdf(false, true)">VER PDF</button>
+                <button class="btn btn-info" (click)="guardarPackingList()">Guardar</button>
+              </div>
+            </div>
+
+            <div class="comex-container-detail">
+              <div class="row container-title">
+                <div class="col-sm-6 title">
+                  <label class="title-line"></label>Listado PackingList
+                </div>
+                <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                  <input #file type="file" style="display:none" (change)="cargarPackingList($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+                  <button  class="btn btn-success" (click)="descargarPackingList()"><i class="pi pi-file-excel"></i> Descargar</button>
+                  <button class="btn btn-outline-info" #upload (click)="file.click()"><i class="fas fa-plus"></i> Agregar</button>
+                  <button class="btn btn-outline-danger" (click)="quitarPackingList()"><i class="fas fa-trash"></i> Retirar</button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table  class="table  table-bordered comex-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width: 40px;">
+                        <input *ngIf="packinglistForm.controls['estadoDocumento'].value == 5" type="checkbox" name="selectAll" (change)="seleccionarTodasLosPackingList($event)"/>
+                      </th>
+                      <th style="min-width: 60px;">N° Box</th>
+                      <th style="min-width: 60px;">Material</th>
+                      <th style="min-width: 240px;">Descripci&oacute;n</th>
+                      <th style="min-width: 100px;">Cantidad (Unidades)</th>
+                      <th style="min-width: 100px;">Peso Bruto (Kg)</th>
+                      <th style="min-width: 150px;">Dimensiones (Cm)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let packingForm of packinglist.controls; let i = index" [formGroup]="packingForm" >
+                      <td><input type="checkbox" name="selectItem" formControlName="checked" /></td>
+                      <td>{{packingForm.value.numero}}</td>
+                      <td>{{packingForm.value.codigo}}</td>
+                      <td style="text-align: left !important;">{{packingForm.value.material}}</td>
+                      <td>{{packingForm.value.cantidad}}</td>
+                      <td>{{packingForm.value.pesoBruto}}</td>
+                      <td>{{packingForm.value.dimension}}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td *ngIf="packinglist.length == 0" colspan="7">Sin posiciones</td>
+                      <td *ngIf="packinglist.length > 0" colspan="7">En total existen {{packinglist.length}} líneas de posiciones</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            </ng-template>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalGuardadoExitoso let-modalGuardadoExitoso>
+  <div class="modal-header">
+    <h4 class="modal-title">Packing List</h4>
+  </div>
+  <div class="modal-body">
+    <p>El packingList se guardó de <br>manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modalGuardadoExitoso.close();ngOnInit();">Ok</button>
+  </div>
+</ng-template>
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<ng-template #modalVerPdf let-modalVerPdf>
+  <div class="modal-header">
+    <h4 class="modal-title">Packing List {{codigoPacking}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container-pdf">
+      <pdf-viewer
+        [src]="pdfSrc"
+        [render-text]="true"
+        [original-size]="false"
+        style="width: 100%; height: calc(100vh - 200px);">
+      </pdf-viewer>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="descargarPdf()">Descargar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalVerPdf.close()">Cerrar</button>
+  </div>
+</ng-template>
+
+<router-outlet></router-outlet>
+

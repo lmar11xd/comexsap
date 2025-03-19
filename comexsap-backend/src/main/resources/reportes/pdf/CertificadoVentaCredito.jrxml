@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="maritimo_exportacion" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="02051ae0-63c7-45e3-9141-a789a3f8cc6c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="montoTotal" class="java.lang.String"/>
+	<parameter name="textoFecha" class="java.lang.String"/>
+	<parameter name="formaPago" class="java.lang.String"/>
+	<parameter name="textoAduana" class="java.lang.String"/>
+	<parameter name="factura" class="java.lang.String"/>
+	<parameter name="textoDestinatario" class="java.lang.String"/>
+	<parameter name="textoCliente" class="java.lang.String"/>
+	<parameter name="logo-seguridad" class="java.io.InputStream"/>
+	<parameter name="logo-aceros" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image onErrorType="Blank">
+				<reportElement x="0" y="0" width="80" height="80" uuid="2252e020-1645-442f-b95a-05b2177d1803">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo-aceros}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="322">
+			<staticText>
+				<reportElement x="80" y="10" width="400" height="20" uuid="138f7844-91cf-401f-999d-5f7ed926cc58">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICACIÓN DE VENTA AL CRÉDITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="80" height="15" uuid="c49c8df2-66a3-42a4-93b5-04e7dd960bf3">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Señores:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="190" width="173" height="18" uuid="66943ab6-b492-403c-94fd-dc44c8cfa54a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTURA COMERCIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="190" width="39" height="18" uuid="9dedcd51-a560-4d39-851d-571d4a35a102">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USD:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="223" y="190" width="124" height="18" uuid="cbfa1903-9db0-4c6c-98cc-ee41cca1591d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{factura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="190" width="116" height="18" uuid="8bccec82-6e27-4677-bccd-e5d76977898e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montoTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="220" width="480" height="15" uuid="dd9a83c7-1ceb-426f-99e0-9007ca77aaf0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Venta bajo los acuerdos establecidos para su cancelación declarados en la Factura Comercial]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="238" width="200" height="15" uuid="e044e07d-8ce3-4727-988f-b99677d688de">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{formaPago}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="270" width="480" height="15" uuid="d743a6df-630d-4696-a165-3540e0542d47">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Es cuanto certificamos para fines de trámites aduaneros, a los]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="288" width="300" height="15" uuid="8198276c-7ba8-4e5d-8568-a42175398674">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{textoFecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="149" width="480" height="15" uuid="8e18f922-1fdb-406c-9e0e-38bfc289d54f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[a la siguiente factura:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="40" y="132" width="480" height="15" uuid="e76eb8b2-2dd1-463b-b0dc-9a421c1c7538">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{textoDestinatario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="115" width="480" height="15" uuid="e03337b8-4695-461c-8aee-fd920bd9026c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{textoCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="57" width="450" height="15" uuid="db637a51-851e-4ae7-84ab-7bfbe26b2049">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{textoAduana}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="40" y="18" width="100" height="15" uuid="b5b3c98b-e306-4f4e-bedd-5173f1013075">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Atentamente,]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="95" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="5" width="555" height="65" uuid="d6120537-e0df-4783-8e85-258ff2ef9429">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[LOS PESOS DE LAS BARRAS SON REFERENCIALES Y ESTAN SUJETOS A VARIACIONES DE FABRICACIÓN
+Datos bancarios: A favor de CORPORACION ACEROS AREQUIPA S. A. / Cta. Cte. N° 201030008125009 / Banco de Crédito del Perú - Sucursal MIAMI / 121 Alambra Plaza -
+Suite 1200 / Coral Gables, FL 33134 - USA / Teléfono (305) - 448-0971 / FED ABA: 067015355 / Swift BIC: BCPLUS33
+Lima. Av. Antonio Miró Quesada N° 425, Piso 17, Magalena del Mar, Lima 17 - Perú - Tel(51-01) 517 1800.
+Arequipa. Calle Jacinto Ibañez 111, Pque. Industrial - Arequipa - Perú - Tel(51-054) 23 2430.
+Pisco.Panamericana Sur Km. 240 - Ica - Perú - Tel(51-056) 580 830.
+Registro de Personas Jurídicas del Callao, Partida Electrónica N° 70627037.]]></text>
+			</staticText>
+			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
+				<reportElement x="0" y="71" width="200" height="10" forecolor="#152BAB" uuid="3c86a413-ee43-41db-8e94-cd211fca4fd3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["www.acerosarequipa.com"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://www.acerosarequipa.com"]]></hyperlinkReferenceExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement x="455" y="61" width="100" height="30" uuid="80b0817c-2689-457a-8e81-544d794b1316">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo-seguridad}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.PedidoIntercompanyExtendedMapper">
+
+	<resultMap id="pedidoIntercompanyMap" type="com.caasa.comexsap.exportaciones.model.to.PedidoIntercompanyTO">
+  
+		<result column="CODIGOPEDIDO" jdbcType="VARCHAR" property="codigoPedido" />
+		
+		<result column="IDCLIENTE" jdbcType="NUMERIC" property="idCliente" />
+		<result column="CODIGOCLIENTE" jdbcType="VARCHAR" property="codigoCliente" />
+		<result column="NOMBRECLIENTE" jdbcType="VARCHAR" property="nombreCliente" />
+		
+		<result column="IDDESTINATARIO" jdbcType="NUMERIC" property="idDestinatario" />
+		<result column="CODIGODESTINATARIO" jdbcType="VARCHAR" property="codigoDestinatario" />
+		<result column="NOMBREDESTINATARIO" jdbcType="VARCHAR" property="nombreDestinatario" />
+		
+		<result column="IDINCOTERM" jdbcType="NUMERIC" property="idIncoterm" />
+		<result column="CODIGOINCOTERM" jdbcType="VARCHAR" property="codigoIncoterm" />
+		
+		<result column="IDMONEDA" jdbcType="NUMERIC" property="idMoneda" />
+		<result column="CODIGOMONEDA" jdbcType="VARCHAR" property="codigoMoneda" />
+		
+		<result column="FECHALISTAPRECIO" jdbcType="TIMESTAMP" property="fechaListaPrecio" />
+		<result column="IDLISTAPRECIO" jdbcType="NUMERIC" property="idListaPrecio" />
+		<result column="CODIGOLISTAPRECIO" jdbcType="VARCHAR" property="codigoListaPrecio" />
+		
+		<result column="IDCENTRO" jdbcType="NUMERIC" property="idPuertoCentro" />
+		<result column="CODIGOCENTRO" jdbcType="VARCHAR" property="codigoCentro" />
+		<result column="NOMBRECENTRO" jdbcType="VARCHAR" property="nombreCentro" />
+		
+		<result column="IDCALMACEN" jdbcType="NUMERIC" property="idAlmacen" />
+		<result column="CODIGOALMACEN" jdbcType="VARCHAR" property="codigoAlmacen" />
+		<result column="NOMBREALMACEN" jdbcType="VARCHAR" property="nombreAlmacen" />
+		
+		<result column="IDCONDICIONPAGO" jdbcType="NUMERIC" property="idCondicionPago" />
+		<result column="CODIGOCONDICIONPAGO" jdbcType="VARCHAR" property="codigoCondicionPago" />
+		
+		<result column="IDPUERTOORIGEN" jdbcType="NUMERIC" property="idPuertoOrigen" />
+		<result column="CODIGOPUERTOORIGEN" jdbcType="VARCHAR" property="codigoPuertoOrigen" />
+		<result column="NOMBREPUERTOORIGEN" jdbcType="VARCHAR" property="nombrePuertoOrigen" />
+		
+		<result column="IDPUERTODESTINO" jdbcType="NUMERIC" property="idPuertoDestino" />
+		<result column="CODIGOPUERTODESTINO" jdbcType="VARCHAR" property="codigoPuertoDestino" />
+		<result column="NOMBREPUERTODESTINO" jdbcType="VARCHAR" property="nombrePuertoDestino" />
+		
+		<result column="IDRUTA" jdbcType="NUMERIC" property="idRuta" />
+		<result column="CODIGORUTA" jdbcType="VARCHAR" property="codigoRuta" />
+		<result column="NOMBRERUTA" jdbcType="VARCHAR" property="nombreRuta" />
+		
+		<result column="IDDESPACHO" jdbcType="NUMERIC" property="idDespacho" />
+		<result column="CODIGODESPACHO" jdbcType="VARCHAR" property="codigoDespacho" />
+		<result column="NOMBREDESPACHO" jdbcType="VARCHAR" property="nombreDespacho" />
+    
+	</resultMap>
+  
+	<resultMap id="exportacionIntercompanyPosicionMap" type="com.caasa.comexsap.exportaciones.model.to.ExportacionIntercompanyPosicionTO">
+	    <id column="ID" jdbcType="NUMERIC" property="id" />
+	    <result column="CODIGOPEDIDO" jdbcType="NUMERIC" property="codigoPedido" />
+	    <result column="IDPRODUCTO" jdbcType="NUMERIC" property="idProducto" />
+	    <result column="DESCRIPCIONPRODUCTO" jdbcType="VARCHAR" property="descripcionProducto" />
+	    <result column="DESCRIPCIONCOMERCIALPRODUCTO" jdbcType="VARCHAR" property="descripcionComercialProducto" />
+	    <result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />
+	    <result column="CANTIDADVENTA" jdbcType="NUMERIC" property="cantidadVenta" />
+	    <result column="IDUNIDADMEDIDA" jdbcType="NUMERIC" property="idUnidadMedida" />
+	    <result column="CODIGOSAPUNIDADMEDIDA" jdbcType="VARCHAR" property="codigoSapUnidadMedida" />
+	    <result column="DESCRIPCIONUNIDADMEDIDA" jdbcType="VARCHAR" property="descripcionUnidadMedida" />
+	    <result column="IDUNIDADMEDIDAVENTA" jdbcType="NUMERIC" property="idUnidadMedidaVenta" />
+	    <result column="CODIGOSAPUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="codigoSAPUnidadMedidaVenta" />
+	    <result column="DESCRIPCIONUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="descripcionUnidadMedidaVenta" />
+	    <result column="IDCENTRO" jdbcType="NUMERIC" property="idCentro" />
+	    <result column="CODIGOSAPCENTRO" jdbcType="VARCHAR" property="codigoSapCentro" />
+	    <result column="DESCRIPCIONCENTRO" jdbcType="VARCHAR" property="descripcionCentro" />
+	    <result column="IDALMACEN" jdbcType="NUMERIC" property="idAlmacen" />
+	    <result column="CODIGOSAPALMACEN" jdbcType="VARCHAR" property="codigoSapAlmacen" />
+	    <result column="DESCRIPCIONALMACEN" jdbcType="VARCHAR" property="descripcionAlmacen" />
+	    <result column="PESOTONELADA" jdbcType="NUMERIC" property="pesoTonelada" />
+	    <result column="FECHADISPONIBILIDAD" jdbcType="DATE" property="fechaDisponibilidad" />
+	    <result column="PRECIOUNITARIO" jdbcType="NUMERIC" property="precioUnitario" />
+	    <result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+	    <result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+	    <result column="MENSAJESAP" jdbcType="VARCHAR" property="mensajeSap" />
+	    <result column="BLOQUEO" jdbcType="VARCHAR" property="bloqueo" />
+	    <result column="CANTIDADSALDO" jdbcType="NUMERIC" property="cantidadSaldo" />
+	    <result column="CODIGOMONEDA" jdbcType="VARCHAR" property="codigoMoneda" />
+	    <result column="CODIGOPARTIDAARANCELARIA" jdbcType="VARCHAR" property="codigoPartidaArancelaria" />
+	    <result column="CODIGOSAP" jdbcType="VARCHAR" property="codigoSAP" />
+	    <result column="ENTREGA" jdbcType="VARCHAR" property="entrega" />
+	    <result column="FOLIO" jdbcType="VARCHAR" property="folio" />
+	    <result column="IDEXPORTACION" jdbcType="NUMERIC" property="idExportacion" />
+	    <result column="IDMONEDA" jdbcType="NUMERIC" property="idMoneda" />
+	    <result column="IDPARTIDAARANCELARIA" jdbcType="NUMERIC" property="idPartidaArancelaria" />
+	    <result column="IDPRODUCTO" jdbcType="NUMERIC" property="idProducto" />
+	    <result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+	    <result column="NOMBREMONEDA" jdbcType="VARCHAR" property="nombreMoneda" />
+	    <result column="NOMBREPARTIDAARANCELARIA" jdbcType="VARCHAR" property="nombrePartidaArancelaria" />
+	    <result column="PEDIDOSAP" jdbcType="VARCHAR" property="pedidoSap" />
+	    <result column="CODIGOSAP" jdbcType="VARCHAR" property="codigoSAP" />
+	    <result column="REFERENCIA" jdbcType="VARCHAR" property="referencia" />
+	 </resultMap>
+ 
+ 	<resultMap id="pedidoPosicionMap" type="com.caasa.comexsap.exportaciones.model.to.ExportacionPedidoPosicionTO">
+		<id column="ID" jdbcType="NUMERIC" property="id" />
+		<result column="ITEM" jdbcType="NUMERIC" property="item" />
+		<result column="IDPRODUCTO" jdbcType="NUMERIC" property="idProducto" />
+		<result column="CODIGOPEDIDO" jdbcType="VARCHAR" property="codigoPedido" />
+		<result column="CODIGOSAPCLIENTE" jdbcType="VARCHAR" property="codigoSapCliente" />
+		<result column="DESCRIPCIONPRODUCTO" jdbcType="VARCHAR" property="descripcionProducto" />
+		<result column="DESCRIPCIONCOMERCIALPRODUCTO" jdbcType="VARCHAR" property="descripcionComercialProducto" />
+		<result column="CANTIDADSALDO" jdbcType="NUMERIC" property="cantidadSaldo" />
+		<result column="CANTIDADTONELADA" jdbcType="NUMERIC" property="cantidadTonelada" />
+		<result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />
+		<result column="CANTIDADVENTA" jdbcType="NUMERIC" property="cantidadVenta" />
+		<result column="IDUNIDADMEDIDA" jdbcType="NUMERIC" property="idUnidadMedida" />
+		<result column="CODIGOSAPUNIDADMEDIDA" jdbcType="VARCHAR" property="codigoSapUnidadMedida" />
+		<result column="DESCRIPCIONUNIDADMEDIDA" jdbcType="VARCHAR" property="descripcionUnidadMedida" />
+		<result column="IDUNIDADMEDIDAVENTA" jdbcType="NUMERIC" property="idUnidadMedidaVenta" />
+		<result column="CODIGOSAPUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="codigoSapUnidadMedidaVenta" />
+		<result column="DESCRIPCIONUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="descripcionUnidadMedidaVenta" />
+		<result column="IDCENTRO" jdbcType="NUMERIC" property="idCentro" />
+		<result column="CODIGOSAPCENTRO" jdbcType="VARCHAR" property="codigoSapCentro" />
+		<result column="DESCRIPCIONCENTRO" jdbcType="VARCHAR" property="descripcionCentro" />
+		<result column="IDALMACEN" jdbcType="NUMERIC" property="idAlmacen" />
+		<result column="CODIGOSAPALMACEN" jdbcType="VARCHAR" property="codigoSapAlmacen" />
+		<result column="DESCRIPCIONALMACEN" jdbcType="VARCHAR" property="descripcionAlmacen" />
+		<result column="PESOTONELADA" jdbcType="NUMERIC" property="pesoTonelada" />
+		<result column="PRECIOUNITARIO" jdbcType="NUMERIC" property="precioUnitario" />
+		<result column="PRECIOUNITARIOSAP" jdbcType="NUMERIC" property="precioUnitarioSap" />
+		<result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+		<result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+		<result column="CODIGOMONEDA" jdbcType="VARCHAR" property="codigoMoneda" />
+		<result column="CODIGOSAP" jdbcType="VARCHAR" property="codigoSap" />
+		<result column="IDCONDICIONPAGO" jdbcType="NUMERIC" property="idCondicionPago" />
+		<result column="IDINCOTERM" jdbcType="NUMERIC" property="idIncoterm" />
+		<result column="IDMONEDA" jdbcType="NUMERIC" property="idMoneda" />
+		<result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+		<result column="NOMBREMONEDA" jdbcType="VARCHAR" property="nombreMoneda" />
+		<result column="UNIDADMEDIDABASE" jdbcType="VARCHAR" property="unidadMedida" />
+		<result column="UNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="unidadMedidaVenta" />
+	</resultMap>
+	
+	<select id="listarPedidosIntercompanySapDisponibles" resultMap="pedidoPosicionMap" parameterType="int">  	
+		SELECT * 
+		FROM (
+		    SELECT 
+		        A.PECAV_ID_NUMERO_PEDIDO AS CODIGOPEDIDO, 
+		        A.PECAV_ID_CLIENTE_SAP AS CODIGOSAPCLIENTE,
+		        A.PECAV_DIRECCION_REPARTO AS CODIGOSAPDESTINATARIO,
+		        
+		        LTRIM(B.PEDEV_ID_POSICION, '0') AS ITEM,
+		        LTRIM(B.PEDEV_CODIGO_MATERIAL, '0') AS CODIGOSAP,
+		        MD.MAKTX AS DESCRIPCIONPRODUCTO,
+		        B.PEDEN_CANTIDAD AS CANTIDAD,
+		        B.PEDEN_CANTIDAD AS CANTIDADVENTA,
+		        
+		        (B.PEDEN_CANTIDAD - 
+		            NVL((SELECT 
+		            SUM(EP.EPEDN_CANTIDADVENTA)
+		            FROM COMEXSAP.COMEXST_EXPORTACIONPEDIDO EP
+		            WHERE EP.EPEDV_PEDIDOSAP = A.PECAV_ID_NUMERO_PEDIDO 
+		            AND EP.EPEDV_CODIGOSAP = LTRIM(B.PEDEV_CODIGO_MATERIAL, '0') 
+		            AND EP.EPEDN_ESTADO = 1), 0)
+		        ) AS CANTIDADSALDO,
+		
+		        B.PEDEN_INCOTERM_PRECIO_VENTA AS PRECIOUNITARIO,
+		        B.PEDEN_VALOR_VENTA AS IMPORTE,
+		        B.PEDEN_VALOR_VENTA_NETO AS IMPORTE_NETO,
+		        B.PEDEN_PESO_PRODUCTO_TN AS PESOTONELADA,
+		        B.PEDEV_TIPO_MONEDA AS CODIGOMONEDA,
+		        
+		        UM.UMEDN_ID AS IDUNIDADMEDIDA,
+		        B.PEDEV_TIPO_UNIDAD_MEDIDA AS CODIGOSAPUNIDADMEDIDA,
+		        UM.UMEDN_ID AS IDUNIDADMEDIDAVENTA,
+		        B.PEDEV_TIPO_UNIDAD_MEDIDA AS CODIGOSAPUNIDADMEDIDAVENTA,
+		        
+		        CEN.CENTN_ID AS IDCENTRO,
+		        A.PECAV_COD_CENTRO AS CODIGOSAPCENTRO,
+		        CEN.CENTV_DESCRIPCION AS DESCRIPCIONCENTRO,
+		        
+		        ALM.ALMAN_ID AS IDALMACEN,
+		        A.PECAV_COD_ALMACEN AS CODIGOSAPALMACEN,
+		        ALM.ALMAV_DESCRIPCION AS DESCRIPCIONALMACEN
+		    FROM SAPIO.SCOGVST_PEDIDO_CABECERA A
+		    INNER JOIN SAPIO.SCOGVST_PEDIDO_DETALLE B ON B.PEDEV_ID_NUMERO_PEDIDO = A.PECAV_ID_NUMERO_PEDIDO
+		    INNER JOIN SAPIO.SD_SLS_ERP_102_DESCCORTAMATERI MD ON MD.MATNR = B.PEDEV_CODIGO_MATERIAL
+		    INNER JOIN PORTALSD.PVENDED_CLIENTE C ON C.COD_CLIENTE_SAP = A.PECAV_ID_CLIENTE_SAP
+		    INNER JOIN PORTALSD.PVENDED_CLIENTE_INTERLOCUTOR CI ON CI.COD_CLIENTE_SAP = C.COD_CLIENTE_SAP AND CI.CODIGO_RELACIONADO = A.PECAV_DIRECCION_REPARTO AND CI.TIPO_RELACION = 'WE'
+		    INNER JOIN PORTALSD.PVENDED_CLIENTE DEST ON DEST.COD_CLIENTE_SAP = CI.CODIGO_RELACIONADO
+		    INNER JOIN COMEXSAP.COMEXST_CENTRO CEN ON CEN.CENTV_CODIGOSAP = A.PECAV_COD_CENTRO
+		    INNER JOIN COMEXSAP.COMEXST_ALMACEN ALM ON ALM.ALMAV_CODIGOSAP = A.PECAV_COD_ALMACEN
+		    INNER JOIN COMEXSAP.COMEXST_UNIDADMEDIDA UM ON UM.UMEDV_CODIGOSAP = B.PEDEV_TIPO_UNIDAD_MEDIDA AND UM.UMEDN_ESTADO = 1
+		    INNER JOIN COMEXSAP.COMEXST_CLIENTE_INTERCOMPANY CI ON CI.CINTV_CODIGO_CLIENTE = A.PECAV_ID_CLIENTE_SAP AND CI.CINTV_CODIGO_DESTINATARIO = A.PECAV_DIRECCION_REPARTO
+		    WHERE A.PECAV_NUMERO_ORDEN_COMPRA LIKE 'Autom.%' AND A.PECAV_CLASE_PEDIDO = 'ZEXP'
+		    ORDER BY A.PECAV_ID_NUMERO_PEDIDO DESC, B.PEDEV_ID_POSICION ASC
+		)
+		WHERE CANTIDADSALDO > 0
+		<if test="codigos != null and codigos.length > 0">
+			AND CODIGOPEDIDO IN 
+			<foreach collection="codigos" item="item" open="(" close=")" separator=",">
+			 UPPER(#{item})
+			</foreach>	
+		 </if>
+		 <if test="clientes != null and clientes.length > 0">
+			AND CODIGOSAPCLIENTE IN 
+			<foreach collection="clientes" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+		 </if>
+		 AND ROWNUM <![CDATA[ <= ]]>  50
+	</select>
+  
+	<select id="listarPedidoIntercompanySapxFiltro" resultMap="pedidoIntercompanyMap" parameterType="String">	  
+		SELECT 
+		    A.PECAV_ID_NUMERO_PEDIDO AS CODIGOPEDIDO,
+		    
+		    NVL(CCLI.CLIEN_ID, 0) AS IDCLIENTE,
+		    A.PECAV_ID_CLIENTE_SAP AS CODIGOCLIENTE,
+		    C.RAZON_SOCIAL AS NOMBRECLIENTE,
+		    
+	        NVL(CDES.DESTN_ID, 0) AS IDDESTINATARIO,
+		    A.PECAV_DIRECCION_REPARTO AS CODIGODESTINATARIO,
+		    DEST.DIRECCION AS NOMBREDESTINATARIO,
+		    
+		    INC.ID_PARAMETRO AS IDINCOTERM,
+		    A.PECAV_TIPO_INCOTERMS AS CODIGOINCOTERM,
+		    
+		    MON.ID_PARAMETRO AS IDMONEDA,
+		    A.PECAV_CODIGO_MONEDA AS CODIGOMONEDA,
+		    
+		    A.PECAD_FECHA_PRECIO AS FECHALISTAPRECIO,
+		    NVL(LPR.ID_PARAMETRO, 0) AS IDLISTAPRECIO,
+	    	A.PECAV_CODIGO_TARIFA AS CODIGOLISTAPRECIO,
+		    
+		    NVL(PO.PUERN_ID, 0) AS IDPUERTOORIGEN,
+		    PO.PUERV_CODIGOSAP AS CODIGOPUERTOORIGEN,
+		    PO.PUERV_DESCRIPCION AS NOMBREPUERTOORIGEN,
+		    
+		    NVL(PD.PUERN_ID, 0) AS IDPUERTODESTINO,
+		    PD.PUERV_CODIGOSAP AS CODIGOPUERTODESTINO,
+		    PD.PUERV_DESCRIPCION AS NOMBREPUERTODESTINO,
+		    
+		    NVL(RUTA.ID_PARAMETRO, 0) AS IDRUTA,
+		    RUTA.VALOR_PARAMETRO AS CODIGORUTA,
+		    RUTA.DESCRIPCION AS NOMBRERUTA,
+		    
+		    A.PECAV_COD_CENTRO AS CODIGOCENTRO,
+		    A.PECAV_COD_ALMACEN AS CODIGOALMACEN,
+		    
+		    CON.ID_PARAMETRO AS IDCONDICIONPAGO,
+		    A.PECAV_CODIGO_TIPO_FORMA_PAGO AS CODIGOCONDICIONPAGO,
+		    
+		    NVL(DESPACHO.ID_PARAMETRO, 0) AS IDDESPACHO,
+            DESPACHO.VALOR_PARAMETRO AS CODIGODESPACHO,
+            DESPACHO.DESCRIPCION AS NOMBREDESPACHO
+		FROM SAPIO.SCOGVST_PEDIDO_CABECERA A
+		INNER JOIN PORTALSD.PVENDED_CLIENTE C ON C.COD_CLIENTE_SAP = A.PECAV_ID_CLIENTE_SAP
+		INNER JOIN PORTALSD.PVENDED_CLIENTE_INTERLOCUTOR CI ON CI.COD_CLIENTE_SAP = C.COD_CLIENTE_SAP AND CI.CODIGO_RELACIONADO = A.PECAV_DIRECCION_REPARTO AND CI.TIPO_RELACION = 'WE'
+		INNER JOIN PORTALSD.PVENDED_CLIENTE DEST ON DEST.COD_CLIENTE_SAP = CI.CODIGO_RELACIONADO
+		INNER JOIN COMEXSAP.CONFIGT_PARAMETRO INC ON INC.CODIGO_DOMINIO = 'D003' AND INC.VALOR_PARAMETRO = A.PECAV_TIPO_INCOTERMS
+		INNER JOIN COMEXSAP.CONFIGT_PARAMETRO MON ON MON.CODIGO_DOMINIO = 'D006' AND MON.VALOR_PARAMETRO = A.PECAV_CODIGO_MONEDA
+		INNER JOIN COMEXSAP.CONFIGT_PARAMETRO CON ON CON.CODIGO_DOMINIO = 'D011' AND CON.VALOR_PARAMETRO = A.PECAV_CODIGO_TIPO_FORMA_PAGO
+	 	INNER JOIN COMEXSAP.CONFIGT_PARAMETRO LPR ON LPR.CODIGO_DOMINIO = 'D013' AND LPR.VALOR_PARAMETRO = A.PECAV_CODIGO_TARIFA	LEFT JOIN COMEXSAP.COMEXST_CLIENTE CCLI ON CCLI.CLIEV_CODIGOSAP = A.PECAV_ID_CLIENTE_SAP
+	    LEFT JOIN COMEXSAP.COMEXST_DESTINATARIO CDES ON CDES.DESTV_CODIGOSAP = A.PECAV_DIRECCION_REPARTO
+		LEFT JOIN COMEXSAP.CONFIGT_PARAMETRO RUTA ON RUTA.CODIGO_DOMINIO = 'D012' AND RUTA.VALOR_PARAMETRO = (
+		    CASE
+		        WHEN A.PECAV_COD_CENTRO = '2100' THEN 'XA2001'
+		        WHEN A.PECAV_COD_CENTRO = '3100' THEN 'XA3027'
+		        ELSE NULL
+		    END
+		)
+		LEFT JOIN COMEXSAP.COMEXST_PUERTO PO ON PO.PUERV_CODIGOSAP = (
+		    CASE
+		        WHEN A.PECAV_COD_CENTRO = '2100' THEN '589141'
+		        WHEN A.PECAV_COD_CENTRO = '3100' THEN '589010'
+		        ELSE NULL
+		    END
+		)
+		LEFT JOIN COMEXSAP.COMEXST_PUERTO PD ON PD.PUERV_CODIGOSAP = (
+		    CASE
+		        WHEN A.PECAV_ID_CLIENTE_SAP = '1800000003' THEN '169030'
+		        WHEN A.PECAV_ID_CLIENTE_SAP = '1800000051' THEN '239010'
+		        ELSE NULL
+		    END
+		)
+		LEFT JOIN COMEXSAP.CONFIGT_PARAMETRO DESPACHO ON DESPACHO.CODIGO_DOMINIO = 'D008' AND DESPACHO.ID_PARAMETRO = (
+		    CASE
+		        WHEN A.PECAV_COD_CENTRO = '2100' AND A.PECAV_COD_ALMACEN = '2113' THEN 3
+		        WHEN A.PECAV_COD_CENTRO = '3100' AND A.PECAV_COD_ALMACEN = '3113' THEN 4
+		        ELSE NULL
+		    END
+		)
+		WHERE A.PECAV_NUMERO_ORDEN_COMPRA LIKE 'Autom.%' AND A.PECAV_CLASE_PEDIDO = 'ZEXP'
+		<if test="pedidos != null and pedidos.length > 0">
+			AND A.PECAV_ID_NUMERO_PEDIDO IN 
+			<foreach collection="pedidos" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+		</if>
+	</select>
+	
+	<select id="listarPosicionxIdExportacion" resultMap="exportacionIntercompanyPosicionMap" parameterType="int">	  
+		SELECT 
+			BLOQUEO,
+			CANTIDAD,
+			CANTIDADSALDO,
+			CANTIDADVENTA,
+			CODIGOMONEDA,
+			CODIGOPARTIDAARANCELARIA,
+			CODIGOPEDIDO,
+			CODIGOSAP,
+			CODIGOSAPALMACEN,
+			CODIGOSAPCENTRO,
+			CODIGOSAPUNIDADMEDIDA,
+			CODIGOSAPUNIDADMEDIDAVENTA,
+			DESCRIPCIONALMACEN,
+			DESCRIPCIONCENTRO,
+			DESCRIPCIONCOMERCIALPRODUCTO,
+			DESCRIPCIONPRODUCTO,
+			DESCRIPCIONUNIDADMEDIDA,
+			DESCRIPCIONUNIDADMEDIDAVENTA,
+			ENTREGA,
+			ESTADO,
+			FECHADISPONIBILIDAD,
+			FOLIO,
+			ID,
+			IDALMACEN,
+			IDCENTRO,
+			IDEXPORTACION,
+			IDMONEDA,
+			IDPARTIDAARANCELARIA,
+			IDPRODUCTO,
+			IDUNIDADMEDIDA,
+			IDUNIDADMEDIDAVENTA,
+			IMPORTE,
+			MENSAJESAP,
+			NOMBREMONEDA,
+			NOMBREPARTIDAARANCELARIA,
+			PEDIDOSAP,
+			PESOTONELADA,
+			PRECIOUNITARIO,
+			REFERENCIA
+		FROM COMEXSVI_EXPORTACIONINTERCOMPANY_POSICION
+		WHERE IDEXPORTACION = #{idExportacion}
+	</select> 
+</mapper>

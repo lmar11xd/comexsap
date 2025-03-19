@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.GrupoCorreoDetalleExtendedMapper">
+
+	<resultMap id="GrupoCorreoDetalleMap" type="com.caasa.comexsap.exportaciones.model.to.GrupoCorreoDetalleTO">
+	    <id column="ID" jdbcType="NUMERIC" property="id" />
+	    <result column="AREA" jdbcType="VARCHAR" property="area" />
+	    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+	    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcion" />
+	    <result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+	    <result column="FECHACREACION" jdbcType="DATE" property="fechaCreacion" />
+	    <result column="FECHAMODIFICACION" jdbcType="DATE" property="fechaModificacion" />
+	    <result column="IDAREA" jdbcType="NUMERIC" property="idArea" />
+	    <result column="IDGRUPO" jdbcType="NUMERIC" property="idGrupo" />
+	    <result column="NOMBRE" jdbcType="VARCHAR" property="nombre" />
+	    <result column="CORREO" jdbcType="VARCHAR" property="correo" />
+	    <result column="USUARIOCREACION" jdbcType="VARCHAR" property="usuarioCreacion" />
+	    <result column="USUARIOMODIFICACION" jdbcType="VARCHAR" property="usuarioModificacion" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,
+		AREA,
+		CODIGO,
+		CORREO,
+		DESCRIPCION,
+		ESTADO,
+		FECHACREACION,
+		FECHAMODIFICACION,
+		IDAREA,
+		IDGRUPO,
+		NOMBRE,
+		USUARIOCREACION,
+		USUARIOMODIFICACION
+	</sql> 
+	<select id="listarGrupoCorreoDetalle" resultMap="GrupoCorreoDetalleMap" parameterType="String">	  
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM 
+		COMEXSVI_GRUPOCORREODETALLE_01
+		WHERE ID IS NOT NULL
+		ORDER BY ID,CODIGO
+	</select> 
+	<select id="listarGrupoCorreoxFiltro" resultMap="GrupoCorreoDetalleMap" parameterType="String">	  
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM 
+		COMEXSVI_GRUPOCORREODETALLE_01
+		WHERE ID IS NOT NULL
+		<if test="grupos != null and grupos.length > 0">
+			AND IDGRUPO IN 
+			<foreach collection="grupos" item="item" open="(" close=")" separator=",">
+			 #{item}
+			</foreach>	
+		</if>
+		<if test="buscar != null">
+			AND ( 
+				UPPER(NOMBRE) LIKE '%' || UPPER(#{buscar}) || '%'
+				OR
+				UPPER(CORREO) LIKE '%' || UPPER(#{buscar}) || '%'
+			)
+		</if>
+		ORDER BY FECHACREACION DESC
+	</select>
+	<select id="obtenerGrupoCorreoxId" resultMap="GrupoCorreoDetalleMap" parameterType="int">	  
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM 
+		COMEXSVI_GRUPOCORREODETALLE_01
+		WHERE ID = #{idGrupoCorreo}
+		AND ROWNUM <![CDATA[ <= ]]> 1
+	</select>
+	<update id="eliminarGrupoCorreo" parameterType="java.util.Map">
+		UPDATE COMEXST_GRUPOCORREODETALLE
+		SET GCDEN_ESTADO = 0 , GCDED_FECHAMODIFICACION = sysdate , GCDEV_USUARIOMODIFICACION =#{usuario}
+		WHERE GCDEN_ID = #{idGrupoCorreo}
+	</update>
+</mapper>

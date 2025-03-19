@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="x-apple-disable-message-reformatting">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body>
+	<div style="font-family: '72','72full',Arial,Helvetica,sans-serif;font-size: 1rem;color: #32363a;">
+		<p><b>N° Pedido Firme: </b> <span th:text="${codigo_pedido}">01</span></p>
+		<p><b>C&oacute;digo Cliente: </b> <span th:text="${codigo_cliente}">02</span></p>
+		<p><b>Nombre o Raz&oacute;n Social del Cliente: </b> <span th:text="${nombre_cliente}">TEST</span></p>
+		<p><b>C&oacute;digo Destinatario: </b> <span th:text="${codigo_destinatario}">03</span></p>
+		<p><b>Nombre o Raz&oacute;n Social del Destinatario Mercancía: </b> <span th:text="${nombre_destinatario}">DEST</span></p>
+		<p><b>Incoterm Comercial: </b> <span th:text="${incoterm}"></span></p>
+		<p><b>Puerto Origen: </b> <span th:text="${puerto_origen}"></span></p>
+		<p><b>Puerto Destino: </b> <span th:text="${puerto_destino}"></span></p>
+		
+		<p th:if="${lugar_despacho} != null"><b>Lugar Despacho: </b> <span th:text="${lugar_despacho}"></span></p>
+		
+		<p th:if="${nombre_facturacion} != null"><b>Facturaci&oacute;n: </b> <span th:text="${nombre_facturacion}"></span></p>
+		
+		<p><b>Tipo Despacho: </b><span th:text="${tipo_despacho}"></span></p>
+		<p><b>Mensaje Verificaci&oacute;n de cr&eacute;ditos: </b> <span th:text="${verificacion_credito}"></span></p>
+		
+		<p><b>Posiciones:</b></p>
+		<table cellpadding="8" cellspacing="0" border="0" style="text-align: left;">
+			<thead>
+				<tr>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">POS.</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">MATERIAL</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">DESCRIPCI&Oacute;N</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">CANT.</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">UM</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">PESO (TM)</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">FECHA<br>DISPONIBILIDAD</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="posicion: ${posiciones}">
+					<td style="text-align: right;" th:text="${posicion.indice}">1</td>
+					<td th:text="${posicion.codigo}">01</td>
+					<td th:text="${posicion.descripcion}">PRIMER PRODUCTO</td>
+					<td style="text-align: right;" th:text="${#numbers.formatInteger(posicion.cantidad, 1, 'COMMA')}">10</td>
+					<td style="text-align: right;" th:text="${posicion.um}">T</td>
+					<td style="text-align: right;" th:text="${#numbers.formatDecimal(posicion.peso, 1, 'COMMA', 2, 'POINT')}">1.4</td>
+					<td style="text-align: right;" th:text="${posicion.fecha}">11/10/2022</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;"></th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;"></th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;"></th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;" th:text="${#numbers.formatInteger(cantidad_total, 1, 'COMMA')}">20</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;"></th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;" th:text="${#numbers.formatDecimal(peso_total, 1, 'COMMA', 2, 'POINT')}">40.6</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;text-align: right;"></th>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div th:if="${componentes} != null AND ${#lists.size(componentes)} > 0">
+			<br>
+			<p><b>Componentes:</b></p>
+			<table cellpadding="8" cellspacing="0" border="0" style="text-align: left;">
+				<thead>
+					<tr>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">POS.</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">MATERIAL</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">DESCRIPCI&Oacute;N</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">CANT.</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">UM</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="componente: ${componentes}">
+						<td style="text-align: right;" th:text="${componente.indice}">1.1</td>
+						<td th:text="${componente.codigo}">400650</td>
+						<td th:text="${componente.descripcion}">COMPONENTE 01</td>
+						<td style="text-align: right;" th:text="${#numbers.formatInteger(componente.cantidad, 1, 'COMMA')}">10</td>
+						<td style="text-align: right;" th:text="${componente.um}">T</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<br>
+		<div th:if="${observaciones} != null AND ${observaciones} != ''">
+			<p style="margin-bottom: 0px;"><b>Observaciones:</b></p>
+			<p style="margin-top: 5px;" th:text="${observaciones}">OBS</p>
+		</div>
+	</div>
+</body>
+</html>

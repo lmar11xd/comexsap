@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.TipoCambioExtendedMapper">
+
+  <resultMap id="tipoCambioMap" type="com.caasa.comexsap.exportaciones.model.to.TipoCambioTO">
+    <id column="CLIEN_ID" jdbcType="NUMERIC" property="idCliente" />
+    <result column="COD_CLIENTE_SAP" jdbcType="VARCHAR" property="codigoClienteSap" />
+    <result column="RAZON_SOCIAL" jdbcType="VARCHAR" property="descripcion" />
+    <result column="NUMERO_NIF" jdbcType="VARCHAR" property="ruc" />
+    <result column="COD_PAIS" jdbcType="VARCHAR" property="codigoPais" />
+  </resultMap>
+  
+  <select id="obtenerTipoCambioActual" resultMap="tipoCambioMap" parameterType="Map">	  
+  	SELECT
+	    KURST AS TIPO_COTIZACION,
+	    FCURR AS MONEDA_PROCEDENCIA,
+	    TCURR AS MONEDA_DESTINO,
+	    GDATU AS FECHA,
+	    UKURS AS VALOR
+	FROM SAPIO.FI_AR_ERP_006_TIPOCAMBIO 
+	WHERE FCURR = #{moneda}
+	AND GDATU = TO_DATE(#{fecha}, 'yyyy-mm-dd')
+	ORDER BY GDATU DESC
+  </select>
+</mapper>

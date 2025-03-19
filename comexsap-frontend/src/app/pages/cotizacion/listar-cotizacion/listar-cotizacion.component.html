@@ -1,0 +1,211 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Cotización
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+            <button class="btn btn-primary" (click)="crearCotizacion()">Nueva Cotización</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Código</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.pedidos"
+                (selectedItems)="seleccionarCodigos($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Cliente</label>
+              <app-modal-clientes-multiple
+                placeholder="Buscar clientes"
+                [(ngModel)]="filtroClientes"
+                (itemChange)="seleccionarClientes($event)"
+              ></app-modal-clientes-multiple>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Fecha Cotización</label>
+              <div class="comex-group-date">
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaCotizacionInicio"/>
+                <label>-</label>
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaCotizacionFin"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Codición Pago</label>
+              <p-multiSelect
+                [options]="pagos"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.pagos"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Incoterm SAP</label>
+              <p-multiSelect
+                [options]="incoterms"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.incoterms"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-md-4 col-lg-3">
+            <div class="form-group">
+              <label class="control-label">Estado</label>
+              <p-multiSelect
+                [options]="estados"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.documentos"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultarCotizaciones()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Lista de Cotizaciones
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listaCotizaciones" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} solicitudes">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width:110px">C&oacute;digo</th>
+                <th style="min-width:100px">C&oacute;digo Cliente</th>
+                <th style="min-width:260px">Raz&oacute;n Social</th>
+                <th style="min-width:100px">Fecha Cotizaci&oacute;n</th>
+                <th style="min-width:260px">Destino Mercanc&iacute;a</th>
+                <th style="min-width:120px">Incoterm SAP</th>
+                <!--<th style="min-width:120px">Puerto Origen</th>
+                <th style="min-width:120px">Puerto Destino</th>
+                <th style="min-width:120px">Tipo Transporte</th>
+                <th style="min-width:120px">Despacho</th>
+                <th style="min-width:120px">Condici&oacute;n Pago</th>
+                <th style="min-width:100px">Fecha Lista Precio</th>
+                <th style="min-width:120px">Lista Precio</th>
+                <th style="min-width:120px">Ruta</th>
+                <th style="min-width:120px">Moneda</th>-->
+                <th style="min-width:110px">Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cotizacion>
+              <tr>
+                <td>{{ cotizacion.codigoPedido }}</td>
+                <td>{{ cotizacion.codigoCliente }}</td>
+                <td>{{ cotizacion.nombreCliente == null || cotizacion.nombreCliente == ""? cotizacion.nombreCliente2 : cotizacion.nombreCliente }}</td>
+                <td>{{ cotizacion.fechaSolicitud | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ cotizacion.nombreDestinatario }}</td>
+                <td>{{ cotizacion.nombreIncoterm }}</td>
+                <!--<td>{{ cotizacion.nombrePuertoOrigen }}</td>
+                <td>{{ cotizacion.nombrePuertoDestino }}</td>
+                <td>{{ cotizacion.nombreTipoTransporte }}</td>
+                <td>{{ cotizacion.nombreDespacho }}</td>
+                <td>{{ cotizacion.nombreCondicionPago }}</td>
+                <td>{{ cotizacion.fechaListaPrecio | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ cotizacion.nombreListaPrecio }}</td>
+                <td>{{ cotizacion.nombreRuta }}</td>
+                <td>{{ cotizacion.nombreMoneda }}</td>-->
+                <td>
+                  <span class="badge badge-success" *ngIf="cotizacion.idEstadoDocumento == 6">Confirmado</span>
+                  <span class="badge badge-warning" *ngIf="cotizacion.idEstadoDocumento == 5">Inicial</span>
+                  <span class="badge badge-danger" *ngIf="cotizacion.idEstadoDocumento == 51">Anulado</span>
+                </td>
+                <td>
+                  <div class="tc-actions">
+                    <button class="btn btn-outline-primary" (click)="openModal(modalCopyCotizacion, cotizacion)" title="Copiar Cotización"><i class="fas fa-copy"></i></button>
+                    <button class="btn btn-outline-warning"(click)="editarCotizacion(cotizacion)" title="Editar Cotización"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-outline-danger" (click)="openModal(modalDeleteCotizacion, cotizacion)" *ngIf="cotizacion.idEstadoDocumento == 5"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="17">No se encontraron solicitudes.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalDeleteCotizacion let-modalDeleteCot>
+  <div class="modal-header">
+    <h4 class="modal-title">Anular Documento {{selectedCotizacion.codigoPedido}}</h4>
+  </div>
+  <div class="modal-body">
+    <p>¿Desea anular el documento {{selectedCotizacion.codigoPedido}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="anular()">Sí</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalDeleteCot.close()">No</button>
+  </div>
+</ng-template>
+
+<ng-template #modalCopyCotizacion let-modalCopyCot>
+  <div class="modal-header">
+    <h4 class="modal-title">Copiar Documento {{selectedCotizacion.codigoPedido}}</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="row">
+        <div class="col-12">
+          <label class="form-control-label">Ingresar número de documento<span class="required-asterisk">*</span></label>
+          <input type="text" class="form-control text-uppercase" placeholder="PER.XXX.XX" [(ngModel)]="nuevoCodigoCotizacion" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="copiarCotizacion()">Aceptar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalCopyCot.close()">Cancelar</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

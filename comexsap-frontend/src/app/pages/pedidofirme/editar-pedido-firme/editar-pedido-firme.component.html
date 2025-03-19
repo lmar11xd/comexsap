@@ -1,0 +1,765 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="pedidoFirmeForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Datos de Pedido Firme</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Cabecera
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && esPerfilFechaDisponibilidad" class="btn btn-primary" (click)="confirmarFechas()">Confirmar Fechas</button>
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="btn btn-primary" (click)="mostrarModal(modalConfirmar)">Confirmar</button>
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="btn btn-info" (click)="guardar(false)">Guardar</button>
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6" class="btn btn-info" (click)="modificarDocumento()">Modificar Documento</button>
+                    <div ngbDropdown class="d-inline-block">
+                      <button class="btn btn-success" id="dropdownDatos" ngbDropdownToggle>Acciones</button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownDatos">
+                        <button class="dropdown-item" (click)="verCorreo()">Ver Correo</button>
+                        <button class="dropdown-item" (click)="verPdf()">Ver PDF</button>
+                        <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="dropdown-item" (click)="guardar(true)">Guardar y Enviar Correo</button>
+                        <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="dropdown-item" (click)="enviarCorreoActualizacionPrecios()">Notificar Actualización de Precios</button>
+                        <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="dropdown-item" (click)="enviarCorreoFechasDisponibilidad()">Confirmar Fechas</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navDatos="ngbNav" [(activeId)]="activeDatos" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos del Cliente</a>
+                      <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Código<span class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control text-uppercase" placeholder="PER.XXX.XX" formControlName="codigo">
+                                <div *ngIf="pedidoFirmeForm.controls['codigo'].invalid && pedidoFirmeForm.controls['codigo'].touched">
+                                  <div *ngIf="pedidoFirmeForm.controls['codigo'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Cliente<span class="required-asterisk">*</span></label>
+                                <app-modal-clientes
+                                  [(item)]="selectedCliente"
+                                  (itemChange)="seleccionarCliente($event)"
+                                  [disabled]="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad"
+                                  placeholder="Selecciona un cliente">
+                                </app-modal-clientes>
+                                <div *ngIf="pedidoFirmeForm.controls['codigoCliente'].invalid && pedidoFirmeForm.controls['codigoCliente'].touched">
+                                  <div *ngIf="pedidoFirmeForm.controls['codigoCliente'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Destinatario Mercanc&iacute;a</label>
+                                <ng-select
+                                  formControlName="codigoDestinatario"
+                                  [items]="destinatarios"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="codigo"
+                                  (change)="seleccionarDestinatario($event)"
+                                  [title]="selectedDestinatario?.descripcionLarga"
+                                  placeholder="Buscar código o descripción">
+                                </ng-select>
+                              </div>
+                            </div>
+                          </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                      <a ngbNavLink>Datos del Envío</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Origen<span class="required-asterisk">*</span></label>
+                              <app-modal-puerto
+                                [(item)]="selectedPuertoOrigen"
+                                (itemChange)="seleccionarPuertoOrigen($event)"
+                                [disabled]="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad"
+                                placeholder="Seleccione un puerto de origen">
+                              </app-modal-puerto>
+                              <div *ngIf="pedidoFirmeForm.controls['idPuertoOrigen'].invalid && pedidoFirmeForm.controls['idPuertoOrigen'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idPuertoOrigen'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Destino</label>
+                              <app-modal-puerto
+                                [(item)]="selectedPuertoDestino"
+                                (itemChange)="seleccionarPuertoDestino($event)"
+                                [disabled]="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad"
+                                placeholder="Seleccione un puerto de destino"></app-modal-puerto>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm SAP<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncoterm"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="pedidoFirmeForm.controls['idIncoterm'].invalid && pedidoFirmeForm.controls['idIncoterm'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idIncoterm'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm Comercial<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncotermComercial"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="pedidoFirmeForm.controls['idIncotermComercial'].invalid && pedidoFirmeForm.controls['idIncotermComercial'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idIncotermComercial'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Importe Flete</label>
+                              <input type="number" class="form-control" min="0" formControlName="importeFlete" placeholder="Ingrese importe flete">
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Seguro Internacional</label>
+                              <input type="number" class="form-control" min="0" formControlName="seguroInternacional" placeholder="Ingrese seguro internacional">
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <label class="form-control-label">N&uacute;mero Contenedor</label>
+                              <input type="number" class="form-control" formControlName="numeroContenedor" placeholder="Ingrese número de contenedor">
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                      <a ngbNavLink>Datos del Pedido</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha de Pedido Firme<span class="required-asterisk">*</span></label>
+                              <p-calendar formControlName="fechaPedidoFirme" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              <div *ngIf="pedidoFirmeForm.controls['fechaPedidoFirme'].invalid && pedidoFirmeForm.controls['fechaPedidoFirme'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['fechaPedidoFirme'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Tipo de Despacho<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idTipoDespacho"
+                                [items]="despachos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="pedidoFirmeForm.controls['idTipoDespacho'].invalid && pedidoFirmeForm.controls['idTipoDespacho'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idTipoDespacho'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Condici&oacute;n Pago<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idCondicionPago"
+                                [items]="pagos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="pedidoFirmeForm.controls['idCondicionPago'].invalid && pedidoFirmeForm.controls['idCondicionPago'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idCondicionPago'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Moneda<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idMoneda"
+                                [items]="monedas"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="pedidoFirmeForm.controls['idMoneda'].invalid && pedidoFirmeForm.controls['idMoneda'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idMoneda'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3" style="display: flex; align-items: center;">
+                            <div class="form-group">
+                              <app-switch
+                                title="Requiere Anticipo"
+                                formControlName="requiereAnticipo">
+                              </app-switch>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha Lista Precio<span class="required-asterisk">*</span></label>
+                              <p-calendar formControlName="fechaListaPrecio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              <div *ngIf="pedidoFirmeForm.controls['fechaListaPrecio'].invalid && pedidoFirmeForm.controls['fechaListaPrecio'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['fechaListaPrecio'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Lista de Precio<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idListaPrecio"
+                                [items]="listaPrecios"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="pedidoFirmeForm.controls['idListaPrecio'].invalid && pedidoFirmeForm.controls['idListaPrecio'].touched">
+                                <div *ngIf="pedidoFirmeForm.controls['idListaPrecio'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Ruta</label>
+                              <app-modal-rutas
+                                [(item)]="selectedRuta"
+                                (itemChange)="seleccionarRuta($event)"
+                                [disabled]="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad"
+                                placeholder="Seleccione una ruta"></app-modal-rutas>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Lugar de Despacho</label>
+                              <ng-select
+                                formControlName="idLugarDespacho"
+                                [items]="lugaresDespacho"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label">Facturación</label>
+                              <ng-select
+                                formControlName="idFacturacion"
+                                [items]="facturaciones"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                      <a ngbNavLink>Observaciones</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="form-group">
+                              <textarea rows="5" formControlName="observaciones"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navDatos" class="mt-2"></div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Posición <span class="required-asterisk">*</span>
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end" *ngIf="!esPerfilFechaDisponibilidad">
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-success" (click)="actualizarPrecios(true)"><i class="fas fa-sync-alt"></i> Actualizar Precios</button>
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-dark" [disabled]="desactivarArmarJuego()" (click)="mostrarModal(modalArmarJuego)"><i class="fa fa-object-group"></i> Agrupar</button>
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-info" (click)="agregarPosicion()"><i class="fas fa-plus"></i> Agregar</button>
+                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-danger" (click)="quitarPosiciones()"><i class="fas fa-trash"></i> Retirar</button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 40px;">
+                          <input *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" type="checkbox" name="selectAll" formControlName="selectAllPosiciones" (change)="seleccionarTodasLasPosiciones($event)"/>
+                        </th>
+                        <th style="min-width: 60px;">Posici&oacute;n</th>
+                        <th style="min-width: 120px;">Material<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 220px;">Descripci&oacute;n</th>
+                        <th style="min-width: 140px;">Cantidad Venta<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 120px;">UM Venta<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 100px;">Peso Toneladas</th>
+                        <th style="min-width: 100px;">Fecha Disponibilidad</th>
+                        <th style="min-width: 100px;">Precio Unit. SAP</th>
+                        <th style="min-width: 140px;">Precio Unitario<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 120px;">Importe</th>
+                        <th style="min-width: 80px;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let posicionForm of posiciones.controls; let i = index" [formGroup]="posicionForm">
+                        <td>
+                          <input type="checkbox" name="selectItem" formControlName="checked" />
+                        </td>
+                        <td>{{posicionForm.value.item}}</td>
+
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad && !posicionForm.controls['esPadre'].value">
+                          <app-modal-material
+                            placeholder="Seleccionar material"
+                            formControlName="selectedMaterial"
+                            (itemChange)="seleccionarMaterial($event, posicionForm)"
+                            (onClear)="limpiarPosicion(posicionForm)"
+                            (onPasted)="onPastedFromExcel($event, posicionForm)"></app-modal-material>
+                        </td>
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad || posicionForm.controls['esPadre'].value">{{posicionForm.controls['codigoMaterial'].value}}</td>
+
+                        <td>{{posicionForm.value.descripcionMaterial}}</td>
+
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad && !posicionForm.controls['esPadre'].value">
+                          <input type="number" class="form-control" min="0" formControlName="cantidadVenta" (change)="cambiarCantidadVenta(posicionForm)">
+                        </td>
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad || posicionForm.controls['esPadre'].value">{{posicionForm.controls['cantidadVenta'].value}}</td>
+
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad && !posicionForm.controls['esPadre'].value">
+                          <ng-select
+                            [items]="posicionForm.value.listaUnidadesMedida"
+                            bindLabel="codigo"
+                            bindValue="codigo"
+                            formControlName="unidadMedidaVenta"
+                            placeholder="Seleccione"
+                            (change)="seleccionarUnidadMedidaVenta($event, posicionForm)">
+                          </ng-select>
+                        </td>
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad || posicionForm.controls['esPadre'].value">{{posicionForm.controls['unidadMedidaVenta'].value}}</td>
+
+                        <td>{{ posicionForm.value.pesoToneladas | number: '1.2-2' }}</td>
+
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5">
+                          <input type="date" class="form-control" formControlName="fechaDisponibilidad">
+                        </td>
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6">{{ posicionForm.value.fechaDisponibilidad | date: 'dd/MM/yyyy' }}</td>
+
+                        <td>
+                          <div class="lds-ellipsis" *ngIf="posicionForm.controls['isLoadingPrecio'].value"><div></div><div></div><div></div><div></div></div>
+                          <div *ngIf="!posicionForm.controls['isLoadingPrecio'].value">{{ posicionForm.value.precioUnitarioSap | number: '1.2-2' }}</div>
+                        </td>
+
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad && !posicionForm.controls['esPadre'].value">
+                          <input type="number" class="form-control" min="0" formControlName="precioUnitario" (change)="cambiarPrecioUnitario(posicionForm)">
+                        </td>
+                        <td *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6 || esPerfilFechaDisponibilidad || posicionForm.controls['esPadre'].value">{{ posicionForm.controls['precioUnitario'].value | number: '1.2-2' }}</td>
+
+                        <td>{{ posicionForm.value.importe | number: '1.2-2' }}</td>
+
+                        <td>
+                          <app-modal-componentes
+                            *ngIf="posicionForm.controls['esPadre'].value"
+                            [form]="posicionForm"
+                            [fechaListaPrecio]="pedidoFirmeForm.controls['fechaListaPrecio'].value"
+                            [idListaPrecio]="pedidoFirmeForm.controls['idListaPrecio'].value"
+                            [listaPrecios]="listaPrecios"
+                            [estadoDocumento]="pedidoFirmeForm.controls['estadoDocumento'].value"
+                            (formChange)="actualizarFormularioPosicion($event)">
+                          </app-modal-componentes>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="posiciones.length == 0" colspan="12">Sin posiciones</td>
+                        <td *ngIf="posiciones.length > 0" colspan="10">En total existen {{posiciones.length}} líneas de posiciones</td>
+                        <td *ngIf="posiciones.length > 0" style="text-align: center;">{{ calcularTotalImporte() | number: '1.2-2'}}</td>
+                        <td *ngIf="posiciones.length > 0"></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink><i class="fa fa-info-circle"></i> Información</a>
+                <ng-template ngbNavContent>
+                  <div class="row container-title">
+                    <div class="col-sm-6 title">
+                      <label class="title-line"></label>Información Complementaria
+                    </div>
+                    <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                      <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && esPerfilFechaDisponibilidad" class="btn btn-primary" (click)="confirmarFechas()">Confirmar Fechas</button>
+                      <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="btn btn-primary" (click)="mostrarModal(modalConfirmar)">Confirmar</button>
+                      <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="btn btn-info" (click)="guardar(false)">Guardar</button>
+                      <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 6" class="btn btn-info" (click)="modificarDocumento()">Modificar Documento</button>
+                      <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-success" id="dropdownDatos" ngbDropdownToggle>Acciones</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownDatos">
+                          <button class="dropdown-item" (click)="verCorreo()">Ver Correo</button>
+                          <button class="dropdown-item" (click)="verPdf()">Ver PDF</button>
+                          <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="dropdown-item" (click)="guardar(true)">Guardar y Enviar Correo</button>
+                          <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="dropdown-item" (click)="enviarCorreoActualizacionPrecios()">Notificar Actualización de Precios</button>
+                          <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5 && !esPerfilFechaDisponibilidad" class="dropdown-item" (click)="enviarCorreoFechasDisponibilidad()">Confirmar Fechas</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="comex-container-detail">
+                    <ul ngbNav #navContacto="ngbNav" [(activeId)]="activeContacto" class="comex-tabs-detail nav-tabs">
+                      <li [ngbNavItem]="1">
+                        <a ngbNavLink>Datos para Producción</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Peso Objetivo Producción</label>
+                                <ng-select
+                                  formControlName="idPesoObjetivo"
+                                  [items]="pesosObjetivo"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="id"
+                                  placeholder="Buscar código o nombre">
+                                </ng-select>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Condición Descarga</label>
+                                <input type="text" class="form-control" formControlName="condicionDescarga" placeholder="Condición de Descarga">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Tolerancia Producción</label>
+                                <ng-select
+                                  formControlName="idTolerancia"
+                                  [items]="tolerancias"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="id"
+                                  placeholder="Buscar código o nombre">
+                                </ng-select>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Almacenaje / Sobreestadia</label>
+                                <ng-select
+                                  formControlName="idAlmacenaje"
+                                  [items]="almacenajes"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="id"
+                                  placeholder="Buscar código o nombre">
+                                </ng-select>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Peso Etiqueta</label>
+                                <ng-select
+                                  formControlName="idPesoEtiqueta"
+                                  [items]="pesosEtiqueta"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="id"
+                                  placeholder="Buscar código o nombre">
+                                </ng-select>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Gastos Operativos Planta/Puerto</label>
+                                <input type="text" class="form-control" formControlName="gastosOperativos" placeholder="Gastos Operativos">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Despacho Requerida</label>
+                                <p-calendar formControlName="fechaDespacho" [minDate]="fechaActual" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                <div *ngIf="pedidoFirmeForm.controls['fechaDespacho'].invalid && pedidoFirmeForm.controls['fechaDespacho'].touched">
+                                  <div *ngIf="pedidoFirmeForm.controls['fechaDespacho'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="2">
+                          <a ngbNavLink>Datos de Etiqueta</a>
+                          <ng-template ngbNavContent>
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Número de Etiqueta</label>
+                                  <ng-select
+                                    formControlName="idNumeroEtiqueta"
+                                    [items]="numerosEtiquetas"
+                                    bindLabel="descripcionLarga"
+                                    bindValue="id"
+                                    placeholder="Buscar código o nombre">
+                                  </ng-select>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Customer Name</label>
+                                  <input type="text" class="form-control" formControlName="customerName" placeholder="Customer Name">
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">DEAL</label>
+                                  <input type="text" class="form-control" formControlName="deal" placeholder="DEAL">
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Destination Port</label>
+                                  <input type="text" class="form-control" formControlName="destinationPort" placeholder="Destination Port">
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-control-label">Lot Number</label>
+                                  <input type="text" class="form-control" formControlName="lotNumber" placeholder="Lot Number">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                      </li>
+                    </ul>
+                    <div [ngbNavOutlet]="navContacto" class="mt-2"></div>
+                  </div>
+
+                  <div class="row container-title">
+                    <div class="col-sm-6 title">
+                      <label class="title-line"></label>Adjuntos
+                    </div>
+                  </div>
+
+                  <div class="comex-container-detail">
+                    <div class="comex-adjuntos">
+                      <div class="title">Adjuntas Archivos</div>
+                      <div>
+                        <div></div>
+                        <div *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" class="file-container">
+                          <div class="detail">
+                            <img src="./assets/images/menu/buscar00.png"/>
+                            <p><label class="">Elige un archivo</label> o arrástrelo aquí</p>
+                          </div>
+                          <input type="file" class="file" (change)="agregarAdjunto($event)"/>
+                        </div>
+
+                        <div class="table-responsive">
+                          <p-table [value]="adjuntos" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table-file" [showCurrentPageReport]="true" [paginator]="false" currentPageReportTemplate="">
+                            <ng-template pTemplate="header" let-columns>
+                              <tr>
+                                <th>Archivos</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-adjunto>
+                              <tr>
+                                <td><li class="pi pi-file"></li> {{adjunto.nombre}}</td>
+                                <td>
+                                  <div class="actions">
+                                    <button *ngIf="adjunto.id > 0" class="btn btn-outline-success" title="Descargar" (click)="descargarAdjunto(adjunto)"><i class="pi pi-download"></i></button>
+                                    <button *ngIf="pedidoFirmeForm.controls['estadoDocumento'].value == 5" class="btn btn-outline-danger" title="Eliminar" (click)="eliminarAdjunto(adjunto)"><i class="pi pi-trash"></i></button>
+                                  </div>
+                                </td>
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                              <tr>
+                                <td colspan="2">No se han cargado archivos</td>
+                              </tr>
+                            </ng-template>
+                          </p-table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalPedidoFirmeExitoso let-modalPedidoExitoso>
+  <div class="modal-header">
+    <h4 class="modal-title">Pedido Firme</h4>
+  </div>
+  <div class="modal-body">
+    <p>El Pedido Firme {{pedidoFirmeForm.controls['codigo'].value}} se guardó de <br>manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado()">Ir al Listado</button>
+    <button type="button" class="btn btn-secondary" (click)="modalPedidoExitoso.close(); this.ngOnInit();">Ok</button>
+  </div>
+</ng-template>
+
+<ng-template #modalConfirmar let-modalConfirmar>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmar Documento: {{pedidoFirmeForm.controls['codigo'].value}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="marco-confirmar">
+      <label>¿Deseas confirmar el Pedido Firme {{pedidoFirmeForm.controls['codigo'].value}}?</label>
+      <div></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="confirmar();modalConfirmar.close()">Sí</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalConfirmar.close()">No</button>
+  </div>
+</ng-template>
+
+<ng-template #modalConfirmacionExitosa let-modalConfExitosa>
+  <div class="modal-header">
+    <h4 class="modal-title">Pedido Firme</h4>
+  </div>
+  <div class="modal-body">
+    <p>Documento {{pedidoFirmeForm.controls['codigo'].value}} confirmado.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado()">Entendido</button>
+  </div>
+</ng-template>
+
+<ng-template #modalVerCorreo let-modalVerCorreo>
+  <div class="modal-header">
+    <h4 class="modal-title">Pedido Firme CAASA N° {{pedidoFirmeForm.controls['codigo'].value}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container-email" [innerHTML]="htmlCorreo"></div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modalVerCorreo.close()">Cerrar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalArmarJuego let-modalArmarJuego>
+  <div class="modal-header">
+    <h4 class="modal-title">Armar Juego</h4>
+  </div>
+  <div class="modal-body modal-armarjuego">
+    <form [formGroup]="armarJuegoForm" novalidate>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Seleccione Material<span class="required-asterisk">*</span></label>
+            <app-modal-material
+              placeholder="Seleccionar material"
+              (itemChange)="seleccionarMaterialArmarJuego($event)"></app-modal-material>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Código</label>
+            <input type="text" class="form-control" placeholder="Código" formControlName="codigo"/>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Descripción</label>
+            <input type="text" class="form-control" placeholder="Descripción" formControlName="descripcion"/>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="control-label">Jerarquía</label>
+            <input type="text" class="form-control" placeholder="Jerarquía" formControlName="jerarquia" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">UM Base</label>
+            <input type="text" class="form-control" placeholder="UM Base" formControlName="unidadMedidaBase"/>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">UM Venta</label>
+            <input type="text" class="form-control" placeholder="UM Venta" formControlName="unidadMedidaVenta"/>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Peso Bruto</label>
+            <input type="text" class="form-control" placeholder="Peso Bruto" formControlName="pesoBruto"/>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">Peso Neto</label>
+            <input type="text" class="form-control" placeholder="Peso Neto" formControlName="pesoNeto"/>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="aceptarArmarJuego(); modalArmarJuego.close();">Aceptar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalArmarJuego.close()">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #modalVerPdf let-modalVerPdf>
+  <div class="modal-header">
+    <h4 class="modal-title">Pedido Firme CAASA N° {{pedidoFirmeForm.controls['codigo'].value}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="container-pdf">
+      <pdf-viewer
+        [src]="pdfSrc"
+        [render-text]="true"
+        [original-size]="false"
+        style="width: 100%; height: calc(100vh - 200px);">
+      </pdf-viewer>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="descargarPdf()">Descargar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalVerPdf.close()">Cerrar</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

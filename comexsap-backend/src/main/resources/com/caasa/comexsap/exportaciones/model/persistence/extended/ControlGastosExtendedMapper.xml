@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.ControlGastosExtendedMapper">
+
+  <resultMap id="documentoMap" type="com.caasa.comexsap.exportaciones.model.to.DocumentoControlGastoTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="PESO_REAL" jdbcType="NUMERIC" property="pesoReal" />
+  </resultMap>
+  
+  <select id="listarDocumentosxFiltro" resultMap="documentoMap" parameterType="String">	  
+  	SELECT 
+	    E.EXPON_ID AS ID,
+	    E.EXPOV_CODIGO AS CODIGO,
+	    
+	    E.EXPON_IDDESPACHO,
+	    
+	    CASE
+	        WHEN E.EXPON_IDDESPACHO = 3 THEN (
+	            SELECT
+	                NVL(SUM(PL.PLCSN_PESO_NETO), 0)
+	            FROM COMEXSAP.COMEXST_PACKINGLIST_CARGASUELTA PL 
+	            WHERE PL.PLCSN_ID_EXPORTACION = E.EXPON_ID AND PL.PLCSN_ESTADO = 1
+	        )
+	        WHEN E.EXPON_IDDESPACHO = 4 THEN (
+	            SELECT
+	                NVL(SUM(PL.PLISN_PESOCOMEX), 0) 
+	            FROM COMEXSAP.COMEXST_PACKINGLIST PL 
+	            WHERE PL.PLISN_IDEXPORTACION = E.EXPON_ID AND PL.PLISN_ESTADO = 1
+	        )
+	        ELSE 0
+	    END AS PESO_REAL
+	FROM COMEXSAP.COMEXST_EXPORTACION E
+    WHERE 1 = 1
+    <if test="documentos != null and documentos.length > 0">
+		AND E.EXPON_ID IN 
+		<foreach collection="documentos" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	 </if>
+  </select> 
+</mapper>

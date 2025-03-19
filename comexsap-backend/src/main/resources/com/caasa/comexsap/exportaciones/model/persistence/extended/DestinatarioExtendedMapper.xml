@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.DestinatarioExtendedMapper">
+
+  <resultMap id="DestinatarioMap" type="com.caasa.comexsap.exportaciones.model.to.DestinatarioTO">
+    <id column="DESTN_ID" jdbcType="NUMERIC" property="idDestinatario" />
+    <result column="COD_CLIENTE_SAP" jdbcType="VARCHAR" property="codigoClienteSap" />
+    <result column="CODIGO_DESTINATARIO" jdbcType="VARCHAR" property="codigoDestinatario" />
+    <result column="RAZON_SOCIAL" jdbcType="VARCHAR" property="descripcion" />
+  </resultMap> 
+  <resultMap id="InterlocutorMap" type="com.caasa.comexsap.exportaciones.model.to.InterlocutorTO">
+    <result column="COD_CLIENTE_SAP" jdbcType="VARCHAR" property="codigoClienteSap" />
+    <result column="CODIGO_DESTINATARIO" jdbcType="VARCHAR" property="codigoDestinatario" />
+    <result column="TIPO_RELACION" jdbcType="VARCHAR" property="tipoRelacion" />
+  </resultMap>         
+  <select id="listarDestinatarioxCliente" resultMap="DestinatarioMap" parameterType="String">	  
+        SELECT 
+    	A.COD_CLIENTE_SAP, 
+    	B.CODIGO_RELACIONADO AS CODIGO_DESTINATARIO, 
+    	NVL(C.DIRECCION, ' ') AS RAZON_SOCIAL 
+		FROM PORTALSD.PVENDED_CLIENTE A
+		INNER JOIN PORTALSD.PVENDED_CLIENTE_INTERLOCUTOR B ON A.COD_CLIENTE_SAP = B.COD_CLIENTE_SAP AND TIPO_RELACION = 'WE'
+		LEFT JOIN PORTALSD.PVENDED_CLIENTE C ON C.COD_CLIENTE_SAP = B.CODIGO_RELACIONADO
+		WHERE A.COD_CLIENTE_SAP=#{codigoCliente}
+		AND C.DIRECCION IS NOT NULL
+  </select> 
+  <select id="buscarDestinatarioxCodigoSap" parameterType="java.util.Map" resultType="int">	  
+	 SELECT COUNT(*) FROM COMEXST_DESTINATARIO
+	 WHERE DESTV_CODIGOSAP=#{codigoSap}
+  </select> 
+  <select id="obtenerDestinatarioxCodigoSap" resultMap="DestinatarioMap" parameterType="String">	  
+	 SELECT DESTN_ID,DESTV_CODIGOSAP as CODIGO_DESTINATARIO FROM COMEXST_DESTINATARIO
+	 WHERE DESTV_CODIGOSAP=#{codigoSap}
+  </select>
+  <select id="buscarDestinatarioNuevoxDescripcion" parameterType="java.util.Map" resultType="int">	  
+	 SELECT COUNT(*) FROM COMEXST_DESTINATARIO
+	 WHERE DESTV_NOMBRE=#{descripcionDest}
+  </select>
+  <select id="obtenerDestinatarioxDescripcion" resultMap="DestinatarioMap" parameterType="String">	  
+	 SELECT DESTN_ID,DESTV_NOMBRE as RAZON_SOCIAL FROM COMEXST_DESTINATARIO
+	 WHERE DESTV_NOMBRE=#{descripcionDest}
+  </select> 
+  <select id="listarInterlocutorxCliente" resultMap="InterlocutorMap" parameterType="String">	  
+       SELECT COD_CLIENTE_SAP, 
+	   CODIGO_RELACIONADO AS CODIGO_DESTINATARIO,
+       TIPO_RELACION
+       FROM PORTALSD.PVENDED_CLIENTE_INTERLOCUTOR
+       WHERE COD_CLIENTE_SAP=#{codigoCliente}
+       AND TIPO_RELACION IN('AG','RE','RG','VE','WE')
+  </select>    
+</mapper>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="x-apple-disable-message-reformatting">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+</head>
+<body>
+	<div style="font-family: '72','72full',Arial,Helvetica,sans-serif;font-size: 1rem;color: #32363a;">
+		<p><b>N° Pedido Firme: </b> <span th:text="${codigo_pedido}">PER.000.00</span></p>
+		<p><b>C&oacute;digo Cliente: </b> <span th:text="${codigo_cliente}">1200001292</span></p>
+		<p><b>Nombre o Raz&oacute;n Social del Cliente: </b> <span th:text="${nombre_cliente}">TEST</span></p>
+		<p><b>Incoterm Comercial: </b> <span th:text="${incoterm}">FOB</span></p>
+		<p><b>Moneda: </b> <span th:text="${moneda}">USD</span></p>
+		<p><b>Fecha Lista de Precio: </b> <span th:text="${fecha_lista_precio}">12/01/2022</span></p>
+		<p><b>Lista de Precio: </b> <span th:text="${lista_precio}"></span>EC</p>
+		
+		<p><b>Posiciones:</b></p>
+		<table cellpadding="8" cellspacing="0" border="0" style="text-align: left;">
+			<thead>
+				<tr>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">POS.</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">MATERIAL</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">DESCRIPCI&Oacute;N</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">UM VENTA</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">MATERIAL PRECIO</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">PRECIO UNIT. <br>SAP</th>
+					<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">PRECIO UNIT.</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="posicion: ${posiciones}">
+					<td style="text-align: right;" th:text="${posicion.indice}">1</td>
+					<td th:text="${posicion.codigo}">400568</td>
+					<td th:text="${posicion.descripcion}">PRIMER PRODUCTO</td>
+					<td style="text-align: right;" th:text="${posicion.um}">T</td>
+					<td style="text-align: right;" th:text="${#numbers.formatDecimal(posicion.precio, 1, 'COMMA', 2, 'POINT')}"></td>
+					<td style="text-align: right;" th:text="${#numbers.formatDecimal(posicion.precioUnitarioSap, 1, 'COMMA', 2, 'POINT')}">23</td>
+					<td style="text-align: right;" th:text="${#numbers.formatDecimal(posicion.precioUnitario, 1, 'COMMA', 2, 'POINT')}">21</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div th:if="${componentes} != null AND ${#lists.size(componentes)} > 0">
+			<br>
+			<p><b>Componentes:</b></p>
+			<table cellpadding="8" cellspacing="0" border="0" style="text-align: left;">
+				<thead>
+					<tr>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">POS.</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">MATERIAL</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">DESCRIPCI&Oacute;N</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">PRECIO UNIT. <br>SAP</th>
+						<th style="border-top: 2px solid #000;border-bottom: 2px solid #000;">PRECIO UNIT.</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="componente: ${componentes}">
+						<td style="text-align: right;" th:text="${componente.indice}">1.1</td>
+						<td th:text="${componente.codigo}">400650</td>
+						<td th:text="${componente.descripcion}">PRIMER COMPONENTE</td>
+						<td style="text-align: right;" th:text="${#numbers.formatDecimal(componente.precioUnitarioSap, 1, 'COMMA', 2, 'POINT')}">10</td>
+						<td style="text-align: right;" th:text="${#numbers.formatDecimal(componente.precioUnitario, 1, 'COMMA', 2, 'POINT')}">9</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<br>
+		<div th:if="${observaciones} != null AND ${observaciones} != ''">
+			<p style="margin-bottom: 0px;"><b>Observaciones:</b></p>
+			<p style="margin-top: 5px;" th:text="${observaciones}">OBS</p>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Documento Marítimo - Carga Suelta
+          </div>
+          <div class="col-sm-6 mt-2 mt-sm-0 d-sm-flex text-center justify-content-sm-end">
+            <button class="btn btn-success" (click)="descargar()"><li class="pi pi-file-excel"></li> Descargar</button>
+            <button class="btn btn-primary" (click)="irACrear()">Nuevo Documento</button>
+          </div>
+        </div>
+        <div class="row row-filter">
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Código</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.codigos"
+                (selectedItems)="seleccionarCodigos($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Pedido Firme</label>
+              <app-input-chip
+                maxItems="5"
+                [(ngModel)]="filtro.codigosPedidoFirme"
+                (selectedItems)="seleccionarCodigosPedidoFirme($event)"
+                [style]="{'width': '100%'}">
+              </app-input-chip>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Cliente</label>
+              <app-modal-clientes-multiple
+                placeholder="Buscar clientes"
+                [(ngModel)]="filtroClientes"
+                (itemChange)="seleccionarClientes($event)"
+              ></app-modal-clientes-multiple>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Fecha Doc. Exportación</label>
+              <div class="comex-group-date">
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaExpMaritimoInicio"/>
+                <label>-</label>
+                <input type="date" class="form-control" [(ngModel)]="filtro.fechaExpMaritimoFin"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-caasa-filtro col-sm-6 col-lg-4">
+            <div class="form-group">
+              <label class="control-label">Codición Pago</label>
+              <p-multiSelect
+                [options]="pagos"
+                defaultLabel="Todos"
+                [(ngModel)]="filtro.pagos"
+                optionLabel="descripcionLarga"
+                optionValue="id"
+                [displaySelectedLabel]="displaySelectedLabel"
+                [maxSelectedLabels]="maxSelectedLabels"
+                [selectedItemsLabel]="selectedItemsLabel"
+                [style]="{'width': '100%'}">
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-1 text-center text-sm-left">
+            <div class="form-group">
+              <br/>
+              <button class="btn btn-primary ml-auto" (click)="consultar()" >B&uacute;squeda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row container-title">
+          <div class="col-sm-6 title">
+            <label class="title-line"></label>Lista de Doc. Marítimos - Carga Suelta
+          </div>
+        </div>
+        <div class="table-responsive">
+          <p-table [value]="listado" responsiveLayout="scroll" tableStyleClass="table table-bordered comex-table"
+              [rows]="10" [showCurrentPageReport]="true" [loading]="false"
+              [paginator]="true" currentPageReportTemplate="En total existen {totalRecords} documentos">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="min-width:110px">C&oacute;digo</th>
+                <th style="min-width:100px">Pedido Firme</th>
+                <th style="min-width:100px">C&oacute;digo Cliente</th>
+                <th style="min-width:260px">Raz&oacute;n Social</th>
+                <th style="min-width:100px">C&oacute;digo Destinatario</th>
+                <th style="min-width:120px">Incoterm SAP</th>
+                <th style="min-width:120px">Incoterm Comercial</th>
+                <!--<th style="min-width:110px">Estado</th>-->
+                <th>Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.codigo }}</td>
+                <td>{{ item.pedidoFirme }}</td>
+                <td>{{ item.codigoSapCliente }}</td>
+                <td>{{ item.nombreCliente }}</td>
+                <td>{{ item.codigoSapDestinatario }}</td>
+                <td>{{ item.nombreIncoterm }}</td>
+                <td>{{ item.nombreIncotermComercial }}</td>
+                <!--<td>
+                  <span class="badge badge-success" *ngIf="item.idEstadoDocumento == 6">Confirmado</span>
+                  <span class="badge badge-warning" *ngIf="item.idEstadoDocumento == 5">Inicial</span>
+                </td>-->
+                <td>
+                  <div class="tc-actions">
+                    <button class="btn btn-outline-warning"(click)="irAEditar(item)" title="Editar Documento"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-outline-danger" (click)="mostrarModal(modalDelete, item)" title="Eliminar Documento" *ngIf="item.idEstadoDocumento == 5"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="9">No se encontraron documentos.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalDelete let-modalDelete>
+  <div class="modal-header">
+    <h4 class="modal-title">Eliminar Documento</h4>
+  </div>
+  <div class="modal-body">
+    <p>¿Desea eliminar el documento {{selectedDocumento.codigo}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="eliminar(); modalDelete.close();">Sí</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalDelete.close()">No</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>
+

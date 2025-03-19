@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.PedidoFirmeExtendedMapper">
+
+  <resultMap id="pedidoFirmeMap" type="com.caasa.comexsap.exportaciones.model.to.PedidoFirmeTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="IDCARPETA" jdbcType="NUMERIC" property="idCarpeta" />
+    <result column="IDCLIENTE" jdbcType="NUMERIC" property="idCliente" />
+    <result column="TIPOSOLICITUD" jdbcType="NUMERIC" property="tipoSolicitud" />
+    <result column="IDCONDICIONPAGO" jdbcType="NUMERIC" property="idCondicionPago" />
+    <result column="IDDESPACHO" jdbcType="NUMERIC" property="idDespacho" />
+    <result column="IDDESTINATARIO" jdbcType="NUMERIC" property="idDestinatario" />
+    <result column="IDESTADODOCUMENTO" jdbcType="NUMERIC" property="idEstadoDocumento" />
+    <result column="IDFORMAPAGO" jdbcType="NUMERIC" property="idFormaPago" />
+    <result column="IDINCOTERM" jdbcType="NUMERIC" property="idIncoterm" />
+    <result column="IDINCOTERMCOMERCIAL" jdbcType="NUMERIC" property="idIncotermComercial" />
+    <result column="IDLISTAPRECIO" jdbcType="NUMERIC" property="idListaPrecio" />
+    <result column="IDMONEDA" jdbcType="NUMERIC" property="idMoneda" />
+    <result column="IDPAISPUERTODESTINO" jdbcType="NUMERIC" property="idPaisPuertoDestino" />
+    <result column="IDPAISPUERTOORIGEN" jdbcType="NUMERIC" property="idPaisPuertoOrigen" />
+    <result column="IDPUERTODESTINO" jdbcType="NUMERIC" property="idPuertoDestino" />
+    <result column="IDPUERTOORIGEN" jdbcType="NUMERIC" property="idPuertoOrigen" />
+    <result column="IDRUTA" jdbcType="NUMERIC" property="idRuta" />
+    <result column="IDTIPOSOLICITUDPADRE" jdbcType="NUMERIC" property="idTipoSolicPadre" />
+    <result column="IDLUGARDESPACHO" jdbcType="NUMERIC" property="idLugarDespacho" />
+    <result column="IDTIPOTRANSPORTE" jdbcType="NUMERIC" property="idTipoTransporte" />
+    <result column="IDFACTURACION" jdbcType="NUMERIC" property="idFacturacion" />
+    <result column="IDPESOOBJETIVO" jdbcType="NUMERIC" property="idPesoObjetivo" />
+    <result column="IDTOLERANCIAPRODUCCION" jdbcType="NUMERIC" property="idToleranciaProduccion" />
+    <result column="IDPESOETIQUETA" jdbcType="NUMERIC" property="idPesoEtiqueta" />
+    <result column="IDNUMEROETIQUETA" jdbcType="NUMERIC" property="idNumeroEtiqueta" />
+    <result column="IMPORTEFLETE" jdbcType="NUMERIC" property="importeFlete" />
+    <result column="NODEID" jdbcType="VARCHAR" property="nodeId" />
+    <result column="NOMBRECLIENTE" jdbcType="VARCHAR" property="nombreCliente" />
+    <result column="NOMBRECLIENTE2" jdbcType="VARCHAR" property="nombreCliente2" />
+    <result column="NOMBRECONDICIONPAGO" jdbcType="VARCHAR" property="nombreCondicionPago" />
+    <result column="NOMBRECONTACTO" jdbcType="VARCHAR" property="nombreContacto" />
+    <result column="NOMBREDESPACHO" jdbcType="VARCHAR" property="nombreDespacho" />
+    <result column="NOMBREDESTINATARIO" jdbcType="VARCHAR" property="nombreDestinatario" />
+    <result column="NOMBREDESTINATARIO2" jdbcType="VARCHAR" property="nombreDestinatario2" />
+    <result column="NOMBREESTADODOCUMENTO" jdbcType="VARCHAR" property="nombreEstadoDocumento" />
+    <result column="NOMBREFORMAPAGO" jdbcType="VARCHAR" property="nombreFormaPago" />
+    <result column="NOMBREINCOTERM" jdbcType="VARCHAR" property="nombreIncoterm" />
+    <result column="NOMBREINCOTERMCOMERCIAL" jdbcType="VARCHAR" property="nombreIncotermComercial" />
+    <result column="NOMBRELISTAPRECIO" jdbcType="VARCHAR" property="nombreListaPrecio" />
+    <result column="NOMBREMONEDA" jdbcType="VARCHAR" property="nombreMoneda" />
+    <result column="NOMBRENUEVOCLIENTE" jdbcType="VARCHAR" property="nombreNuevoCliente" />
+    <result column="NOMBRENUEVODESTINATARIO" jdbcType="VARCHAR" property="nombreNuevoDestinatario" />
+    <result column="NOMBREPAISPUERTODESTINO" jdbcType="VARCHAR" property="nombrePaisPuertoDestino" />
+    <result column="NOMBREPAISPUERTOORIGEN" jdbcType="VARCHAR" property="nombrePaisPuertoOrigen" />
+    <result column="NOMBREPUERTODESTINO" jdbcType="VARCHAR" property="nombrePuertoDestino" />
+    <result column="NOMBREPUERTOORIGEN" jdbcType="VARCHAR" property="nombrePuertoOrigen" />
+    <result column="NOMBRERUTA" jdbcType="VARCHAR" property="nombreRuta" />
+    <result column="NOMBRETIPOTRANSPORTE" jdbcType="VARCHAR" property="nombreTipoTransporte" />
+    <result column="NOMBRELUGARDESPACHO" jdbcType="VARCHAR" property="nombreLugarDespacho" />
+    <result column="NOMBREFACTURACION" jdbcType="VARCHAR" property="nombreFacturacion" />
+    <result column="NOMBREPESOOBJETIVO" jdbcType="VARCHAR" property="nombrePesoObjetivo" />
+    <result column="NOMBRETOLERANCIAPRODUCCION" jdbcType="VARCHAR" property="nombreToleranciaProd" />
+    <result column="NOMBREPESOETIQUETA" jdbcType="VARCHAR" property="nombrePesoEtiqueta" />
+    <result column="NOMBREALMACENAJE" jdbcType="VARCHAR" property="nombreAlmacenaje" />
+    <result column="NOMBRENUMEROETIQUETA" jdbcType="VARCHAR" property="nombreNumeroEtiqueta" />
+    <result column="NUMEROCONTENEDOR" jdbcType="NUMERIC" property="numeroContenedor" />
+    <result column="OBSERVACION" jdbcType="VARCHAR" property="observacion" />
+    <result column="TIEMPOENTREGA" jdbcType="VARCHAR" property="tiempoEntrega" />
+    <result column="VIGENCIAOFERTA" jdbcType="NUMERIC" property="vigenciaOferta" />
+    <result column="CARGOCONTACTO" jdbcType="VARCHAR" property="cargoContacto" />
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigoPedido" />
+    <result column="CODIGOCLIENTE" jdbcType="VARCHAR" property="codigoCliente" />
+    <result column="CODIGOCONDICIONPAGO" jdbcType="VARCHAR" property="codigoCondicionPago" />
+    <result column="CODIGODESPACHO" jdbcType="VARCHAR" property="codigoDespacho" />
+    <result column="CODIGODESTINATARIO" jdbcType="VARCHAR" property="codigoDestinatario" />
+    <result column="CODIGOESTADODOCUMENTO" jdbcType="VARCHAR" property="codigoEstadoDocumento" />
+    <result column="CODIGOFORMAPAGO" jdbcType="VARCHAR" property="codigoFormaPago" />
+    <result column="CODIGOINCOTERM" jdbcType="VARCHAR" property="codigoIncoterm" />
+    <result column="CODIGOINCOTERMCOMERCIAL" jdbcType="VARCHAR" property="codigoIncotermComercial" />
+    <result column="CODIGOLISTAPRECIO" jdbcType="VARCHAR" property="codigoListaPrecio" />
+    <result column="CODIGOMONEDA" jdbcType="VARCHAR" property="codigoMoneda" />
+    <result column="CODIGOPUERTODESTINO" jdbcType="VARCHAR" property="codigoPuertoDestino" />
+    <result column="CODIGOPUERTOORIGEN" jdbcType="VARCHAR" property="codigoPuertoOrigen" />
+    <result column="CODIGORUTA" jdbcType="VARCHAR" property="codigoRuta" />
+    <result column="CODIGOTIPOTRANSPORTE" jdbcType="VARCHAR" property="codigoTipoTransporte" />
+    <result column="CODIGOLUGARDESPACHO" jdbcType="VARCHAR" property="codigoLugarDespacho" />
+    <result column="CODIGOFACTURACION" jdbcType="VARCHAR" property="codigoFacturacion" />
+    <result column="CODIGOPESOETIQUETA" jdbcType="VARCHAR" property="codigoPesoEtiqueta" />
+    <result column="CODIGOPESOOBJETIVO" jdbcType="VARCHAR" property="codigoPesoObjetivo" />
+    <result column="CODIGOTOLERANCIAPRODUCCION" jdbcType="VARCHAR" property="codigoToleranciaProduccion" />
+    <result column="CODIGOALMACENAJE" jdbcType="VARCHAR" property="codigoAlmacenaje" />
+    <result column="CODIGONUMEROETIQUETA" jdbcType="VARCHAR" property="codigoNumeroEtiqueta" />
+    <result column="CORREOCONTACTO" jdbcType="VARCHAR" property="correoContacto" />
+    <result column="FECHALISTAPRECIO" jdbcType="TIMESTAMP" property="fechaListaPrecio" />
+    <result column="FECHASOLICITUD" jdbcType="DATE" property="fechaSolicitud" />  
+    <result column="FECHADESPACHOREQUERIDA" jdbcType="DATE" property="fechaDespachoRequerido" />  
+    <result column="ANTICIPO" jdbcType="VARCHAR" property="anticipo" /> 
+    <result column="CONDICIONDESCARGA" jdbcType="VARCHAR" property="condicionDescarga" /> 
+    <result column="IDALMACENAJE" jdbcType="VARCHAR" property="idAlmacenaje" /> 
+    <result column="GASTOSOPERATIVOS" jdbcType="VARCHAR" property="gastosOperativos" /> 
+    <result column="DEAL" jdbcType="VARCHAR" property="deal" /> 
+    <result column="LOTE" jdbcType="VARCHAR" property="lote" /> 
+    <result column="CUSTOMERNAME" jdbcType="VARCHAR" property="customerName" /> 
+    <result column="DESTINATIONPORT" jdbcType="VARCHAR" property="destinationPort" /> 
+    
+  </resultMap>   
+  <resultMap id="pedidoFirmePosicionMap" type="com.caasa.comexsap.exportaciones.model.to.PedidoFirmePosicionTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="IDPEDIDO" jdbcType="NUMERIC" property="idPedido" />
+    <result column="ITEM" jdbcType="NUMERIC" property="item" />
+    <result column="IDPRODUCTO" jdbcType="NUMERIC" property="idProducto" />
+    <result column="IDPADRE" jdbcType="NUMERIC" property="idPadre" />
+    <result column="CODIGOSAP" jdbcType="VARCHAR" property="codigoSAP" />
+    <result column="DESCRIPCIONPRODUCTO" jdbcType="VARCHAR" property="descripcionProducto" />
+    <result column="DESCRIPCIONCOMERCIALPRODUCTO" jdbcType="VARCHAR" property="descripcionComercialProducto" />
+    <result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />
+    <result column="CANTIDADVENTA" jdbcType="NUMERIC" property="cantidadVenta" />
+    <result column="FACTOR" jdbcType="NUMERIC" property="factor" />
+    <result column="IDUNIDADMEDIDA" jdbcType="NUMERIC" property="idUnidadMedida" />
+    <result column="CODIGOSAPUNIDADMEDIDA" jdbcType="VARCHAR" property="codigoSAPUnidadMedida" />
+    <result column="DESCRIPCIONUNIDADMEDIDA" jdbcType="VARCHAR" property="descripcionUnidadMedida" />
+    <result column="IDUNIDADMEDIDAVENTA" jdbcType="NUMERIC" property="idUnidadMedidaVenta" />
+    <result column="CODIGOSAPUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="codigoSAPUnidadMedidaVenta" />
+    <result column="DESCRIPCIONUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="descripcionUnidadMedidaVenta" />
+    <result column="IDCENTRO" jdbcType="NUMERIC" property="idCentro" />
+    <result column="CODIGOSAPCENTRO" jdbcType="VARCHAR" property="codigoSAPCentro" />
+    <result column="DESCRIPCIONCENTRO" jdbcType="VARCHAR" property="descripcionCentro" />
+    <result column="IDALMACEN" jdbcType="NUMERIC" property="idAlmacen" />
+    <result column="CODIGOSAPALMACEN" jdbcType="VARCHAR" property="codigoSAPAlmacen" />
+    <result column="DESCRIPCIONALMACEN" jdbcType="VARCHAR" property="descripcionAlmacen" />
+    <result column="PESOTONELADA" jdbcType="NUMERIC" property="pesoTonelada" />
+    <result column="PESONOMINAL" jdbcType="NUMERIC" property="pesoNominal" />
+    <result column="CANTIDADTONELADA" jdbcType="NUMERIC" property="cantidadTonelada" />
+    <result column="FECHADISPONIBILIDAD" jdbcType="DATE" property="fechaDisponibilidad" />
+    <result column="PRECIOUNITARIO" jdbcType="NUMERIC" property="precioUnitario" />
+    <result column="PRECIOUNITARIOSAP" jdbcType="NUMERIC" property="precioUnitarioSAP" />
+    <result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+    <result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+    <result column="MATERIALPRECIO" jdbcType="VARCHAR" property="materialPrecio" />
+  </resultMap>
+  <resultMap id="pedidoFirmeSubPosicionMap" type="com.caasa.comexsap.exportaciones.model.to.PedidoFirmeSubPosicionTO">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="IDPEDIDO" jdbcType="NUMERIC" property="idPedido" />
+    <result column="ITEM" jdbcType="NUMERIC" property="item" />
+    <result column="IDPRODUCTO" jdbcType="NUMERIC" property="idProducto" />
+    <result column="IDPADRE" jdbcType="NUMERIC" property="idPadre" />
+    <result column="CODIGOSAP" jdbcType="VARCHAR" property="codigoSAP" />
+    <result column="DESCRIPCIONPRODUCTO" jdbcType="VARCHAR" property="descripcionProducto" />
+    <result column="DESCRIPCIONCOMERCIALPRODUCTO" jdbcType="VARCHAR" property="descripcionComercialProducto" />
+    <result column="CANTIDAD" jdbcType="NUMERIC" property="cantidad" />
+    <result column="CANTIDADVENTA" jdbcType="NUMERIC" property="cantidadVenta" />
+    <result column="FACTOR" jdbcType="NUMERIC" property="factor" />
+    <result column="IDUNIDADMEDIDA" jdbcType="NUMERIC" property="idUnidadMedida" />
+    <result column="CODIGOSAPUNIDADMEDIDA" jdbcType="VARCHAR" property="codigoSAPUnidadMedida" />
+    <result column="DESCRIPCIONUNIDADMEDIDA" jdbcType="VARCHAR" property="descripcionUnidadMedida" />
+    <result column="IDUNIDADMEDIDAVENTA" jdbcType="NUMERIC" property="idUnidadMedidaVenta" />
+    <result column="CODIGOSAPUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="codigoSAPUnidadMedidaVenta" />
+    <result column="DESCRIPCIONUNIDADMEDIDAVENTA" jdbcType="VARCHAR" property="descripcionUnidadMedidaVenta" />
+    <result column="IDCENTRO" jdbcType="NUMERIC" property="idCentro" />
+    <result column="CODIGOSAPCENTRO" jdbcType="VARCHAR" property="codigoSAPCentro" />
+    <result column="DESCRIPCIONCENTRO" jdbcType="VARCHAR" property="descripcionCentro" />
+    <result column="IDALMACEN" jdbcType="NUMERIC" property="idAlmacen" />
+    <result column="CODIGOSAPALMACEN" jdbcType="VARCHAR" property="codigoSAPAlmacen" />
+    <result column="DESCRIPCIONALMACEN" jdbcType="VARCHAR" property="descripcionAlmacen" />
+    <result column="PESOTONELADA" jdbcType="NUMERIC" property="pesoTonelada" />
+    <result column="PESONOMINAL" jdbcType="NUMERIC" property="pesoNominal" />
+    <result column="CANTIDADTONELADA" jdbcType="NUMERIC" property="cantidadTonelada" />
+    <result column="FECHADISPONIBILIDAD" jdbcType="DATE" property="fechaDisponibilidad" />
+    <result column="PRECIOUNITARIO" jdbcType="NUMERIC" property="precioUnitario" />
+    <result column="PRECIOUNITARIOSAP" jdbcType="NUMERIC" property="precioUnitarioSAP" />
+    <result column="IMPORTE" jdbcType="NUMERIC" property="importe" />
+    <result column="ESTADO" jdbcType="NUMERIC" property="estado" />
+    <result column="MATERIALPRECIO" jdbcType="VARCHAR" property="materialPrecio" />
+  </resultMap>     
+  
+  <sql id="Base_Column_List">
+    ID,
+	ANTICIPO,
+	CARGOCONTACTO,
+	CODIGO,
+	CODIGOALMACENAJE,
+	CODIGOCLIENTE,
+	CODIGOCONDICIONPAGO,
+	CODIGODESPACHO,
+	CODIGODESTINATARIO,
+	CODIGOESTADODOCUMENTO,
+	CODIGOFACTURACION,
+	CODIGOFORMAPAGO,
+	CODIGOINCOTERM,
+	CODIGOINCOTERMCOMERCIAL,
+	CODIGOLISTAPRECIO,
+	CODIGOLUGARDESPACHO,
+	CODIGOMONEDA,
+	CODIGONUMEROETIQUETA,
+	CODIGOPADRE,
+	CODIGOPAISSAPPUERTODESTINO,
+	CODIGOPAISSAPPUERTOORIGEN,
+	CODIGOPESOETIQUETA,
+	CODIGOPESOOBJETIVO,
+	CODIGOPUERTODESTINO,
+	CODIGOPUERTOORIGEN,
+	CODIGORUTA,
+	CODIGOTIPOTRANSPORTE,
+	CODIGOTOLERANCIAPRODUCCION,
+	CONDICIONDESCARGA,
+	CORREOCONTACTO,
+	CUSTOMERNAME,
+	DEAL,
+	DESTINATIONPORT,
+	FECHADESPACHOREQUERIDA,
+	FECHALISTAPRECIO,
+	FECHASOLICITUD,
+	GASTOSOPERATIVOS,
+	IDALMACENAJE,
+	IDCARPETA,
+	IDCLIENTE,
+	IDCONDICIONPAGO,
+	IDDESPACHO,
+	IDDESTINATARIO,
+	IDESTADODOCUMENTO,
+	IDFACTURACION,
+	IDFORMAPAGO,
+	IDINCOTERM,
+	IDINCOTERMCOMERCIAL,
+	IDLISTAPRECIO,
+	IDLUGARDESPACHO,
+	IDMONEDA,
+	IDNUMEROETIQUETA,
+	IDPADRE,
+	IDPAISPUERTODESTINO,
+	IDPAISPUERTOORIGEN,
+	IDPESOETIQUETA,
+	IDPESOOBJETIVO,
+	IDPUERTODESTINO,
+	IDPUERTOORIGEN,
+	IDRUTA,
+	IDTIPOSOLICITUDPADRE,
+	IDTIPOTRANSPORTE,
+	IDTOLERANCIAPRODUCCION,
+	IMPORTEFLETE,
+	SEGUROINTERNACIONAL,
+	LOTE,
+	NODEID,
+	NOMBREALMACENAJE,
+	NOMBRECLIENTE,
+	NOMBRECLIENTE2,
+	NOMBRECONDICIONPAGO,
+	NOMBRECONTACTO,
+	NOMBREDESPACHO,
+	NOMBREDESTINATARIO,
+	NOMBREDESTINATARIO2,
+	NOMBREESTADODOCUMENTO,
+	NOMBREFACTURACION,
+	NOMBREFORMAPAGO,
+	NOMBREINCOTERM,
+	NOMBREINCOTERMCOMERCIAL,
+	NOMBRELISTAPRECIO,
+	NOMBRELUGARDESPACHO,
+	NOMBREMONEDA,
+	NOMBRENUEVOCLIENTE,
+	NOMBRENUEVODESTINATARIO,
+	NOMBRENUMEROETIQUETA,
+	NOMBREPAISPUERTODESTINO,
+	NOMBREPAISPUERTOORIGEN,
+	NOMBREPESOETIQUETA,
+	NOMBREPESOOBJETIVO,
+	NOMBREPUERTODESTINO,
+	NOMBREPUERTOORIGEN,
+	NOMBRERUTA,
+	NOMBRETIPOTRANSPORTE,
+	NOMBRETOLERANCIAPRODUCCION,
+	NUMEROCONTENEDOR,
+	OBSERVACION,
+	TIEMPOENTREGA,
+	VIGENCIAOFERTA
+  </sql> 
+  
+  <select id="listarPedidoFirmexFiltro" resultMap="pedidoFirmeMap" parameterType="String">	  
+	SELECT 
+	<include refid="Base_Column_List" />
+	FROM 
+	COMEXSVI_PEDIDO_02_PEDIDOFIRME
+	WHERE ID IS NOT NULL
+	<if test="pedidos != null and pedidos.length > 0">
+		AND CODIGO IN 
+		<foreach collection="pedidos" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	 </if>
+	 <if test="fechaPedidoFirmeInicio != null and fechaPedidoFirmeInicio != '' and fechaPedidoFirmeFin != null and fechaPedidoFirmeFin != ''">      
+         AND ( FECHASOLICITUD BETWEEN TO_DATE (#{fechaPedidoFirmeInicio}, 'yyyy-mm-dd') AND 
+          TO_DATE(#{fechaPedidoFirmeFin}, 'yyyy-mm-dd') + INTERVAL '1' DAY)
+     </if>
+	 <if test="clientes != null and clientes.length > 0">
+		AND CODIGOCLIENTE IN 
+		<foreach collection="clientes" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	 </if>
+	 <if test="pagos != null and pagos.length > 0">
+		AND IDCONDICIONPAGO IN 
+		<foreach collection="pagos" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	 </if> 
+	  <if test="incoterms != null and incoterms.length > 0">
+		AND IDINCOTERM IN 
+		<foreach collection="incoterms" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	 </if> 
+	 <if test="documentos != null and documentos.length > 0">
+		AND IDESTADODOCUMENTO IN 
+		<foreach collection="documentos" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>	
+	 </if> 
+	 <if test="id != 0">
+		AND ID = #{id}
+	 </if>
+	ORDER BY FECHACREACION DESC, CODIGO DESC
+  </select> 
+<!--    <select id="listarCotizacionxPedido" resultMap="CotizacionMap" parameterType="int">	   -->
+<!-- 	SELECT  -->
+<!-- 	<include refid="Base_Column_List" /> -->
+<!-- 	FROM  -->
+<!-- 	COMEXSVI_PEDIDO_02_PEDIDOFIRME -->
+<!-- 	WHERE ID = #{idPedido} -->
+<!--   </select> -->
+  <select id="obtenerPedidoFirmexIdPedido" resultMap="pedidoFirmeMap" parameterType="int">	  
+	SELECT 
+	<include refid="Base_Column_List" />
+	FROM 
+	COMEXSVI_PEDIDO_02_PEDIDOFIRME
+	WHERE ID = #{idPedido}
+  </select> 
+  <select id="listarPosicionxPedidoFirme" resultMap="pedidoFirmePosicionMap" parameterType="int">	  
+	SELECT 
+	ID,
+	IDPEDIDO,
+	ITEM,
+	IDPRODUCTO,
+	IDPADRE,
+	CODIGOSAP,
+	DESCRIPCIONPRODUCTO ,
+	DESCRIPCIONCOMERCIALPRODUCTO,
+	CANTIDAD,
+	CANTIDADVENTA,
+	FACTOR,
+	IDUNIDADMEDIDA,
+	CODIGOSAPUNIDADMEDIDA,
+	DESCRIPCIONUNIDADMEDIDA,
+	IDUNIDADMEDIDAVENTA,
+	CODIGOSAPUNIDADMEDIDAVENTA,
+	DESCRIPCIONUNIDADMEDIDAVENTA,
+	IDCENTRO,
+	CODIGOSAPCENTRO,
+	DESCRIPCIONCENTRO,
+	IDALMACEN,
+	CODIGOSAPALMACEN,
+	DESCRIPCIONALMACEN,
+	PESOTONELADA,
+	PESONOMINAL,
+	CANTIDADTONELADA,
+	FECHADISPONIBILIDAD,
+	PRECIOUNITARIO,
+	PRECIOUNITARIOSAP,
+	IMPORTE,
+	ESTADO,
+	MATERIALPRECIO
+	FROM 
+	COMEXSVI_PEDIDOPOSICION_02_PEDIDOFIRMEPOSICION
+	WHERE IDPEDIDO = #{idPedido} AND (IDPADRE IS NULL OR IDPADRE = 0)
+	ORDER BY ID
+  </select> 
+ <select id="listarSubPosicionPedidoFirme" resultMap="pedidoFirmeSubPosicionMap" parameterType="int">	  
+	SELECT 
+	ID,
+	IDPEDIDO,
+	ITEM,
+	IDPRODUCTO,
+	IDPADRE,
+	CODIGOSAP,
+	DESCRIPCIONPRODUCTO ,
+	DESCRIPCIONCOMERCIALPRODUCTO,
+	CANTIDAD,
+	CANTIDADVENTA,
+	FACTOR,
+	IDUNIDADMEDIDA,
+	CODIGOSAPUNIDADMEDIDA,
+	DESCRIPCIONUNIDADMEDIDA,
+	IDUNIDADMEDIDAVENTA,
+	CODIGOSAPUNIDADMEDIDAVENTA,
+	DESCRIPCIONUNIDADMEDIDAVENTA,
+	IDCENTRO,
+	CODIGOSAPCENTRO,
+	DESCRIPCIONCENTRO,
+	IDALMACEN,
+	CODIGOSAPALMACEN,
+	DESCRIPCIONALMACEN,
+	PESOTONELADA,
+	PESONOMINAL,
+	CANTIDADTONELADA,
+	FECHADISPONIBILIDAD,
+	PRECIOUNITARIO,
+	PRECIOUNITARIOSAP,
+	IMPORTE,
+	ESTADO,
+	MATERIALPRECIO
+	FROM 
+	COMEXSVI_PEDIDOPOSICION_02_PEDIDOFIRMEPOSICION
+    WHERE IDPADRE = #{idPadre}
+	ORDER BY ID
+  </select>
+	<select id="pedidoFirmeConExportacion" resultType="int" parameterType="int">	  
+		SELECT 
+		    COUNT(*)
+		FROM COMEXSAP.COMEXST_EXPORTACION E
+		INNER JOIN COMEXSAP.COMEXST_EXPORTACIONPEDIDO EP ON EP.EPEDN_IDEXPORTACION = E.EXPON_ID
+		INNER JOIN COMEXSAP.COMEXST_PEDIDOEXPORTACIONPOSICION PEP ON PEP.PEPON_IDEXPORTACIONPEDIDO = EP.EPEDN_ID
+		INNER JOIN COMEXSAP.COMEXST_PEDIDOPOSICION PP ON PP.PPOSN_ID = PEP.PEPON_IDPEDIDOPOSICION
+		INNER JOIN COMEXSAP.COMEXST_PEDIDO P ON P.PEDIN_ID = PP.PPOSN_IDPEDIDO
+		WHERE E.EXPON_ESTADO = 1 
+        AND EP.EPEDN_ESTADO = 1
+		AND PP.PPOSN_ESTADO = 1
+		AND P.PEDIN_ID = #{idPedido}
+	</select> 
+</mapper>

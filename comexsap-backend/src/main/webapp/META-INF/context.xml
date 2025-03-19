@@ -1,0 +1,7 @@
+<Context path="/comexsap-exportaciones-backend" >
+
+<ResourceLink name="jdbc/oracleComexsapExportacionesBackend"
+            global="jdbc/oracleComexsapExportacionesBackend"
+            type="javax.sql.DataSource" />            
+            
+</Context>

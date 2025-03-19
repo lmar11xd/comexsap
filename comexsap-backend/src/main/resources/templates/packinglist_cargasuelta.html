@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Packing List - Carga Suelta</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/packinglist_cargasuelta.css" />
+</head>
+<body>
+	<div>
+		<div class="header">
+			<table cellspacing="0" style="border-bottom: 0;">
+				<tbody>
+					<tr>
+			    		<td width="162" style="border-bottom: 0;">
+			    			<div class="text-center" style="margin: auto;">
+			    				<img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="85" height="50px" />
+			    			</div>
+			    		</td>
+			    		<td style="border-left: 0; border-bottom: 0;">
+			    			<p th:utext="${shipper}" style="font-weight: bold;"></p>
+			    			<p th:utext="${direccionShipper}"></p>
+			    		</td>
+			    		<td width="158" class="text-center" style="border-left: 0; border-bottom: 0;">
+			    			<p style="margin: auto;"><strong th:text="${versionIngles} ? 'PACKING LIST' : 'LISTA DE EMPAQUE'"></strong></p>
+			    		</td>
+		    		</tr>
+				</tbody>
+			</table>
+		</div>
+    	<div class="footer">
+    		<table cellspacing="0">
+	    		<tbody>
+	    			<tr>
+	    				<td th:if="${original == true}" class="text-center"><strong>ORIGINAL</strong></td>
+	    				<td th:if="${original == false}"class="text-center">
+	    					<strong th:text="${versionIngles} ? 'COPY' : 'COPIA'"></strong>
+	    				</td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+    	</div>
+		<div class="body">
+			<table cellspacing="0">
+	    		<thead>
+		    		<tr>
+		    			<td width="162" style="vertical-align: top; border-left: 0;">
+		    				<p th:text="${versionIngles} ? 'CUSTOMER:' : 'CLIENTE:'"></p>
+		    				<p th:text="${versionIngles} ? 'ADDRESS:' : 'DIRECCI&Oacute;N:'"></p>
+		    			</td>
+		    			<td colspan="7" style="vertical-align: top; border-left: 0;">
+		    				<p th:utext="${consignatario}"></p>
+		    				<p th:utext="${direccionConsignatario}"></p>
+		    			</td>
+		    			<td colspan="2" width="160" style="vertical-align: top; border-left: 0;" class="text-center">
+		    				<p th:text="${versionIngles} ? 'DATE:' : 'FECHA:'"></p>
+		    				<p th:text="${fechaFacturaSap}"></p>
+		    			</td>
+		    		</tr>
+
+		    		<!--Etiquetas-->
+		    		<tr class="row-noborder" th:each="etiqueta: ${etiquetasArriba}">
+		    			<td>
+		    				<span th:text="${versionIngles} ? ${etiqueta.nombreInglesEtiqueta} : ${etiqueta.nombreEtiqueta}"></span>:
+		    			</td>
+		    			<td colspan="9" th:text="${etiqueta.contenido}"></td>
+		    		</tr>
+		    		<!--Fin Etiquetas-->
+		    		
+		    		<tr class="row-noborder"><td></td></tr>
+
+	    			<tr class="row-noborder">
+	    				<th colspan="5" class="text-center" th:if="${mostrarPesoTeorico == true}">MATERIAL</th>
+	    				<th colspan="6" class="text-center" th:if="${mostrarPesoTeorico == false}">MATERIAL</th>
+
+	    				<th class="text-center" width="75" th:if="${mostrarPesoTeorico == true}">
+	    					<strong th:text="${versionIngles} ? 'THEORETICAL WEIGHT' : 'PESO TE&Oacute;RICO'"></strong><br/>(TM)
+	    				</th>
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'NET WEIGHT' : 'PESO NETO'"></strong><br/>(TM)
+	    				</th>
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'GROSS WEIGHT' : 'PESO BRUTO'"></strong><br/>(TM)
+	    				</th>
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'N° PACKAGES' : 'N° PAQUETES'"></strong>
+	    				</th>
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'TOTAL PIECES' : 'TOTAL PIEZAS'"></strong>
+	    				</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr class="row-noborder" th:each="posicion: ${posiciones}">
+	    				<td colspan="5" class="text-left" th:if="${mostrarPesoTeorico == true}" th:text="${posicion.material}"></td>
+	    				<td colspan="6" class="text-left" th:if="${mostrarPesoTeorico == false}" th:text="${posicion.material}"></td>
+
+	    				<td class="text-center" th:if="${mostrarPesoTeorico == true}" th:text="${#numbers.formatDecimal(posicion.pesoTeorico, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.pesoNeto, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.pesoBruto, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatInteger(posicion.paquetes, 1, 'COMMA')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatInteger(posicion.piezas, 1, 'COMMA')}"></td>
+	    			</tr>
+	    		</tbody>
+	    		<tfoot>
+	    			<tr class="row-noborder">
+	    				<th colspan="5" class="text-right" th:if="${mostrarPesoTeorico == true}">TOTAL:</th>
+	    				<th colspan="6" class="text-right" th:if="${mostrarPesoTeorico == false}">TOTAL:</th>
+
+		    			<th class="text-center" th:if="${mostrarPesoTeorico == true}" th:text="${#numbers.formatDecimal(totalPesoTeorico, 1, 'COMMA', 2, 'POINT')}"></th>
+		    			<th class="text-center" th:text="${#numbers.formatDecimal(totalPesoNeto, 1, 'COMMA', 2, 'POINT')}"></th>
+		    			<th class="text-center" th:text="${#numbers.formatDecimal(totalPesoBruto, 1, 'COMMA', 2, 'POINT')}"></th>
+		    			<th class="text-center" th:text="${#numbers.formatInteger(totalPaquetes, 1, 'COMMA')}"></th>
+		    			<th class="text-center" th:text="${#numbers.formatInteger(totalPiezas, 1, 'COMMA')}"></th>
+	    			</tr>
+	    			
+	    			<tr class="row-noborder"><td></td></tr>
+
+		    		<!--Etiquetas-->
+		    		<tr class="row-noborder" th:each="etiqueta: ${etiquetasAbajo}">
+		    			<td>
+		    				<span th:text="${versionIngles} ? ${etiqueta.nombreInglesEtiqueta} : ${etiqueta.nombreEtiqueta}"></span>:
+		    			</td>
+		    			<td colspan="9" th:text="${etiqueta.contenido}"></td>
+		    		</tr>
+		    		<!--Fin Etiquetas-->
+	    		</tfoot>
+	    	</table>
+		</div>
+	</div>
+</body>
+</html>

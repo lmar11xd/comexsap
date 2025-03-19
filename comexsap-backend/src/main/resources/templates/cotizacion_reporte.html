@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Reporte Cotizacion</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/cotizacion_reporte.css" />
+</head>
+<body>
+	<div>
+		<!-- Cabecera -->
+	    <div class="header">
+	    	<table cellspacing="0">
+	    		<tbody>
+	    			<tr>
+			    		<td><img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="100" /></td>
+			    		<td style="display: block">
+			    			<p th:text="'Lima, ' + ${fechaActual}"></p>
+			    			<p th:text="${codigoPedido}"></p>
+			    		</td>
+		    		</tr>
+	    		</tbody>
+	    	</table>
+	    </div>
+
+	    <!-- Pie de pagina -->
+	    <div class="footer">
+	    	<br/>
+	    	<table>
+	    		<tbody>
+    				<tr>
+    					<p th:text="${usuario}"></p>
+    					<p style="text-transform: capitalize;" th:text="${cargoUsuario}"></p>
+						<p><strong>Corporación Aceros Arequipa S.A.</strong></p>
+						<br/>
+    				</tr>
+    				<tr>
+    					<p style="font-style: italic;">Aceros Arequipa emite un 75% menos de CO2 que el promedio de la industria global de acero (0.47tCO2/t vs 1.91 tCO2/t *); además, formamos parte del Dow Jones Sustainability MILA Pacific Alliance Index 2023, ubicándonos en el Top 5 de la industria mundial.</p>
+    					<p>*Fuente: World Steel 2022</p>
+    					<br/>
+    				</tr>
+	    			<tr>
+	    				<div>
+	    					<p>LOS PESOS DE LAS BARRAS SON REFERENCIALES Y ESTAN SUJETOS A VARIACIONES DE FABRICACIÓN</p>
+							<strong>Lima.</strong> Av. Antonio Miró Quesada N° 425, Piso 17, Magalena del Mar, Lima 17 - Perú - Tel(51-01) 517 1800.<br>
+							<strong>Arequipa.</strong> Calle Jacinto Ibañez 111, Pque. Industrial - Arequipa - Perú - Tel(51-054) 23 2430.<br>
+							<strong>Pisco.</strong>Panamericana Sur Km. 240 - Ica - Perú - Tel(51-056) 580 830.<br>
+							Registro de Personas Jurídicas del Callao, Partida Electrónica N° 70627037.
+	    				</div>
+	    			</tr>
+	    			<tr>
+	    				<td style="width: 30%;"><a href="https://www.acerosarequipa.com/">www.acerosarequipa.com</a></td>
+	    				<td style="width: 40%;"><p></p></td>
+	    				<td style="width: 30%;"><img src="../pdfresources/images/elige-seguridad.png" width="110" alt="logo-aceros"></td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+	    </div>
+
+		<br/>
+	    <!-- Contenido -->
+	    <div class="body">
+			<div>
+				<p>Señor(es)</p>
+				<p th:text="${nombreContacto}"></p>
+				<p th:text="${cargoContacto}"></p>
+				<p><strong th:text="${razonSocial}"></strong></p>
+				<p th:text="${lugarContacto}"></p><br>
+				<p th:text="'REF.: ' + ${descripcionMaterial}"></p><br><br>
+				<p th:text="'En respuesta a su solicitud de referencia, se emite la ' + ${tipoDocumento} + ' siguiente:'"></p><br>
+			</div>
+
+	    	<!--POSICIONES-->
+	    	<div class="container-table">
+	    		<table cellspacing="0" style="font-size: 9px;">
+	    			<thead>
+	    				<tr>
+	    					<th width="30">POS.</th>
+	    					<th width="50">UNIDADES TOTALES</th>
+	    					<th width="45">PESO TEORICO</th>
+	    					<th width="55">PESO TEORICO TOTAL (TM)</th>
+	    					<th class="text-left">DESCRIPCI&Oacute;N</th>
+	    					<!--<th width="50"><div th:text="'PRECIO ' + ${nombreIncoterm}"></div><div>(USD/UN)</div></th>-->
+	    					<th width="50"><div>PRECIO</div><div>(USD/UN)</div></th>
+	    					<th width="65">SUBTOTAL (USD)</th>
+	    				</tr>
+	    			</thead>
+	    			<tbody>
+	    				<tr th:each="posicion: ${posiciones}">
+	    					<td th:text="${posicion.idPosicion}"></td>
+	    					<td th:text="${#numbers.formatInteger(posicion.unidadTotal, 1, 'COMMA')}"></td>
+	    					<td th:text="${#numbers.formatDecimal(posicion.pesoTeorico, 1, 'COMMA', 2, 'POINT')}" class="text-right"></td>
+	    					<td th:text="${#numbers.formatDecimal(posicion.pesoTeoricoTotal, 1, 'COMMA', 2, 'POINT')}" class="text-right"></td>
+	    					<td th:text="${posicion.descripcionPedidoMaterial}" class="text-left"></td>
+	    					<td th:text="${#numbers.formatDecimal(posicion.precioCFR, 1, 'COMMA', 2, 'POINT')}" class="text-right"></td>
+	    					<td th:text="${#numbers.formatDecimal(posicion.subtotal, 1, 'COMMA', 2, 'POINT')}" class="text-right"></td>
+	    				</tr>
+	    			</tbody>
+	    			<tfoot>
+	    				<tr th:if="${importeFlete} > 0">
+	    					<th colspan="4"></th>
+	    					<th colspan="2" class="text-left" th:text="${descripcionSubTotal}"></th>
+	    					<th th:text="${#numbers.formatDecimal(importeSubTotal, 1, 'COMMA', 2, 'POINT')}" class="text-right"></th>
+	    				</tr>
+	    				<tr th:if="${importeFlete} > 0">
+	    					<th colspan="4"></th>
+	    					<th colspan="2" class="text-left" th:text="${descripcionFlete}"></th>
+	    					<th th:text="${#numbers.formatDecimal(importeFlete, 1, 'COMMA', 2, 'POINT')}" class="text-right"></th>
+	    				</tr>
+	    				<tr th:if="${importeSeguro} > 0">
+	    					<th colspan="4"></th>
+	    					<th colspan="2" class="text-left" th:text="${descripcionSeguro}"></th>
+	    					<th th:text="${#numbers.formatDecimal(importeSeguro, 1, 'COMMA', 2, 'POINT')}" class="text-right"></th>
+	    				</tr>
+	    				<tr>
+	    					<th>TOTAL</th>
+	    					<th th:text="${#numbers.formatInteger(cantidadTotal, 1, 'COMMA')}"></th>
+	    					<th></th>
+	    					<th th:text="${#numbers.formatDecimal(pesoTotal, 1, 'COMMA', 2, 'POINT')}" class="text-right"></th>
+	    					<th colspan="2" class="text-left" th:text="${descripcionTotal}"></th>
+	    					<th th:text="${#numbers.formatDecimal(importeTotal, 1, 'COMMA', 2, 'POINT')}" class="text-right"></th>
+	    				</tr>
+	    			</tfoot>
+	    		</table>
+
+	    		<p style="margin-top: 20px" th:text="'SON: ' + ${descripcionImporteTotal}"></p>
+	    	</div>
+
+	    	<table>
+	    		<tbody>
+	    			<tr>
+	    				<td width="120">CONDICIÓN DE PAGO</td>
+	    				<td th:text="${#strings.capitalize(nombreCondicionPago)}"></td>
+	    			</tr>
+	    			<tr>
+	    				<td width="120">INCOTERM</td>
+	    				<td th:text="${nombreIncoterm} + ' ' + ${nombrePuerto}"></td>
+	    			</tr>
+	    			<tr th:if="${tiempoEntrega} != null and ${tiempoEntrega} != ''">
+	    				<td width="120">TIEMPO ENTREGA</td>
+	    				<td th:text="${tiempoEntrega}"></td>
+	    			</tr>
+	    			<tr th:if="${observacion} != null and ${observacion} != ''">
+	    				<td width="120" style="vertical-align: top;">OBSERVACIONES</td>
+	    				<td><div style="width: 100%;" th:utext="${observacion}"></div></td>
+	    			</tr>
+	    			<tr th:if="${vigencia} != null and ${vigencia} != ''">
+	    				<td width="120">VIGENCIA OFERTA</td>
+	    				<td th:text="${vigencia}"></td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+
+			<br><br>
+	    	<p>Sin otro particular quedo de usted.</p>
+	    	<p>Atentamente,</p>
+	    </div>
+	</div>
+</body>
+</html>

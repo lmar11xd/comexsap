@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.FacturaExtendedMapper">
+	<resultMap id="facturaMap" type="com.caasa.comexsap.exportaciones.model.to.FacturaTO">
+		<id column="FACTN_ID" jdbcType="NUMERIC" property="id" />
+	    <result column="FACTV_SERIECODIGO" jdbcType="VARCHAR" property="serieCodigo" />
+	</resultMap>
+	
+	<select id="obtenerFacturaxSerieCodigo" resultMap="facturaMap" parameterType="String">	  
+		SELECT 
+			FACTN_ID
+		FROM 
+		COMEXST_FACTURA
+		WHERE FACTV_SERIECODIGO = #{serieCodigo}
+		AND ROWNUM <![CDATA[ <= ]]> 1
+	</select>
+</mapper>

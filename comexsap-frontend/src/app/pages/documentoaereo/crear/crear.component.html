@@ -1,0 +1,854 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="documentoForm" novalidate (keydown.enter)="$event.preventDefault()">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="comex-tabs nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink><i class="pi pi-file"></i> Datos Doc. Aéreo</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Cabecera
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navDatos="ngbNav" [(activeId)]="activeDatos" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos del Cliente</a>
+                      <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Código</label>
+                                <input type="text" class="form-control text-uppercase" placeholder="Autogenerado" formControlName="codigo">
+                              </div>
+                            </div>
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Cliente<span class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control" formControlName="cliente">
+                                <div *ngIf="documentoForm.controls['idCliente'].invalid && documentoForm.controls['idCliente'].touched">
+                                  <div *ngIf="documentoForm.controls['idCliente'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Destinatario Mercanc&iacute;a</label>
+                                <input type="text" class="form-control" formControlName="destinatario">
+                                <div *ngIf="documentoForm.controls['idDestinatario'].invalid && documentoForm.controls['idDestinatario'].touched">
+                                  <div *ngIf="documentoForm.controls['idDestinatario'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                      <a ngbNavLink>Datos del Envío</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Origen<span class="required-asterisk">*</span></label>
+                              <input type="text" class="form-control" formControlName="puertoOrigen">
+                              <div *ngIf="documentoForm.controls['idPuertoOrigen'].invalid && documentoForm.controls['idPuertoOrigen'].touched">
+                                <div *ngIf="documentoForm.controls['idPuertoOrigen'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm SAP<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncoterm"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="documentoForm.controls['idIncoterm'].invalid && documentoForm.controls['idIncoterm'].touched">
+                                <div *ngIf="documentoForm.controls['idIncoterm'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Fecha Lista Precio<span class="required-asterisk">*</span></label>
+                              <p-calendar formControlName="fechaListaPrecio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              <div *ngIf="documentoForm.controls['fechaListaPrecio'].invalid && documentoForm.controls['fechaListaPrecio'].touched">
+                                <div *ngIf="documentoForm.controls['fechaListaPrecio'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Puerto Destino<span class="required-asterisk">*</span></label>
+                              <input type="text" class="form-control" formControlName="puertoDestino">
+                              <div *ngIf="documentoForm.controls['idPuertoDestino'].invalid && documentoForm.controls['idPuertoDestino'].touched">
+                                <div *ngIf="documentoForm.controls['idPuertoDestino'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Incoterm Comercial<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idIncotermComercial"
+                                [items]="incoterms"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="documentoForm.controls['idIncotermComercial'].invalid && documentoForm.controls['idIncotermComercial'].touched">
+                                <div *ngIf="documentoForm.controls['idIncotermComercial'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Lista de Precio<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idListaPrecio"
+                                [items]="listaPrecios"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="documentoForm.controls['idListaPrecio'].invalid && documentoForm.controls['idListaPrecio'].touched">
+                                <div *ngIf="documentoForm.controls['idListaPrecio'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Tipo de Despacho<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idTipoDespacho"
+                                [items]="despachos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="documentoForm.controls['idTipoDespacho'].invalid && documentoForm.controls['idTipoDespacho'].touched">
+                                <div *ngIf="documentoForm.controls['idTipoDespacho'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Moneda<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idMoneda"
+                                [items]="monedas"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="documentoForm.controls['idMoneda'].invalid && documentoForm.controls['idMoneda'].touched">
+                                <div *ngIf="documentoForm.controls['idMoneda'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Condici&oacute;n Pago<span class="required-asterisk">*</span></label>
+                              <ng-select
+                                formControlName="idCondicionPago"
+                                [items]="pagos"
+                                bindLabel="descripcionLarga"
+                                bindValue="id"
+                                placeholder="Buscar código o nombre">
+                              </ng-select>
+                              <div *ngIf="documentoForm.controls['idCondicionPago'].invalid && documentoForm.controls['idCondicionPago'].touched">
+                                <div *ngIf="documentoForm.controls['idCondicionPago'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Ruta<span class="required-asterisk">*</span></label>
+                              <app-modal-rutas
+                                [(item)]="selectedRuta"
+                                (itemChange)="seleccionarRuta($event)"
+                                placeholder="Seleccione una ruta"></app-modal-rutas>
+                              <div *ngIf="documentoForm.controls['idRuta'].invalid && documentoForm.controls['idRuta'].touched">
+                                <div *ngIf="documentoForm.controls['idRuta'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                      <a ngbNavLink>Datos del Aduana</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Agente Aduana</label>
+                                  <input type="text" class="form-control" formControlName="agenteAduana" placeholder="Agente Aduana">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Shipper</label>
+                                  <input type="text" class="form-control" formControlName="shipper" placeholder="Shipper">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Dirección Shipper</label>
+                                  <textarea rows="4" formControlName="direccionShipper"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Consignatario</label>
+                                  <input type="text" class="form-control" formControlName="consignatario" placeholder="Consignatario">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Dirección Consignatario</label>
+                                  <textarea rows="4" formControlName="direccionConsignatario"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Notificante</label>
+                                  <input type="text" class="form-control" formControlName="notificante" placeholder="Notificante">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Dirección Notificante</label>
+                                  <textarea rows="4" formControlName="direccionNotificante"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+                              <label class="form-control-label">Glosa<span class="required-asterisk">*</span></label>
+                              <textarea rows="4" formControlName="glosa"></textarea>
+                              <div *ngIf="documentoForm.controls['glosa'].invalid && documentoForm.controls['glosa'].touched">
+                                <div *ngIf="documentoForm.controls['glosa'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                      <a ngbNavLink>Orden Interna</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Orden Interna<span class="required-asterisk">*</span></label>
+                                  <input type="text" class="form-control" formControlName="ordenInterna" placeholder="Orden Interna">
+                                  <div *ngIf="documentoForm.controls['ordenInterna'].invalid && documentoForm.controls['ordenInterna'].touched">
+                                    <div *ngIf="documentoForm.controls['ordenInterna'].errors.required" class="invalid-feedback">Este campo es requerido</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navDatos" class="mt-2"></div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Posición
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button *ngIf="posiciones.length > 0" class="btn btn-outline-success" (click)="actualizarStock()"><i class="fas fa-sync-alt"></i> Actualizar Stock</button>
+                    <app-modal-pedido-disponible
+                      [idDespacho]="idDespacho"
+                      (itemsChange)="seleccionarPosiciones($event)"
+                    ></app-modal-pedido-disponible>
+                    <button class="btn btn-outline-danger" (click)="quitarPosiciones()"><i class="fas fa-trash"></i> Retirar</button>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 40px;">
+                          <input type="checkbox" name="selectAll" (change)="seleccionarTodasLasPosiciones($event)"/>
+                        </th>
+                        <th style="min-width: 100px;">Pedido Firme</th>
+                        <th style="min-width: 80px;">Material</th>
+                        <th style="min-width: 320px;">Descripción</th>
+                        <th style="min-width: 100px;">Cantidad Saldo</th>
+                        <th style="min-width: 140px;">Cantidad Venta<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 120px;">UM Venta<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 320px;">Centro Suministro<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 240px;">Almacén<span class="required-asterisk">*</span></th>
+                        <th style="min-width: 100px;">Stock</th>
+                        <th style="min-width: 100px;">Peso Toneladas</th>
+                        <th style="min-width: 100px;">Fecha Disponibilidad</th>
+                        <th style="min-width: 100px;">Precio Unit. SAP</th>
+                        <th style="min-width: 120px;">Importe</th>
+                        <th style="min-width: 100px;">Pedido SAP</th>
+                        <th style="min-width: 100px;">Entrega</th>
+                        <th style="min-width: 100px;">Mensaje</th>
+                        <th style="min-width: 320px;">Partida Arancelaria</th>
+                        <th style="min-width: 100px;">Folio Factura</th>
+                        <th style="min-width: 150px;">Referencia</th>
+                        <th style="min-width: 80px;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let posicionForm of posiciones.controls; let i = index" [formGroup]="posicionForm">
+                        <td><input type="checkbox" name="selectItem" formControlName="checked" /></td>
+                        <td>{{posicionForm.value.codigoPedido}}</td>
+                        <td>{{posicionForm.value.codigoMaterial}}</td>
+                        <td><input type="text" class="form-control" formControlName="descripcionMaterial"></td>
+                        <td>{{posicionForm.value.cantidadSaldo | number: '1.2-2'}}</td>
+                        <td>
+                          <input type="number" class="form-control" min="0" formControlName="cantidadVenta" (change)="cambiarCantidadVenta(posicionForm)">
+                        </td>
+
+                        <td *ngIf="posicionForm.controls['esPadre'].value">{{posicionForm.controls['unidadMedidaVenta'].value}}</td>
+                        <td *ngIf="!posicionForm.controls['esPadre'].value">
+                          <ng-select
+                            [items]="posicionForm.value.listaUnidadesMedida"
+                            bindLabel="codigo"
+                            bindValue="codigo"
+                            formControlName="unidadMedidaVenta"
+                            placeholder="Seleccione"
+                            (change)="seleccionarUnidadMedidaVenta($event, posicionForm)">
+                          </ng-select>
+                        </td>
+
+                        <td>
+                          <ng-select
+                            [items]="posicionForm.value.centros"
+                            bindLabel="descripcionLarga"
+                            bindValue="id"
+                            formControlName="idCentroSuministro"
+                            placeholder="Seleccione"
+                            (change)="seleccionarCentroSuministro($event, posicionForm)">
+                          </ng-select>
+                        </td>
+
+                        <td>
+                          <ng-select
+                            [items]="posicionForm.value.almacenes"
+                            bindLabel="descripcionLarga"
+                            bindValue="id"
+                            formControlName="idAlmacen"
+                            placeholder="Seleccione"
+                            (change)="seleccionarAlmacen($event, posicionForm)">
+                          </ng-select>
+                        </td>
+
+                        <td>{{ posicionForm.value.stock }}</td>
+                        <td>{{ posicionForm.value.pesoToneladas | number: '1.2-2' }}</td>
+                        <td>{{ posicionForm.value.fechaDisponibilidad | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ posicionForm.value.precioUnitario }}</td>
+                        <td>{{ posicionForm.value.importe | number: '1.2-2' }}</td>
+                        <td>{{ posicionForm.value.pedidoSap }}</td>
+                        <td>{{ posicionForm.value.entrega }}</td>
+                        <td>{{ posicionForm.value.mensaje }}</td>
+
+                        <td>
+                          <ng-select
+                            [items]="posicionForm.value.partidas"
+                            bindLabel="descripcionLarga"
+                            bindValue="id"
+                            formControlName="idPartidaArancelaria"
+                            placeholder="Seleccione">
+                          </ng-select>
+                        </td>
+
+                        <td>{{ posicionForm.value.folioFactura }}</td>
+
+                        <td><input type="text" class="form-control" formControlName="referencia"></td>
+
+                        <td>
+                          <app-modal-componentes
+                            *ngIf="posicionForm.controls['esPadre'].value"
+                            [form]="posicionForm"
+                            [fechaListaPrecio]="documentoForm.controls['fechaListaPrecio'].value"
+                            [idListaPrecio]="documentoForm.controls['idListaPrecio'].value"
+                            [listaPrecios]="listaPrecios"
+                            [estadoDocumento]="5"
+                            [esMaritimo]="true"
+                            (formChange)="actualizarFormularioPosicion($event)">
+                          </app-modal-componentes>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="posiciones.length == 0" colspan="20">Sin posiciones</td>
+                        <td *ngIf="posiciones.length > 0" colspan="20">En total existen {{posiciones.length}} líneas de posiciones</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink><i class="fa fa-ship"></i> Información Marítima</a>
+                <ng-template ngbNavContent>
+                  <div class="row container-title">
+                    <div class="col-sm-6 title">
+                      <label class="title-line"></label>Datos Marítimos
+                    </div>
+                    <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                      <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                    </div>
+                  </div>
+
+                  <div class="comex-container-detail">
+                    <ul ngbNav #navContacto="ngbNav" [(activeId)]="activeContacto" class="comex-tabs-detail nav-tabs">
+                      <li [ngbNavItem]="1">
+                        <a ngbNavLink>Datos de Carga</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Agente Naviera</label>
+                                <input type="text" class="form-control" formControlName="agenteNaviera" placeholder="Agente Naviera">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Agente Carga</label>
+                                <input type="text" class="form-control" formControlName="agenteCarga" placeholder="Agente Carga">
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-control-label">Nave</label>
+                                <input type="text" class="form-control" formControlName="nave" placeholder="Nave">
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="2">
+                          <a ngbNavLink>Datos del Envío</a>
+                          <ng-template ngbNavContent>
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">ETA Origen</label>
+                                  <p-calendar formControlName="etaOrigen" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">ETA Destino</label>
+                                  <p-calendar formControlName="etaDestino" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Fecha BL Programado</label>
+                                  <p-calendar formControlName="fechaBlProgramado" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Fecha BL Real</label>
+                                  <p-calendar formControlName="fechaBlReal" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Fecha Carguío</label>
+                                  <p-calendar formControlName="fechaCarguio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Fecha Máxima Ingreso</label>
+                                  <p-calendar formControlName="fechaMaximaIngreso" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Fecha Envío Documento</label>
+                                  <p-calendar formControlName="fechaEnvioDocumento" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Importe Flete<span class="required-asterisk" *ngIf="fleteOblitario()">*</span></label>
+                                  <input type="number" class="form-control" min="0" formControlName="importeFlete" placeholder="Importe Flete">
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Importe Seguro<span class="required-asterisk" *ngIf="seguroOblitario()">*</span></label>
+                                  <input type="number" class="form-control" min="0" formControlName="importeSeguro" placeholder="Importe Seguro">
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                      </li>
+                      <li [ngbNavItem]="3">
+                        <a ngbNavLink>Datos del Contenedor</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">N&uacute;mero Contenedor</label>
+                                <input type="number" class="form-control" formControlName="numeroContenedor" placeholder="Número Contenedor">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Booking</label>
+                                <input type="text" class="form-control" formControlName="booking" placeholder="Booking">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Bill of Landing</label>
+                                <input type="text" class="form-control" formControlName="billOfLanding" placeholder="Bill of Landing">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label"></label>
+                                <div class="row comex-radio-group">
+                                  <div class="col-12 col-md-6 custom-radio">
+                                    <input type="radio" class="custom-control-input" value="F" name="tipoEnvio" formControlName="tipoEnvio">
+                                    <label class="custom-control-label" for="fisico">Envío Físico</label>
+                                  </div>
+                                  <div class="col-12 col-md-6 custom-radio">
+                                    <input type="radio" class="custom-control-input" value="D" name="tipoEnvio" formControlName="tipoEnvio">
+                                    <label class="custom-control-label" for="digital">Envío Digital</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4" *ngIf="documentoForm.controls['tipoEnvio'].value == 'F'">
+                              <div class="form-group">
+                                <label class="form-control-label">Guía DHL</label>
+                                <input type="text" class="form-control" formControlName="guiaDHL" placeholder="Guía DHL">
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="4">
+                        <a ngbNavLink>Datos de Exportación</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">DAM</label>
+                                <input type="text" class="form-control" formControlName="dam" placeholder="DAM">
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha DAM</label>
+                                <p-calendar formControlName="fechaDam" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Régimen</label>
+                                <ng-select
+                                  formControlName="idRegimen"
+                                  [items]="regimenes"
+                                  bindLabel="descripcionLarga"
+                                  bindValue="id"
+                                  placeholder="Buscar código o nombre">
+                                </ng-select>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha DAM Regularización</label>
+                                <p-calendar formControlName="fechaDamRegularizacion" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Entrega DAM a DRAWBACK</label>
+                                <p-calendar formControlName="fechaDamDrawback" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha DAM41</label>
+                                <p-calendar formControlName="fechaDam41" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Manifiesto Aduana</label>
+                                <p-calendar formControlName="fechaManifiestoAduana" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Recepción DAM41</label>
+                                <p-calendar formControlName="fechaRecepcionDam41" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </li>
+                    </ul>
+                    <div [ngbNavOutlet]="navContacto" class="mt-2"></div>
+                  </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+              <a ngbNavLink><i class="fa fa-print"></i> Datos de Impresión</a>
+              <ng-template ngbNavContent>
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos Marítimos
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <button class="btn btn-info" (click)="guardar()">Guardar</button>
+                  </div>
+                </div>
+
+                <div class="comex-container-detail">
+                  <ul ngbNav #navImpresion="ngbNav" [(activeId)]="activeImpresion" class="comex-tabs-detail nav-tabs">
+                    <li [ngbNavItem]="1">
+                      <a ngbNavLink>Datos de Carga</a>
+                      <ng-template ngbNavContent>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                  <label class="form-control-label">Emitido en</label>
+                                  <input type="text" class="form-control" formControlName="emitidoEn" placeholder="Emitido en">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Empaque</label>
+                                  <input type="text" class="form-control" formControlName="etiquetaEmpaque" placeholder="Empaque">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <textarea rows="4" formControlName="empaque"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Marcas</label>
+                                  <input type="text" class="form-control" formControlName="etiquetaMarca" placeholder="Marcas">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <textarea rows="4" formControlName="marca"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label class="form-control-label">Unidad Productiva</label>
+                                  <input type="text" class="form-control" formControlName="etiquetaUnidadProductiva" placeholder="Unidad Productiva">
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <textarea rows="4" formControlName="unidadProductiva"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink>Datos de Factura</a>
+                        <ng-template ngbNavContent>
+                          <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label class="form-control-label">Precio Unitario</label>
+                                    <input type="text" class="form-control" formControlName="etiquetaPrecioUnitario" placeholder="Precio Unitario">
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <textarea rows="4" formControlName="precioUnitario"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label class="form-control-label">Facturación</label>
+                                    <input type="text" class="form-control" formControlName="etiquetaFacturacion" placeholder="Facturación">
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <textarea rows="4" formControlName="facturacion"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label class="form-control-label">Forma de Pago</label>
+                                    <input type="text" class="form-control" formControlName="etiquetaFormaPago" placeholder="Forma de Pago">
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <textarea rows="4" formControlName="formaPago"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                              <div class="form-group">
+                                <label class="form-control-label">Fecha Factura</label>
+                                <p-calendar formControlName="fechaFactura" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showIcon]="true" showButtonBar="true"></p-calendar>
+                              </div>
+                            </div>
+                            <div class="col-sm-6 col-md-8">
+                              <div class="form-group">
+                                <label class="form-control-label">Total en Letras</label>
+                                <input type="text" class="form-control" formControlName="descripcionTotal" placeholder="Total en Letras">
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="navImpresion" class="mt-2"></div>
+                </div>
+
+                <div class="row container-title">
+                  <div class="col-sm-6 title">
+                    <label class="title-line"></label>Datos de Factura Comercial
+                  </div>
+                  <div class="col-sm-6 mt-2 mt-sm-0 d-flex justify-content-end">
+                    <!--<button class="btn btn-outline-info" (click)="agregarItemFactura()"><i class="fas fa-plus"></i> Agregar</button>
+                    <button class="btn btn-outline-danger" (click)="quitarItemFactura()"><i class="fas fa-trash"></i> Retirar</button>-->
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered comex-table">
+                    <thead>
+                      <tr>
+                        <th style="min-width: 40px;">
+                          <input type="checkbox" name="selectAll" formControlName="selectAllPosiciones" (change)="seleccionarTodosFactura($event)"/>
+                        </th>
+                        <th style="min-width: 100px;">Pedido Firme</th>
+                        <th style="min-width: 240px;">Factura</th>
+                        <th style="min-width: 100px;">UM</th>
+                        <th style="min-width: 120px;">Etiqueta Total</th>
+                        <th style="min-width: 100px;">Etiqueta Flete</th>
+                        <th style="min-width: 100px;">Etiqueta Importe Total</th>
+                        <th style="min-width: 100px;">Monto Total</th>
+                        <th style="min-width: 100px;">Monto Flete</th>
+                        <th style="min-width: 120px;">Monto Importe Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let facturaForm of facturas.controls; let i = index" [formGroup]="facturaForm">
+                        <td><input type="checkbox" name="selectItem" formControlName="checked" /></td>
+                        <td>{{facturaForm.controls['codigoPedido'].value}}</td>
+                        <td>{{facturaForm.controls['factura'].value}}</td>
+                        <td>{{facturaForm.controls['unidadMedida'].value}}</td>
+                        <td>{{facturaForm.controls['etiquetaTotal'].value}}</td>
+                        <td>{{facturaForm.controls['etiquetaFlete'].value}}</td>
+                        <td>{{facturaForm.controls['etiquetaImporteTotal'].value}}</td>
+                        <td>{{facturaForm.controls['montoTotal'].value}}</td>
+                        <td>{{facturaForm.controls['montoFlete'].value}}</td>
+                        <td>{{facturaForm.controls['montoImporteTotal'].value}}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td *ngIf="posiciones.length == 0" colspan="10">Sin registros</td>
+                        <td *ngIf="posiciones.length > 0" colspan="10">Hay {{facturas.length}} registros.</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </form>
+
+        <label class="required-field"><span class="required-asterisk">*</span> Campos Obligatorios</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalGuardadoExitoso let-modalGuardadoExitoso>
+  <div class="modal-header">
+    <h4 class="modal-title">Documento Exportación Marítimo</h4>
+  </div>
+  <div class="modal-body">
+    <p>El Documento se guardó de manera exitosa.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="irAlListado()">Entendido</button>
+  </div>
+</ng-template>
+
+<p-toast position="top-right" [baseZIndex]="9000" autoZIndex="false"></p-toast>
+
+<router-outlet></router-outlet>

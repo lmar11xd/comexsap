@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.PuertoExtendedMapper">
+
+  <resultMap id="PuertoMap" type="com.caasa.comexsap.exportaciones.model.to.PuertoTO">
+    <id column="PUERN_ID" jdbcType="NUMERIC" property="puernId" />
+    <result column="PUERN_IDPAIS" jdbcType="NUMERIC" property="puernIdpais" />
+    <result column="PUERV_DESCRIPCION" jdbcType="VARCHAR" property="puervDescripcion" />
+    <result column="PUERV_CODIGOSAP" jdbcType="VARCHAR" property="puervCodigosap" />
+    <result column="PUERN_ESTADO" jdbcType="NUMERIC" property="puernEstado" />
+    <result column="VALOR_PARAMETRO" jdbcType="VARCHAR" property="codigoPais" />
+    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcionPais" />
+  </resultMap>      
+  
+  <select id="listarPuertoxNombre" resultMap="PuertoMap" parameterType="String">	  
+	 SELECT PT.PUERN_ID,PT.PUERN_IDPAIS,PT.PUERV_DESCRIPCION,PT.PUERV_CODIGOSAP
+	 ,PT.PUERN_ESTADO,PA.VALOR_PARAMETRO,PA.DESCRIPCION
+	 FROM COMEXST_PUERTO PT
+     INNER JOIN CONFIGT_PARAMETRO PA ON PA.ID_PARAMETRO=PT.PUERN_IDPAIS
+     WHERE PT.PUERN_ID IS NOT NULL
+     <if test="buscar != null and buscar != ''">
+		AND UPPER(CONCAT(PT.PUERV_CODIGOSAP || ' - ', PT.PUERV_DESCRIPCION)) LIKE '%' || UPPER(#{buscar}) || '%'
+	</if>
+     AND ROWNUM <![CDATA[ <= ]]> 50
+  </select>   
+</mapper>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Factura Comercial - Carga Suelta</title>
+	<link rel="stylesheet" type="text/css" href="../pdfresources/css/factura_comercial_cargasuelta.css" />
+</head>
+<body>
+	<div>
+		<div class="header">
+			<table cellspacing="0" style="border-bottom: 0;">
+				<tbody>
+					<tr>
+			    		<td width="162" style="border-bottom: 0;">
+			    			<div class="text-center" style="margin: auto;">
+			    				<img src="../pdfresources/images/logo-aceros.png" alt="logo-aceros" width="85" height="50px" />
+			    			</div>
+			    		</td>
+			    		<td style="border-left: 0; border-bottom: 0;">
+			    			<p th:utext="${shipper}" style="font-weight: bold;"></p>
+			    			<p th:utext="${direccionShipper}"></p>
+			    		</td>
+			    		<td width="243" class="text-center" style="border-left: 0; border-bottom: 0;">
+			    			<p style="margin: auto;"><strong th:text="${versionIngles} ? 'COMMERCIAL INVOICE' : 'FACTURA COMERCIAL'"></strong></p>
+			    		</td>
+		    		</tr>
+				</tbody>
+			</table>
+		</div>
+    	<div class="footer">
+    		<table cellspacing="0">
+	    		<tbody>
+	    			<tr>
+	    				<td style="vertical-align: top; border-bottom: 0;">
+	    					SON: <span th:text="${descripcionImporteTotal}"></span>
+	    				</td>
+	    				<td width="243" style="border-left: 0; border-bottom: 0;">
+	    					<div class="firma">
+	    						<div class="line"><label>.</label></div>
+	    						<p th:text="${nombreUsuario}">MELISA HUAMAN HERRERA</p>
+	    						<p th:text="${cargoUsuario}">ANALISTA DE COMERCIO EXTERIOR</p>
+	    					</div>
+	    				</td>
+	    			</tr>
+	    			<tr>
+	    				<td th:if="${original == true}" colspan="2" class="text-center"><strong>ORIGINAL</strong></td>
+	    				<td th:if="${original == false}" colspan="2" class="text-center">
+	    					<strong th:text="${versionIngles} ? 'COPY' : 'COPIA'"></strong>
+	    				</td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+    	</div>
+		<div class="body">
+			<table cellspacing="0">
+	    		<thead>
+		    		<tr>
+		    			<td width="162" style="vertical-align: top; border-left: 0;">
+		    				<p th:text="${versionIngles} ? 'CUSTOMER:' : 'CLIENTE:'">IMPORTADOR:</p>
+		    				<p th:text="${versionIngles} ? 'ADDRESS:' : 'DIRECCI&Oacute;N:'">DIRECCI&Oacute;N:</p>
+		    			</td>
+		    			<td colspan="6" style="vertical-align: top; border-left: 0;">
+		    				<p th:text="${consignatario}">CONSIGNATARIO</p>
+		    				<p th:utext="${direccionConsignatario}">Direccion Consignatario</p>
+		    			</td>
+		    			<td colspan="2" style="vertical-align: top; border-left: 0;" class="text-center">
+		    				<p th:text="${versionIngles} ? 'INVOICE N°:' : 'FACTURA N°:'">FACTURA N°</p>
+		    				<p th:text="${numeroFacturaSap}">FE34-0031662</p>
+		    			</td>
+		    			<td style="vertical-align: top; border-left: 0;" class="text-center">
+		    				<p th:text="${versionIngles} ? 'DATE:' : 'FECHA:'">FECHA:</p>
+		    				<p th:text="${fechaFacturaSap}">DICIEMBRE 31, 2024</p>
+		    			</td>
+		    		</tr>
+		    		
+		    		<!--Etiquetas-->
+		    		<tr class="row-noborder" th:each="etiqueta: ${etiquetasArriba}">
+		    			<td>
+		    				<span th:text="${versionIngles} ? ${etiqueta.nombreInglesEtiqueta} : ${etiqueta.nombreEtiqueta}"></span>:
+		    			</td>
+		    			<td colspan="9" th:text="${etiqueta.contenido}"></td>
+		    		</tr>
+		    		<!--Fin Etiquetas-->
+		    		
+		    		<tr class="row-noborder"><td></td></tr>
+
+	    			<tr class="row-noborder">
+	    				<th colspan="5" class="text-center" th:if="${tipoFactura != 2}">MATERIAL</th>
+
+	    				<th colspan="4" class="text-center" th:if="${tipoFactura == 2}">MATERIAL</th>
+	    				<th class="text-center" width="75" th:if="${tipoFactura == 2}">
+	    					<strong th:Utext="${versionIngles} ? 'THEORETICAL WEIGHT<br/>(MT)' : 'PESO TEORICO<br/>(TM)'">PESO TEORICO</strong>
+	    				</th>
+
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'REAL WEIGHT (MT)' : 'PESO REAL (TM)'">PESO REAL</strong>
+	    				</th>
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'N° PACKAGES' : 'N° PAQUETES'">N° PAQUETES</strong>
+	    				</th>
+	    				<th class="text-center" width="75">
+	    					<strong th:utext="${versionIngles} ? 'TOTAL PIECES' : 'TOTAL DE<br/>PIEZAS'">TOTAL DE<br/>PIEZAS</strong>
+	    				</th>
+
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'USD/PIECES' : 'USD/PIEZAS'" th:if="${tipoFactura == 1}">USD/PIEZAS</strong>
+	    					<strong th:if="${tipoFactura != 1}">USD/TN</strong>
+	    				</th>
+
+	    				<th class="text-center" width="75">
+	    					<strong th:text="${versionIngles} ? 'TOTAL (USD)' : 'TOTAL (USD)'">TOTAL (USD)</strong>
+	    				</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr class="row-noborder" th:each="posicion: ${posiciones}">
+	    				<td colspan="5" class="text-left" th:text="${posicion.descripcionMaterial}" th:if="${tipoFactura != 2}"></td>
+
+	    				<td colspan="4" class="text-left" th:text="${posicion.descripcionMaterial}" th:if="${tipoFactura == 2}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.pesoTeorico, 1, 'COMMA', 2, 'POINT')}" th:if="${tipoFactura == 2}"></td>
+
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.pesoReal, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatInteger(posicion.paquetes, 1, 'COMMA')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatInteger(posicion.piezas, 1, 'COMMA')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.precio, 1, 'COMMA', 2, 'POINT')}"></td>
+	    				<td class="text-center" th:text="${#numbers.formatDecimal(posicion.importe, 1, 'COMMA', 2, 'POINT')}"></td>
+	    			</tr>
+	    		</tbody>
+	    		<tfoot>
+	    			<tr class="row-noborder">
+	    				<th colspan="5" class="text-right" th:if="${tipoFactura != 2}">TOTAL:</th>
+
+	    				<th colspan="4" class="text-right" th:if="${tipoFactura == 2}">TOTAL:</th>
+	    				<th class="text-center" th:text="${#numbers.formatDecimal(totalPesoTeorico, 1, 'COMMA', 2, 'POINT')}" th:if="${tipoFactura == 2}"></th>
+
+		    			<th class="text-center" th:text="${#numbers.formatDecimal(totalPesoReal, 1, 'COMMA', 2, 'POINT')}"></th>
+		    			<th class="text-center" th:text="${#numbers.formatInteger(totalPaquetes, 1, 'COMMA')}"></th>
+		    			<th class="text-center" th:text="${#numbers.formatInteger(totalPiezas, 1, 'COMMA')}"></th>
+		    			<th class="text-center"></th>
+		    			<th class="text-center" th:text="${#numbers.formatDecimal(totalImporte, 1, 'COMMA', 2, 'POINT')}"></th>
+	    			</tr>
+
+					<tr class="row-noborder"><td></td></tr>
+
+		    		<!--Etiquetas-->
+		    		<tr class="row-noborder" th:each="etiqueta: ${etiquetasAbajo}">
+		    			<td>
+		    				<span th:text="${versionIngles} ? ${etiqueta.nombreInglesEtiqueta} : ${etiqueta.nombreEtiqueta}"></span>:
+		    			</td>
+		    			<td colspan="9" th:text="${etiqueta.contenido}"></td>
+		    		</tr>
+		    		<!--Fin Etiquetas-->
+
+		    		<!--Totales-->
+		    		<tr class="row-noborder" th:each="total: ${totales}">
+		    			<td colspan="8" class="text-right">
+		    				<strong th:text="${total.etiqueta}">TOTAL CFR</strong><strong>:</strong>
+		    			</td>
+		    			<td class="text-center"><strong>USD</strong></td>
+		    			<td class="text-right"><strong th:text="${#numbers.formatDecimal(total.importe, 1, 'COMMA', 2, 'POINT')}">3,223.40</strong></td>
+		    		</tr>
+		    		<!--Fin Totales-->
+	    		</tfoot>
+	    	</table>
+		</div>
+	</div>
+</body>
+</html>

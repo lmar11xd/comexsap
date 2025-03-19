@@ -1,0 +1,114 @@
+body {
+	font-family: Arial, sans-serif;
+	color: #202020;
+	font-size: 9px;
+}
+p {
+	margin: 0 0 5px 0;
+	padding: 0;
+}
+table {
+	width: 100%;
+	font-size: 9px;
+	border-spacing: 0;
+}
+div.header {
+	display: block;
+	margin-left: 10px;
+	margin-right: 10px;
+	position: running(header);
+}
+.header table tr td {
+	border: none;
+	padding: 10px 0;
+}
+.header table tr td p {
+	text-align: right;
+	font-size: 9px;
+}
+.header img {
+	width: 80px !important;
+}
+.content {
+	page-break-after: always;
+}
+.body {
+	margin: 0;
+}
+.body table tr td {
+	padding: 8px 0;
+}
+.container-table {
+	margin-bottom: 40px;
+}
+.container-table table {
+	text-align: center;
+}
+.container-table table tr th {
+	padding: 8px 5px;
+	border-top: 1px solid #202020;
+	border-bottom: 1px solid #202020;
+}
+.container-table table tr td {
+	padding: 8px 5px;
+}
+.text-left {
+	text-align: left !important;
+}
+.text-right {
+	text-align: right !important;
+}
+div.footer {
+	display: block;
+	font-size: 9px;
+	position: running(footer);
+}
+.footer table tr td {
+	border: none;
+}
+.footer a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #1867ab;
+	font-size: 9px;
+}
+.footer img {
+	float: right;
+}
+
+@page{
+
+	@bottom-right {                 
+        content: element(footer);  
+        vertical-align: top;
+        margin-top: 10px;
+		/*border: solid red;*/
+    }
+    
+    @top-right {
+        content: element(header); 
+        vertical-align: bottom;
+        margin-bottom: 10px;
+		/*border: solid green;*/
+    }
+
+    size: A4 portrait;
+    margin-top:3cm; 
+    margin-left:1cm; 
+    margin-right:1cm; 
+    margin-bottom:5.5cm;
+}
+
+@media print {
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+}

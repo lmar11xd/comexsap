@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caasa.comexsap.exportaciones.model.persistence.extended.UnidadMedidaExtendedMapper">
+
+  <resultMap id="UnidadMedidaMap" type="com.caasa.comexsap.exportaciones.model.to.UnidadMedidaTO">   
+    <id column="UMEDN_ID" jdbcType="NUMERIC" property="idUnidadMedida" />
+    <result column="CODIGO_MATERIAL" jdbcType="VARCHAR" property="codigoMaterial" />
+    <result column="UNIDAD_MEDIDA" jdbcType="VARCHAR" property="unidadMedida" /> 
+    <result column="UNIDAD_MEDIDA_BASE" jdbcType="VARCHAR" property="unidadMedidaBase" /> 
+    <result column="UMREN" jdbcType="VARCHAR" property="umRen" /> 
+    <result column="UMREZ" jdbcType="VARCHAR" property="umRez" /> 
+    <result column="PESO_NOMINAL" jdbcType="VARCHAR" property="pesoNominal" />
+  </resultMap>
+  
+  <resultMap id="FamiliaConversionMap" type="com.caasa.comexsap.exportaciones.model.to.FamiliaConversionTO">  
+    <result column="CODIGO" jdbcType="VARCHAR" property="codigo" />
+    <result column="UNIDADMEDIDA" jdbcType="VARCHAR" property="unidadMedida" /> 
+    <result column="UNIDADMEDIDACONVERSION" jdbcType="VARCHAR" property="unidadMedidaConversion" /> 
+  </resultMap>     
+  
+  <select id="listarUnidadMedidaxNombre" resultMap="UnidadMedidaMap" parameterType="String">	  
+     SELECT 
+		MATNR AS CODIGO_MATERIAL,
+		MEINH AS UNIDAD_MEDIDA,
+		UMREN,
+		UMREZ,
+		UMREN/UMREZ AS PESO_NOMINAL,
+		MEINS AS UNIDAD_MEDIDA_BASE
+	 FROM SAPIO.SD_SLS_ERP_102_UMA_MATERIAL
+	 WHERE MATNR = #{codigoProducto}
+  </select>
+  <select id="obtenerUnidadMedidaxProductoUnidad" resultMap="UnidadMedidaMap" parameterType="String">	  
+     SELECT 
+		MATNR AS CODIGO_MATERIAL,
+		MEINH AS UNIDAD_MEDIDA,
+		UMREN,
+		UMREZ,
+		UMREN/UMREZ AS PESO_NOMINAL,
+		MEINS AS UNIDAD_MEDIDA_BASE
+	 FROM SAPIO.SD_SLS_ERP_102_UMA_MATERIAL
+	 WHERE MATNR = #{codigoProducto} AND MEINH = #{unidadMedida}
+  </select> 
+   <select id="buscarUnidadMedidaxCodigoSap" parameterType="java.util.Map" resultType="int">	  
+	 SELECT COUNT(*) FROM COMEXST_UNIDADMEDIDA
+	 WHERE UMEDV_CODIGOSAP=#{codigoSap}
+  </select>  
+  <select id="obtenerUnidadMedidaxCodigoSap" resultMap="UnidadMedidaMap" parameterType="String">	  
+	 SELECT UMEDN_ID,UMEDV_UNIDADMEDIDA as UNIDAD_MEDIDA FROM COMEXST_UNIDADMEDIDA
+	 WHERE UMEDV_CODIGOSAP=#{codigoSap} AND UMEDN_ESTADO=1
+  </select>
+  <select id="listarFamiliasConversion" resultMap="FamiliaConversionMap" parameterType="String">	  
+     SELECT 
+		FCONV_CODIGO AS CODIGO, 
+		FCONV_UNIDADMEDIDA AS UNIDADMEDIDA, 
+		FCONV_UNIDADMEDIDACONVERSION AS UNIDADMEDIDACONVERSION
+	 FROM COMEXSAP.COMEXST_FAMILIACONVERSION
+	 WHERE FCONN_ESTADO = 1
+  </select>
+</mapper>
